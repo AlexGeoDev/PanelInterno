@@ -55,6 +55,30 @@ class transactionBusiness {
     }
   }
 
+  static async listUsersSegment(idbd, merchantcode) {
+    const url = "http://10.199.128.20:8282/api/v1/fetchallusers";
+    const data = {      
+    };
+    try {
+      const response = await fetch(url, {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      const json = await response.json();
+      console.log(json);
+      const responseData = json.data;
+      console.log(responseData);
+      return responseData;
+    } catch (e) {
+      console.log("error en peticion login" + e);
+      return null;
+    }
+  }
+
 }
 
 

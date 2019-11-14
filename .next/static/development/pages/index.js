@@ -246,6 +246,63 @@ function () {
 
       return updateSegment;
     }()
+  }, {
+    key: "listUsersSegment",
+    value: function () {
+      var _listUsersSegment = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+      /*#__PURE__*/
+      _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4(idbd, merchantcode) {
+        var url, data, response, json, responseData;
+        return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                url = "http://10.199.128.20:8282/api/v1/fetchallusers";
+                data = {};
+                _context4.prev = 2;
+                _context4.next = 5;
+                return fetch(url, {
+                  method: "POST",
+                  // or 'PUT'
+                  body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(data),
+                  // data can be `string` or {object}!
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                });
+
+              case 5:
+                response = _context4.sent;
+                _context4.next = 8;
+                return response.json();
+
+              case 8:
+                json = _context4.sent;
+                console.log(json);
+                responseData = json.data;
+                console.log(responseData);
+                return _context4.abrupt("return", responseData);
+
+              case 15:
+                _context4.prev = 15;
+                _context4.t0 = _context4["catch"](2);
+                console.log("error en peticion login" + _context4.t0);
+                return _context4.abrupt("return", null);
+
+              case 19:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[2, 15]]);
+      }));
+
+      function listUsersSegment(_x5, _x6) {
+        return _listUsersSegment.apply(this, arguments);
+      }
+
+      return listUsersSegment;
+    }()
   }]);
 
   return transactionBusiness;

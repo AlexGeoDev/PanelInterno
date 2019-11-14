@@ -20,20 +20,8 @@ class Layout extends React.Component {
               <ul className="nav flex-column">
 
                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                  <span>Actualizar cliente </span>
+                  <span>Asignar merchantcode</span>
                 </h6>
-
-                <li className="nav-item">
-                  <Link href="/WebDesktop/Micuenta">
-                    <a className="nav-link"><i className="far fa-address-card"></i> Mi Cuenta</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="/WebDesktop/Micuenta">
-                    <a className="nav-link"><i className="fas fa-coins"></i> Cuenta Retiros</a>
-                  </Link>
-                </li>
-
               </ul>
             </div>
           </nav>

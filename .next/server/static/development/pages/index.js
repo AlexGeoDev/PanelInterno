@@ -97,15 +97,17 @@ module.exports =
 /*!***************************!*\
   !*** ./business/state.js ***!
   \***************************/
-/*! exports provided: subscribe, notify */
+/*! exports provided: subscribe, notify, remove */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribe", function() { return subscribe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "notify", function() { return notify; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 //declarandole el listener
 const listeners = {};
+let idlistener = 1;
 
 const subscribe = (eventName, handler) => {
   //revisando si no hay listener con el nombre del evento que se le pasa
@@ -117,18 +119,40 @@ const subscribe = (eventName, handler) => {
 
   let events = listeners[eventName];
   console.log("adding:", eventName, handler);
-  events.push(handler);
+  events.push({
+    id: ++idlistener,
+    callback: handler
+  });
+  return idlistener;
 };
 
 const notify = (eventName, data) => {
   let events = listeners[eventName];
+  console.log("notify", events);
 
   if (events) {
     events.forEach(handler => {
       console.log("call handler:", eventName, data);
-      handler(data);
+      handler.callback(data);
     });
   }
+};
+
+const remove = (eventName, id) => {
+  console.log("remove", eventName, id);
+  let events = listeners[eventName];
+
+  if (events) {
+    for (var i = events.length - 1; i >= 0; i--) {
+      if (events[i].id === id) {
+        console.log("remover");
+        events.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  console.log("remove", listeners[eventName]);
 };
 
 
@@ -151,13 +175,11 @@ __webpack_require__.r(__webpack_exports__);
 class transactionBusiness {
   static async fetchUserBySerial(serial) {
     const data = await this.getSegmetBySerial(serial);
-    return {
-      nombre: serial
-    };
+    return data;
   }
 
   static async getSegmetBySerial(serial) {
-    const url = "http://10.199.35.25:8282/api/v1/fetchuserbyserial ";
+    const url = "http://10.199.128.20:8282/api/v1/fetchuserbyserial";
     const data = {
       serial: serial
     };
@@ -174,14 +196,37 @@ class transactionBusiness {
       });
       const json = await response.json();
       console.log(json);
-      const {
-        comercialName,
-        email
-      } = json.data;
-      return {
-        comercialName,
-        email
-      };
+      const responseData = json.data;
+      console.log(responseData);
+      return responseData;
+    } catch (e) {
+      console.log("error en peticion login" + e);
+      return null;
+    }
+  }
+
+  static async updateSegment(idbd, merchantcode) {
+    const url = "http://10.199.128.20:8282/api/v1/identifyuser";
+    const data = {
+      merchantcode: merchantcode,
+      id: idbd
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        // or 'PUT'
+        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(data),
+        // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const json = await response.json();
+      console.log(json);
+      const responseData = json.data;
+      console.log(responseData);
+      return responseData;
     } catch (e) {
       console.log("error en peticion login" + e);
       return null;
@@ -460,73 +505,17 @@ class Layout extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
         lineNumber: 23
       },
       __self: this
-    }, "Actualizar cliente ")), __jsx("li", {
-      className: "jsx-2556097709" + " " + "nav-item",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 26
-      },
-      __self: this
-    }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      href: "/WebDesktop/Micuenta",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 27
-      },
-      __self: this
-    }, __jsx("a", {
-      className: "jsx-2556097709" + " " + "nav-link",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 28
-      },
-      __self: this
-    }, __jsx("i", {
-      className: "jsx-2556097709" + " " + "far fa-address-card",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 28
-      },
-      __self: this
-    }), " Mi Cuenta"))), __jsx("li", {
-      className: "jsx-2556097709" + " " + "nav-item",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 31
-      },
-      __self: this
-    }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      href: "/WebDesktop/Micuenta",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 32
-      },
-      __self: this
-    }, __jsx("a", {
-      className: "jsx-2556097709" + " " + "nav-link",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 33
-      },
-      __self: this
-    }, __jsx("i", {
-      className: "jsx-2556097709" + " " + "fas fa-coins",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 33
-      },
-      __self: this
-    }), " Cuenta Retiros")))))), __jsx("div", {
+    }, "Asignar merchantcode"))))), __jsx("div", {
       className: "jsx-2556097709" + " " + "col-md-9",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 40
+        lineNumber: 28
       },
       __self: this
     }, this.props.children)), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_0___default.a, {
       id: "2556097709",
       __self: this
-    }, ".navbar.jsx-2556097709{-webkit-box-pack:right;-webkit-justify-content:right;-ms-flex-pack:right;justify-content:right;}.sidebar-nav.jsx-2556097709{height:calc(100vh - 48px);overflow-x:hidden;overflow-y:auto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEyQ29CLEFBSVEsQUFFNkIsMEJBQ1Isa0JBQ0YsZ0JBQ2xCLG1DQUxBIiwiZmlsZSI6IkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCBMaW5rIGZyb20gXCJuZXh0L2xpbmtcIjtcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCc7XG5pbXBvcnQgTmF2QmFyIGZyb20gXCIuLi9OYXZCYXJcIjtcblxuY2xhc3MgTGF5b3V0IGV4dGVuZHMgUmVhY3QuQ29tcG9uZW50IHtcblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxIZWFkPlxuICAgICAgICAgIDx0aXRsZT5DYWplcm8gLSBQYW5lbCBJbnRlcm5vPC90aXRsZT5cbiAgICAgICAgICA8bGluayByZWw9XCJzdHlsZXNoZWV0XCIgaHJlZj1cImh0dHBzOi8vc3RhY2twYXRoLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzQuMy4xL2Nzcy9ib290c3RyYXAubWluLmNzc1wiIGludGVncml0eT1cInNoYTM4NC1nZ095UjBpWENiTVF2M1hpcG1hMzRNRCtkSC8xZlE3ODQvajZjWS9pSlRRVU9oY1dyN3g5SnZvUnhUMk1adzFUXCIgY3Jvc3NvcmlnaW49XCJhbm9ueW1vdXNcIj48L2xpbms+XG4gICAgICAgICAgPGxpbmsgcmVsPVwic3R5bGVzaGVldFwiIGhyZWY9XCIvY3NzL2FsbC5taW4uY3NzXCI+PC9saW5rPlxuICAgICAgICA8L0hlYWQ+XG4gICAgICAgIDxOYXZCYXIgLz5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyb3dcIj5cbiAgICAgICAgICA8bmF2IGNsYXNzTmFtZT1cImNvbC1tZC0yIGQtbm9uZSBkLW1kLWJsb2NrIGJnLWxpZ2h0IHNpZGViYXJcIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic2lkZWJhci1uYXZcIj5cbiAgICAgICAgICAgICAgPHVsIGNsYXNzTmFtZT1cIm5hdiBmbGV4LWNvbHVtblwiPlxuXG4gICAgICAgICAgICAgICAgPGg2IGNsYXNzTmFtZT1cInNpZGViYXItaGVhZGluZyBkLWZsZXgganVzdGlmeS1jb250ZW50LWJldHdlZW4gYWxpZ24taXRlbXMtY2VudGVyIHB4LTMgbXQtNCBtYi0xIHRleHQtbXV0ZWRcIj5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkFjdHVhbGl6YXIgY2xpZW50ZSA8L3NwYW4+XG4gICAgICAgICAgICAgICAgPC9oNj5cblxuICAgICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9XCJuYXYtaXRlbVwiPlxuICAgICAgICAgICAgICAgICAgPExpbmsgaHJlZj1cIi9XZWJEZXNrdG9wL01pY3VlbnRhXCI+XG4gICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzTmFtZT1cIm5hdi1saW5rXCI+PGkgY2xhc3NOYW1lPVwiZmFyIGZhLWFkZHJlc3MtY2FyZFwiPjwvaT4gTWkgQ3VlbnRhPC9hPlxuICAgICAgICAgICAgICAgICAgPC9MaW5rPlxuICAgICAgICAgICAgICAgIDwvbGk+XG4gICAgICAgICAgICAgICAgPGxpIGNsYXNzTmFtZT1cIm5hdi1pdGVtXCI+XG4gICAgICAgICAgICAgICAgICA8TGluayBocmVmPVwiL1dlYkRlc2t0b3AvTWljdWVudGFcIj5cbiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3NOYW1lPVwibmF2LWxpbmtcIj48aSBjbGFzc05hbWU9XCJmYXMgZmEtY29pbnNcIj48L2k+IEN1ZW50YSBSZXRpcm9zPC9hPlxuICAgICAgICAgICAgICAgICAgPC9MaW5rPlxuICAgICAgICAgICAgICAgIDwvbGk+XG5cbiAgICAgICAgICAgICAgPC91bD5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDwvbmF2PlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29sLW1kLTlcIj5cbiAgICAgICAgICAgIHt0aGlzLnByb3BzLmNoaWxkcmVufVxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPHN0eWxlIGpzeD57YFxuICAgICAgICAubmF2YmFye1xuICAgICAgICAgIGp1c3RpZnktY29udGVudDpyaWdodFxuICAgICAgICB9XG4gICAgICAgIC5zaWRlYmFyLW5hdiB7XG4gICAgICAgICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gNDhweCk7XG4gICAgICAgICAgb3ZlcmZsb3cteDogaGlkZGVuO1xuICAgICAgICAgIG92ZXJmbG93LXk6IGF1dG87XG4gICAgICAgIH1cbiAgICAgIGB9PC9zdHlsZT5cbiAgICAgIDwvZGl2PlxuICAgICk7XG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTGF5b3V0OyJdfQ== */\n/*@ sourceURL=D:\\DESARROLLO\\PANELCAJERO\\components\\WebDesktop\\DesktopLayout.js */"));
+    }, ".navbar.jsx-2556097709{-webkit-box-pack:right;-webkit-justify-content:right;-ms-flex-pack:right;justify-content:right;}.sidebar-nav.jsx-2556097709{height:calc(100vh - 48px);overflow-x:hidden;overflow-y:auto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUErQm9CLEFBSVEsQUFFNkIsMEJBQ1Isa0JBQ0YsZ0JBQ2xCLG1DQUxBIiwiZmlsZSI6IkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCBMaW5rIGZyb20gXCJuZXh0L2xpbmtcIjtcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCc7XG5pbXBvcnQgTmF2QmFyIGZyb20gXCIuLi9OYXZCYXJcIjtcblxuY2xhc3MgTGF5b3V0IGV4dGVuZHMgUmVhY3QuQ29tcG9uZW50IHtcblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxIZWFkPlxuICAgICAgICAgIDx0aXRsZT5DYWplcm8gLSBQYW5lbCBJbnRlcm5vPC90aXRsZT5cbiAgICAgICAgICA8bGluayByZWw9XCJzdHlsZXNoZWV0XCIgaHJlZj1cImh0dHBzOi8vc3RhY2twYXRoLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzQuMy4xL2Nzcy9ib290c3RyYXAubWluLmNzc1wiIGludGVncml0eT1cInNoYTM4NC1nZ095UjBpWENiTVF2M1hpcG1hMzRNRCtkSC8xZlE3ODQvajZjWS9pSlRRVU9oY1dyN3g5SnZvUnhUMk1adzFUXCIgY3Jvc3NvcmlnaW49XCJhbm9ueW1vdXNcIj48L2xpbms+XG4gICAgICAgICAgPGxpbmsgcmVsPVwic3R5bGVzaGVldFwiIGhyZWY9XCIvY3NzL2FsbC5taW4uY3NzXCI+PC9saW5rPlxuICAgICAgICA8L0hlYWQ+XG4gICAgICAgIDxOYXZCYXIgLz5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyb3dcIj5cbiAgICAgICAgICA8bmF2IGNsYXNzTmFtZT1cImNvbC1tZC0yIGQtbm9uZSBkLW1kLWJsb2NrIGJnLWxpZ2h0IHNpZGViYXJcIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic2lkZWJhci1uYXZcIj5cbiAgICAgICAgICAgICAgPHVsIGNsYXNzTmFtZT1cIm5hdiBmbGV4LWNvbHVtblwiPlxuXG4gICAgICAgICAgICAgICAgPGg2IGNsYXNzTmFtZT1cInNpZGViYXItaGVhZGluZyBkLWZsZXgganVzdGlmeS1jb250ZW50LWJldHdlZW4gYWxpZ24taXRlbXMtY2VudGVyIHB4LTMgbXQtNCBtYi0xIHRleHQtbXV0ZWRcIj5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkFzaWduYXIgbWVyY2hhbnRjb2RlPC9zcGFuPlxuICAgICAgICAgICAgICAgIDwvaDY+XG4gICAgICAgICAgICAgIDwvdWw+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8L25hdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImNvbC1tZC05XCI+XG4gICAgICAgICAgICB7dGhpcy5wcm9wcy5jaGlsZHJlbn1cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxzdHlsZSBqc3g+e2BcbiAgICAgICAgLm5hdmJhcntcbiAgICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6cmlnaHRcbiAgICAgICAgfVxuICAgICAgICAuc2lkZWJhci1uYXYge1xuICAgICAgICAgIGhlaWdodDogY2FsYygxMDB2aCAtIDQ4cHgpO1xuICAgICAgICAgIG92ZXJmbG93LXg6IGhpZGRlbjtcbiAgICAgICAgICBvdmVyZmxvdy15OiBhdXRvO1xuICAgICAgICB9XG4gICAgICBgfTwvc3R5bGU+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IExheW91dDsiXX0= */\n/*@ sourceURL=D:\\DESARROLLO\\PANELCAJERO\\components\\WebDesktop\\DesktopLayout.js */"));
   }
 
 }
@@ -2393,16 +2382,18 @@ module.exports = __webpack_require__(/*! ./dist/client/link */ "./node_modules/n
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_WebDesktop_DesktopLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/WebDesktop/DesktopLayout */ "./components/WebDesktop/DesktopLayout.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_card__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/card */ "./components/card.js");
-/* harmony import */ var _business_state__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../business/state */ "./business/state.js");
-/* harmony import */ var _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../business/transactionBusiness */ "./business/transactionBusiness.js");
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_WebDesktop_DesktopLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/WebDesktop/DesktopLayout */ "./components/WebDesktop/DesktopLayout.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/card */ "./components/card.js");
+/* harmony import */ var _business_state__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../business/state */ "./business/state.js");
+/* harmony import */ var _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../business/transactionBusiness */ "./business/transactionBusiness.js");
+
 var _jsxFileName = "D:\\DESARROLLO\\PANELCAJERO\\pages\\index.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
@@ -2410,13 +2401,13 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
-class Index extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+class Index extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    return __jsx(_components_WebDesktop_DesktopLayout__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    return __jsx(_components_WebDesktop_DesktopLayout__WEBPACK_IMPORTED_MODULE_2__["default"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 16
@@ -2433,64 +2424,153 @@ class Index extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
 }
 
-class User extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+class User extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
   constructor(props) {
     super(props);
+
+    Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "handleSubmit", e => {
+      console.log("send data:", this.state.merchantCode, this.state.user);
+      const update = _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_6__["default"].updateSegment(this.state.user.id, this.state.merchantCode);
+      e.preventDefault();
+    });
+
     this.state = {
-      user: {}
+      user: {},
+      merchantCode: ""
     };
   }
 
-  componentDidMount() {
-    Object(_business_state__WEBPACK_IMPORTED_MODULE_4__["subscribe"])("onSearch", serial => {
-      var user = _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_5__["default"].fetchUserBySerial(serial);
-      this.setState({
-        user
-      });
-    });
-    Object(_business_state__WEBPACK_IMPORTED_MODULE_4__["subscribe"])("onSearch", serial => {
-      console.log("hola!!!");
+  async getData(serial) {
+    var user = await _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_6__["default"].fetchUserBySerial(serial);
+    console.log(user);
+    this.setState({
+      user
     });
   }
 
+  componentDidMount() {
+    if (!this.idsubscribe) {
+      this.idsubscribe = Object(_business_state__WEBPACK_IMPORTED_MODULE_5__["subscribe"])("onSearch", serial => {
+        this.getData(serial);
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    Object(_business_state__WEBPACK_IMPORTED_MODULE_5__["remove"])("onSearch", this.idsubscribe);
+  }
+
   render() {
-    return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
+    return __jsx(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 45
+        lineNumber: 51
+      },
+      __self: this
+    }, __jsx("form", {
+      onSubmit: this.handleSubmit,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 52
       },
       __self: this
     }, __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 46
+        lineNumber: 53
       },
       __self: this
-    }, "nombre: ", this.state.user.nombre, " "), __jsx("div", {
+    }, __jsx("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 47
+        lineNumber: 53
       },
       __self: this
-    }, "Merchant Code: ", __jsx("input", {
+    }, "Id:"), " ", this.state.user.id, " "), __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 47
+        lineNumber: 54
+      },
+      __self: this
+    }, __jsx("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 54
+      },
+      __self: this
+    }, "Comercial Name:"), " ", this.state.user.comercialName, " "), __jsx("div", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 55
+      },
+      __self: this
+    }, __jsx("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 55
+      },
+      __self: this
+    }, "Business Name:"), " ", this.state.user.businessName, " "), __jsx("div", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 56
+      },
+      __self: this
+    }, __jsx("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 56
+      },
+      __self: this
+    }, "Email:"), " ", this.state.user.email, " "), __jsx("div", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 57
+      },
+      __self: this
+    }, __jsx("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 57
+      },
+      __self: this
+    }, "Identification:"), " ", this.state.user.identification, " "), __jsx("div", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 58
+      },
+      __self: this
+    }, __jsx("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 58
+      },
+      __self: this
+    }, "Merchant Code:"), " ", __jsx("input", {
+      required: true,
+      onChange: e => this.setState({
+        merchantCode: e.target.value
+      }),
+      value: this.state.merchantCode,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 58
       },
       __self: this
     })), __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 48
+        lineNumber: 59
       },
       __self: this
     }, __jsx("button", {
+      type: "submit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 48
+        lineNumber: 59
       },
       __self: this
-    }, "Actualizar")));
+    }, "Actualizar"))));
   }
 
 }

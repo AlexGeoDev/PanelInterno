@@ -1,6 +1,6 @@
 //declarandole el listener
 const listeners = {};
-
+let idlistener = 1;
 const subscribe = (eventName,handler) => {
 
   //revisando si no hay listener con el nombre del evento que se le pasa
@@ -11,20 +11,40 @@ const subscribe = (eventName,handler) => {
 //obteniendo los eventos 
   let events = listeners[eventName];
   console.log("adding:" ,eventName ,handler);
-  events.push(handler);
+  events.push({id: ++idlistener,callback:handler});
+
+  return idlistener;
 };
 
 const notify = (eventName,data) => {
   let events = listeners[eventName];
+  console.log("notify", events);
   if (events){
     events.forEach(handler => {
       console.log("call handler:" ,eventName ,data);
-      handler(data);
+      handler.callback(data);
     });
   }
 };
 
-export {subscribe,notify};
+const remove = (eventName,id) => {
+  console.log("remove", eventName, id);
+  let events = listeners[eventName];
+  if (events){
+    for(var i = events.length - 1; i >= 0; i--) {
+      if(events[i].id === id) {
+        console.log("remover");
+        events.splice(i, 1);
+        break;
+
+      }
+    }    
+  }
+
+  console.log("remove", listeners[eventName]);
+};
+
+export {subscribe,notify,remove};
 
 
 

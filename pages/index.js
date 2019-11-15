@@ -13,7 +13,7 @@ class Index extends React.Component {
 
   render() {
     return (
-      <DesktopLayout>
+      <DesktopLayout titulo="Asignar merchantcode">
         <User />
       </DesktopLayout>
     );

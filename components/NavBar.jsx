@@ -5,7 +5,7 @@ import { notify } from "../business/state";
 
 class NavBar extends React.Component {
   consultaActivation = (serial) => {
-    console.log("ejecucion fguncion", serial);
+    console.log("ejecucion funcion", serial);
     notify("onSearch",serial);
   }
 

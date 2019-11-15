@@ -21,16 +21,17 @@ class SerialForm extends React.Component {
 
   render() {
     return (
-      <form class="form-inline" onSubmit={this.onsubmit}>
+      <form className="form-inline" onSubmit={this.onsubmit}>
         <input
-          class="form-control mr-sm-2"
+          required={true}
+          className="form-control mr-sm-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
           value={this.state.serial}
           onChange={e => this.setState({ serial: e.target.value })}
         />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     )
   }

@@ -20,8 +20,14 @@ class Layout extends React.Component {
               <ul className="nav flex-column">
 
                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                  <span>Asignar merchantcode</span>
+                  <span>{this.props.titulo}</span>
                 </h6>
+                <li className="nav-item">
+                  <a href="/listusers" className="nav-link">Listar Usuario</a>
+                </li>
+                <li className="nav-item">
+                  <a href="/" className="nav-link">Home</a>
+                </li>
               </ul>
             </div>
           </nav>
@@ -39,7 +45,7 @@ class Layout extends React.Component {
           overflow-y: auto;
         }
       `}</style>
-      </div>
+      </div >
     );
   }
 }

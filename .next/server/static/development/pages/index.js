@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -293,7 +293,7 @@ class NavBar extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
     super(...args);
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "consultaActivation", serial => {
-      console.log("ejecucion fguncion", serial);
+      console.log("ejecucion funcion", serial);
       Object(_business_state__WEBPACK_IMPORTED_MODULE_4__["notify"])("onSearch", serial);
     });
   }
@@ -372,7 +372,7 @@ class SerialForm extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component 
 
   render() {
     return __jsx("form", {
-      class: "form-inline",
+      className: "form-inline",
       onSubmit: this.onsubmit,
       __source: {
         fileName: _jsxFileName,
@@ -380,7 +380,8 @@ class SerialForm extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component 
       },
       __self: this
     }, __jsx("input", {
-      class: "form-control mr-sm-2",
+      required: true,
+      className: "form-control mr-sm-2",
       type: "search",
       placeholder: "Search",
       "aria-label": "Search",
@@ -394,11 +395,11 @@ class SerialForm extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component 
       },
       __self: this
     }), __jsx("button", {
-      class: "btn btn-outline-success my-2 my-sm-0",
+      className: "btn btn-outline-success my-2 my-sm-0",
       type: "submit",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 33
+        lineNumber: 34
       },
       __self: this
     }, "Search"));
@@ -530,17 +531,47 @@ class Layout extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
         lineNumber: 23
       },
       __self: this
-    }, "Asignar merchantcode"))))), __jsx("div", {
-      className: "jsx-2556097709" + " " + "col-md-9",
+    }, this.props.titulo)), __jsx("li", {
+      className: "jsx-2556097709" + " " + "nav-item",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 25
+      },
+      __self: this
+    }, __jsx("a", {
+      href: "/listusers",
+      className: "jsx-2556097709" + " " + "nav-link",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 26
+      },
+      __self: this
+    }, "Listar Usuario")), __jsx("li", {
+      className: "jsx-2556097709" + " " + "nav-item",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 28
       },
       __self: this
+    }, __jsx("a", {
+      href: "/",
+      className: "jsx-2556097709" + " " + "nav-link",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 29
+      },
+      __self: this
+    }, "Home"))))), __jsx("div", {
+      className: "jsx-2556097709" + " " + "col-md-9",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 34
+      },
+      __self: this
     }, this.props.children)), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_0___default.a, {
       id: "2556097709",
       __self: this
-    }, ".navbar.jsx-2556097709{-webkit-box-pack:right;-webkit-justify-content:right;-ms-flex-pack:right;justify-content:right;}.sidebar-nav.jsx-2556097709{height:calc(100vh - 48px);overflow-x:hidden;overflow-y:auto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUErQm9CLEFBSVEsQUFFNkIsMEJBQ1Isa0JBQ0YsZ0JBQ2xCLG1DQUxBIiwiZmlsZSI6IkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCBMaW5rIGZyb20gXCJuZXh0L2xpbmtcIjtcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCc7XG5pbXBvcnQgTmF2QmFyIGZyb20gXCIuLi9OYXZCYXJcIjtcblxuY2xhc3MgTGF5b3V0IGV4dGVuZHMgUmVhY3QuQ29tcG9uZW50IHtcblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxIZWFkPlxuICAgICAgICAgIDx0aXRsZT5DYWplcm8gLSBQYW5lbCBJbnRlcm5vPC90aXRsZT5cbiAgICAgICAgICA8bGluayByZWw9XCJzdHlsZXNoZWV0XCIgaHJlZj1cImh0dHBzOi8vc3RhY2twYXRoLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzQuMy4xL2Nzcy9ib290c3RyYXAubWluLmNzc1wiIGludGVncml0eT1cInNoYTM4NC1nZ095UjBpWENiTVF2M1hpcG1hMzRNRCtkSC8xZlE3ODQvajZjWS9pSlRRVU9oY1dyN3g5SnZvUnhUMk1adzFUXCIgY3Jvc3NvcmlnaW49XCJhbm9ueW1vdXNcIj48L2xpbms+XG4gICAgICAgICAgPGxpbmsgcmVsPVwic3R5bGVzaGVldFwiIGhyZWY9XCIvY3NzL2FsbC5taW4uY3NzXCI+PC9saW5rPlxuICAgICAgICA8L0hlYWQ+XG4gICAgICAgIDxOYXZCYXIgLz5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyb3dcIj5cbiAgICAgICAgICA8bmF2IGNsYXNzTmFtZT1cImNvbC1tZC0yIGQtbm9uZSBkLW1kLWJsb2NrIGJnLWxpZ2h0IHNpZGViYXJcIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic2lkZWJhci1uYXZcIj5cbiAgICAgICAgICAgICAgPHVsIGNsYXNzTmFtZT1cIm5hdiBmbGV4LWNvbHVtblwiPlxuXG4gICAgICAgICAgICAgICAgPGg2IGNsYXNzTmFtZT1cInNpZGViYXItaGVhZGluZyBkLWZsZXgganVzdGlmeS1jb250ZW50LWJldHdlZW4gYWxpZ24taXRlbXMtY2VudGVyIHB4LTMgbXQtNCBtYi0xIHRleHQtbXV0ZWRcIj5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPkFzaWduYXIgbWVyY2hhbnRjb2RlPC9zcGFuPlxuICAgICAgICAgICAgICAgIDwvaDY+XG4gICAgICAgICAgICAgIDwvdWw+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8L25hdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImNvbC1tZC05XCI+XG4gICAgICAgICAgICB7dGhpcy5wcm9wcy5jaGlsZHJlbn1cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxzdHlsZSBqc3g+e2BcbiAgICAgICAgLm5hdmJhcntcbiAgICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6cmlnaHRcbiAgICAgICAgfVxuICAgICAgICAuc2lkZWJhci1uYXYge1xuICAgICAgICAgIGhlaWdodDogY2FsYygxMDB2aCAtIDQ4cHgpO1xuICAgICAgICAgIG92ZXJmbG93LXg6IGhpZGRlbjtcbiAgICAgICAgICBvdmVyZmxvdy15OiBhdXRvO1xuICAgICAgICB9XG4gICAgICBgfTwvc3R5bGU+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IExheW91dDsiXX0= */\n/*@ sourceURL=D:\\DESARROLLO\\PANELCAJERO\\components\\WebDesktop\\DesktopLayout.js */"));
+    }, ".navbar.jsx-2556097709{-webkit-box-pack:right;-webkit-justify-content:right;-ms-flex-pack:right;justify-content:right;}.sidebar-nav.jsx-2556097709{height:calc(100vh - 48px);overflow-x:hidden;overflow-y:auto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFxQ29CLEFBSVEsQUFFNkIsMEJBQ1Isa0JBQ0YsZ0JBQ2xCLG1DQUxBIiwiZmlsZSI6IkQ6XFxERVNBUlJPTExPXFxQQU5FTENBSkVST1xcY29tcG9uZW50c1xcV2ViRGVza3RvcFxcRGVza3RvcExheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tIFwicmVhY3RcIjtcbmltcG9ydCBMaW5rIGZyb20gXCJuZXh0L2xpbmtcIjtcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCc7XG5pbXBvcnQgTmF2QmFyIGZyb20gXCIuLi9OYXZCYXJcIjtcblxuY2xhc3MgTGF5b3V0IGV4dGVuZHMgUmVhY3QuQ29tcG9uZW50IHtcblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXY+XG4gICAgICAgIDxIZWFkPlxuICAgICAgICAgIDx0aXRsZT5DYWplcm8gLSBQYW5lbCBJbnRlcm5vPC90aXRsZT5cbiAgICAgICAgICA8bGluayByZWw9XCJzdHlsZXNoZWV0XCIgaHJlZj1cImh0dHBzOi8vc3RhY2twYXRoLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzQuMy4xL2Nzcy9ib290c3RyYXAubWluLmNzc1wiIGludGVncml0eT1cInNoYTM4NC1nZ095UjBpWENiTVF2M1hpcG1hMzRNRCtkSC8xZlE3ODQvajZjWS9pSlRRVU9oY1dyN3g5SnZvUnhUMk1adzFUXCIgY3Jvc3NvcmlnaW49XCJhbm9ueW1vdXNcIj48L2xpbms+XG4gICAgICAgICAgPGxpbmsgcmVsPVwic3R5bGVzaGVldFwiIGhyZWY9XCIvY3NzL2FsbC5taW4uY3NzXCI+PC9saW5rPlxuICAgICAgICA8L0hlYWQ+XG4gICAgICAgIDxOYXZCYXIgLz5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyb3dcIj5cbiAgICAgICAgICA8bmF2IGNsYXNzTmFtZT1cImNvbC1tZC0yIGQtbm9uZSBkLW1kLWJsb2NrIGJnLWxpZ2h0IHNpZGViYXJcIj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic2lkZWJhci1uYXZcIj5cbiAgICAgICAgICAgICAgPHVsIGNsYXNzTmFtZT1cIm5hdiBmbGV4LWNvbHVtblwiPlxuXG4gICAgICAgICAgICAgICAgPGg2IGNsYXNzTmFtZT1cInNpZGViYXItaGVhZGluZyBkLWZsZXgganVzdGlmeS1jb250ZW50LWJldHdlZW4gYWxpZ24taXRlbXMtY2VudGVyIHB4LTMgbXQtNCBtYi0xIHRleHQtbXV0ZWRcIj5cbiAgICAgICAgICAgICAgICAgIDxzcGFuPnt0aGlzLnByb3BzLnRpdHVsb308L3NwYW4+XG4gICAgICAgICAgICAgICAgPC9oNj5cbiAgICAgICAgICAgICAgICA8bGkgY2xhc3NOYW1lPVwibmF2LWl0ZW1cIj5cbiAgICAgICAgICAgICAgICAgIDxhIGhyZWY9XCIvbGlzdHVzZXJzXCIgY2xhc3NOYW1lPVwibmF2LWxpbmtcIj5MaXN0YXIgVXN1YXJpbzwvYT5cbiAgICAgICAgICAgICAgICA8L2xpPlxuICAgICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9XCJuYXYtaXRlbVwiPlxuICAgICAgICAgICAgICAgICAgPGEgaHJlZj1cIi9cIiBjbGFzc05hbWU9XCJuYXYtbGlua1wiPkhvbWU8L2E+XG4gICAgICAgICAgICAgICAgPC9saT5cbiAgICAgICAgICAgICAgPC91bD5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDwvbmF2PlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29sLW1kLTlcIj5cbiAgICAgICAgICAgIHt0aGlzLnByb3BzLmNoaWxkcmVufVxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPHN0eWxlIGpzeD57YFxuICAgICAgICAubmF2YmFye1xuICAgICAgICAgIGp1c3RpZnktY29udGVudDpyaWdodFxuICAgICAgICB9XG4gICAgICAgIC5zaWRlYmFyLW5hdiB7XG4gICAgICAgICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gNDhweCk7XG4gICAgICAgICAgb3ZlcmZsb3cteDogaGlkZGVuO1xuICAgICAgICAgIG92ZXJmbG93LXk6IGF1dG87XG4gICAgICAgIH1cbiAgICAgIGB9PC9zdHlsZT5cbiAgICAgIDwvZGl2ID5cbiAgICApO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IExheW91dDsiXX0= */\n/*@ sourceURL=D:\\DESARROLLO\\PANELCAJERO\\components\\WebDesktop\\DesktopLayout.js */"));
   }
 
 }
@@ -2433,6 +2464,7 @@ class Index extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
 
   render() {
     return __jsx(_components_WebDesktop_DesktopLayout__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      titulo: "Asignar merchantcode",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 16
@@ -2604,7 +2636,7 @@ class User extends react__WEBPACK_IMPORTED_MODULE_1___default.a.Component {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

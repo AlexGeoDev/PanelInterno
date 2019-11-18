@@ -15906,7 +15906,7 @@ function (_React$Component) {
         accessor: 'iidentificationd' // String-based value accessors!
 
       }, {
-        Header: 'businessName',
+        Header: 'Celular',
         accessor: 'cellphone' // String-based value accessors!
 
       }, {
@@ -15917,22 +15917,27 @@ function (_React$Component) {
         Header: 'address',
         accessor: 'address' // String-based value accessors!
 
-      }, {
+      },
+      /* {
         Header: 'userIdSegment',
         accessor: 'userIdSegment' // String-based value accessors!
-
-      }, {
+      }
+        ,
+      {
         Header: 'deviceIdSegment',
         accessor: 'deviceIdSegment' // String-based value accessors!
-
-      }, {
+      }
+        ,
+      {
         Header: 'anonymousIdSegment',
         accessor: 'anonymousIdSegment' // String-based value accessors!
-
-      }, {
+      }
+        , */
+      {
         Header: 'merchantCode',
-        accessor: 'merchantCode' // String-based value accessors!
-
+        accessor: 'merchantCode',
+        // String-based value accessors!
+        Cell: this.renderEditable
       }, {
         Header: 'date',
         accessor: 'date' // String-based value accessors!
@@ -15942,19 +15947,19 @@ function (_React$Component) {
         titulo: "Listado de Usuarios para Asignaci\xF3n",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 83
+          lineNumber: 84
         },
         __self: this
       }, __jsx("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 84
+          lineNumber: 85
         },
         __self: this
       }, __jsx("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 84
+          lineNumber: 85
         },
         __self: this
       }, "Lista de usuarios sin asociar")), __jsx(react_table__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -15962,7 +15967,7 @@ function (_React$Component) {
         columns: columns,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 85
+          lineNumber: 86
         },
         __self: this
       }));
@@ -15976,7 +15981,7 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!********************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Flistusers&absolutePagePath=D%3A%5CDESARROLLO%5CPANELCAJERO%5Cpages%5Clistusers.js ***!
   \********************************************************************************************************************************/
@@ -15999,5 +16004,5 @@ module.exports = dll_e9ad7d891b372a4221cf;
 
 /***/ })
 
-},[[1,"static/runtime/webpack.js","styles"]]]);
+},[[2,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=listusers.js.map

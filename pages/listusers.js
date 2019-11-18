@@ -42,7 +42,7 @@ class ListUsers extends React.Component {
     }
       ,
     {
-      Header: 'businessName',
+      Header: 'Celular',
       accessor: 'cellphone' // String-based value accessors!
     }
       ,
@@ -56,7 +56,7 @@ class ListUsers extends React.Component {
       accessor: 'address' // String-based value accessors!
     }
       ,
-    {
+    /* {
       Header: 'userIdSegment',
       accessor: 'userIdSegment' // String-based value accessors!
     }
@@ -70,10 +70,11 @@ class ListUsers extends React.Component {
       Header: 'anonymousIdSegment',
       accessor: 'anonymousIdSegment' // String-based value accessors!
     }
-      ,
+      , */
     {
       Header: 'merchantCode',
-      accessor: 'merchantCode' // String-based value accessors!
+      accessor: 'merchantCode', // String-based value accessors!
+      Cell: this.renderEditable
     }
       ,
     {

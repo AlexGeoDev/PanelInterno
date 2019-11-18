@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2440,7 +2440,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       accessor: 'iidentificationd' // String-based value accessors!
 
     }, {
-      Header: 'businessName',
+      Header: 'Celular',
       accessor: 'cellphone' // String-based value accessors!
 
     }, {
@@ -2451,22 +2451,27 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       Header: 'address',
       accessor: 'address' // String-based value accessors!
 
-    }, {
+    },
+    /* {
       Header: 'userIdSegment',
       accessor: 'userIdSegment' // String-based value accessors!
-
-    }, {
+    }
+      ,
+    {
       Header: 'deviceIdSegment',
       accessor: 'deviceIdSegment' // String-based value accessors!
-
-    }, {
+    }
+      ,
+    {
       Header: 'anonymousIdSegment',
       accessor: 'anonymousIdSegment' // String-based value accessors!
-
-    }, {
+    }
+      , */
+    {
       Header: 'merchantCode',
-      accessor: 'merchantCode' // String-based value accessors!
-
+      accessor: 'merchantCode',
+      // String-based value accessors!
+      Cell: this.renderEditable
     }, {
       Header: 'date',
       accessor: 'date' // String-based value accessors!
@@ -2476,19 +2481,19 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       titulo: "Listado de Usuarios para Asignaci\xF3n",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 83
+        lineNumber: 84
       },
       __self: this
     }, __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 84
+        lineNumber: 85
       },
       __self: this
     }, __jsx("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 84
+        lineNumber: 85
       },
       __self: this
     }, "Lista de usuarios sin asociar")), __jsx(react_table__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -2496,7 +2501,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       columns: columns,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
+        lineNumber: 86
       },
       __self: this
     }));
@@ -2508,7 +2513,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /*!**********************************!*\
   !*** multi ./pages/listusers.js ***!
   \**********************************/

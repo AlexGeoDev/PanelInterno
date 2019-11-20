@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2435,15 +2435,17 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       onBlur: e => {
         const list = [...this.state.list];
         list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-        this.setState({
-          list
-        });
+        console.log("indice:", cellInfo.index); //list.splice(cellInfo.index,1);
+
         console.log("valor celda:", e.target.innerHTML);
         console.log("id celda: ", cellInfo.original.id);
 
         if (e.target.innerHTML != "") {
-          console.log("actualizar merchantcode");
-          const update = _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_2__["default"].updateSegment(cellInfo.original.id, e.target.innerHTML);
+          console.log("actualizar merchantcode"); //const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+
+          this.setState({
+            list: list
+          });
         }
       },
       __source: {
@@ -2513,19 +2515,19 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       titulo: "Listado de Usuarios para Asignaci\xF3n",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 110
       },
       __self: this
     }, __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 111
       },
       __self: this
     }, __jsx("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 111
       },
       __self: this
     }, "Lista de usuarios sin asociar")), __jsx(react_table__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -2533,7 +2535,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       columns: columns,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
+        lineNumber: 112
       },
       __self: this
     }));
@@ -2545,7 +2547,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
 /***/ }),
 
-/***/ 5:
+/***/ 3:
 /*!**********************************!*\
   !*** multi ./pages/listusers.js ***!
   \**********************************/

@@ -15993,17 +15993,17 @@ function (_React$Component) {
           var list = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_this2.state.list);
 
           list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-
-          _this2.setState({
-            list: list
-          });
+          console.log("indice:", cellInfo.index); //list.splice(cellInfo.index,1);
 
           console.log("valor celda:", e.target.innerHTML);
           console.log("id celda: ", cellInfo.original.id);
 
           if (e.target.innerHTML != "") {
-            console.log("actualizar merchantcode");
-            var update = _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_11__["default"].updateSegment(cellInfo.original.id, e.target.innerHTML);
+            console.log("actualizar merchantcode"); //const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+
+            _this2.setState({
+              list: list
+            });
           }
         },
         __source: {
@@ -16074,19 +16074,19 @@ function (_React$Component) {
         titulo: "Listado de Usuarios para Asignaci\xF3n",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 108
+          lineNumber: 110
         },
         __self: this
       }, __jsx("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
+          lineNumber: 111
         },
         __self: this
       }, __jsx("span", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
+          lineNumber: 111
         },
         __self: this
       }, "Lista de usuarios sin asociar")), __jsx(react_table__WEBPACK_IMPORTED_MODULE_12__["default"], {
@@ -16094,7 +16094,7 @@ function (_React$Component) {
         columns: columns,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 110
+          lineNumber: 112
         },
         __self: this
       }));
@@ -16108,7 +16108,7 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ 2:
+/***/ 0:
 /*!********************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Flistusers&absolutePagePath=D%3A%5CDESARROLLO%5CPANELCAJERO%5Cpages%5Clistusers.js ***!
   \********************************************************************************************************************************/
@@ -16131,5 +16131,5 @@ module.exports = dll_e9ad7d891b372a4221cf;
 
 /***/ })
 
-},[[2,"static/runtime/webpack.js","styles"]]]);
+},[[0,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=listusers.js.map

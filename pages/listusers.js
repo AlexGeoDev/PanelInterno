@@ -33,12 +33,14 @@ class ListUsers extends React.Component {
         onBlur={e => {
           const list = [...this.state.list];
           list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          this.setState({ list })
+          console.log("indice:", cellInfo.index);
+          //list.splice(cellInfo.index,1);
           console.log("valor celda:", e.target.innerHTML);
           console.log("id celda: ", cellInfo.original.id);
           if (e.target.innerHTML != "") {
             console.log("actualizar merchantcode");
-            const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+            //const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+            this.setState({ list: list })
           }
         }}
       />

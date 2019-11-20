@@ -50,7 +50,7 @@ class User extends React.Component {
     return (
       <React.Fragment>
         <form onSubmit={this.handleSubmit}>
-          <div><span>Id:</span> {this.state.user.id} </div>
+          <div ><span>Id:</span> {this.state.user.id} </div>
           <div><span>Comercial Name:</span> {this.state.user.comercialName} </div>
           <div><span>Business Name:</span> {this.state.user.businessName} </div>
           <div><span>Email:</span> {this.state.user.email} </div>

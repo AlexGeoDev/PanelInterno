@@ -2408,6 +2408,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     this.state = {
       list: []
     };
+    this.renderEditable = this.renderEditable.bind(this);
   }
 
   async getdata() {
@@ -2420,6 +2421,37 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 
   componentDidMount() {
     this.getdata();
+  }
+
+  renderEditable(cellInfo) {
+    console.log("contenido editable:", cellInfo.value); //const update = transactionBusiness.updateSegment(this.state.user.id, this.state.merchantCode)
+
+    return __jsx("div", {
+      style: {
+        backgroundColor: "#fafafa"
+      },
+      contentEditable: true,
+      suppressContentEditableWarning: true,
+      onBlur: e => {
+        const list = [...this.state.list];
+        list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+        this.setState({
+          list
+        });
+        console.log("valor celda:", e.target.innerHTML);
+        console.log("id celda: ", cellInfo.original.id);
+
+        if (e.target.innerHTML != "") {
+          console.log("actualizar merchantcode");
+          const update = _business_transactionBusiness__WEBPACK_IMPORTED_MODULE_2__["default"].updateSegment(cellInfo.original.id, e.target.innerHTML);
+        }
+      },
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 29
+      },
+      __self: this
+    });
   }
 
   render() {
@@ -2481,19 +2513,19 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       titulo: "Listado de Usuarios para Asignaci\xF3n",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 84
+        lineNumber: 108
       },
       __self: this
     }, __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
+        lineNumber: 109
       },
       __self: this
     }, __jsx("span", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 85
+        lineNumber: 109
       },
       __self: this
     }, "Lista de usuarios sin asociar")), __jsx(react_table__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -2501,7 +2533,7 @@ class ListUsers extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       columns: columns,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
+        lineNumber: 110
       },
       __self: this
     }));

@@ -9,6 +9,7 @@ class ListUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = { list: [] };
+    this.renderEditable = this.renderEditable.bind(this);
   }
 
   async getdata() {
@@ -19,6 +20,29 @@ class ListUsers extends React.Component {
 
   componentDidMount() {
     this.getdata();
+  }
+
+  renderEditable(cellInfo) {
+    console.log("contenido editable:", cellInfo.value);
+    //const update = transactionBusiness.updateSegment(this.state.user.id, this.state.merchantCode)
+    return (
+      <div
+        style={{ backgroundColor: "#fafafa" }}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const list = [...this.state.list];
+          list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+          this.setState({ list })
+          console.log("valor celda:", e.target.innerHTML);
+          console.log("id celda: ", cellInfo.original.id);
+          if (e.target.innerHTML != "") {
+            console.log("actualizar merchantcode");
+            const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+          }
+        }}
+      />
+    );
   }
 
   render() {

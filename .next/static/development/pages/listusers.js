@@ -15993,13 +15993,14 @@ function (_React$Component) {
           var list = Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_this2.state.list);
 
           list[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          console.log("indice:", cellInfo.index); //list.splice(cellInfo.index,1);
-
+          console.log("indice:", cellInfo.index);
           console.log("valor celda:", e.target.innerHTML);
           console.log("id celda: ", cellInfo.original.id);
 
           if (e.target.innerHTML != "") {
             console.log("actualizar merchantcode"); //const update = transactionBusiness.updateSegment(cellInfo.original.id, e.target.innerHTML)
+
+            list.splice(cellInfo.index, 1);
 
             _this2.setState({
               list: list

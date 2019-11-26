@@ -13,10 +13,34 @@ class Layout extends React.Component {
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>
           <link rel="stylesheet" href="/css/all.min.css"></link>
         </Head>
-        <NavBar />
         <div className="row">
-          <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-            <div className="sidebar-nav">
+          <nav className="col-md-2">
+            <div className="menu">
+            <div className="logo-container">
+              <div>
+                Logo
+              </div>
+              <div>
+                Search
+              </div>
+            </div>
+            <div>
+              <button className="nuevo"> + Nuevo</button>
+            </div>
+            <div className="menulist">
+              <div>
+                <div>
+
+                </div>
+                <div>
+                  <a href="/usuarios" className="menulist-item">Usuarios</a>
+                </div>
+              </div>
+
+            </div>
+            </div>
+            
+            <div>
               <ul className="nav flex-column">
 
                 <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -31,11 +55,34 @@ class Layout extends React.Component {
               </ul>
             </div>
           </nav>
-          <div className="col-md-9">
+          <div className="col-md-10">
             {this.props.children}
           </div>
         </div>
         <style jsx>{`
+        .logo-container{
+          display:flex;
+          color:white;          
+        }
+        .nuevo{
+          background-color:#007fd2;
+          border:0;
+          border-radius:3px;          
+          color:white;
+          width:100%;
+        }
+        .menu{
+          background-color: #0c2a4b;
+          padding-bottom:1rem;
+          padding-left:1rem;
+          padding-right:1rem;          
+        }
+        .menulist{
+          color:white;
+        }
+        .menulist-item{
+          color:white;
+        }
         .navbar{
           justify-content:right
         }

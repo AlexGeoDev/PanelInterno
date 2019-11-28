@@ -70,6 +70,10 @@ function Cargar(props) {
                                         let event = 'testTransactionPerformed';
                                         if (props.type === 'cyclos') {
                                             event = 'testTransactionReviewed';
+                                        }else if (props.type === 'bancolombiawithdrawal') {
+                                            event = 'withdrawalRequested';
+                                        }else if (props.type === 'bbvawithdrawal') {
+                                            event = 'withdrawalRequested';
                                         }
                                         processFile(filesStatus[f.idFile].id, props.type, event, false)
                                     })

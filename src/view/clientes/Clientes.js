@@ -55,70 +55,90 @@ function Clientes(props) {
                 <div>{action}</div>
             }
             <div>
-                <span>Lista de clientes</span><span><button onClick={()=>syncUsers()}>Sincronizar Clientes</button></span>
+                <span>Lista de clientes</span><span></span>
             </div>
             <div className="row">
                 <div className="col-md-9">
                     <Table data={data.data} onSelect={handleSelect} />
                 </div>
                 <div className="col-md-3">
-                    {selected &&
-                        <div className="detail">
-                            <div>{selected.identification} - {selected.comercialName}</div>
-                            <div>{selected.serialNumber}</div>
-                            <div>Cuenta: {selected.accountNumber}</div>
-                            <div>
-
-                            </div>
-                            <div>
+                    <div>
+                        {selected &&
+                            <div className="detail">
+                                <div>{selected.identification} - {selected.comercialName}</div>
+                                <div>{selected.serialNumber}</div>
+                                <div>Cuenta: {selected.accountNumber}</div>
                                 <div>
-                                    Acciones
+
                                 </div>
                                 <div>
                                     <div>
-                                        <button onClick={() => {
-                                            setAction(<Modal onClose={() => setAction(null)}
-                                                footer={
-                                                    <button onClick={() => setAction(null)}>Cerrar</button>
-                                                }
-                                            >
-                                                <Identify user={selected} />
-                                            </Modal>);
-                                        }
-                                        }>identificar</button>
-                                    </div>
+                                        Acciones
+                                </div>
                                     <div>
-                                        <button onClick={()=>{
-                                            sendCredentials(selected.id)
-                                        }}>credentialsSent</button>
-                                    </div>
-                                    <div>
-                                        <button onClick={()=>{
-                                            trackEvent(selected.id,'testTransactionPerformed',false)
-                                        }}>testTransactionPerformed</button>
-                                    </div>
-                                    <div>
-                                        <button onClick={()=>{
-                                            trackEvent(selected.id,'testTransactionReviewed',false)
-                                        }}>testTransactionReviewed</button>
-                                    </div>
-                                    <div>
-                                        <button onClick={()=>{
-                                            trackEvent(selected.id,'withdrawalRequested',false)
-                                        }}>withdrawalRequested</button>
-                                    </div>
-                                    <div>
-                                        <button onClick={()=>{
-                                            trackEvent(selected.id,'withdrawalRecieved',false)
-                                        }}>withdrawalRecieved</button>
-                                    </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                setAction(<Modal onClose={() => setAction(null)}
+                                                    footer={
+                                                        <button onClick={() => setAction(null)}>Cerrar</button>
+                                                    }
+                                                >
+                                                    <Identify user={selected} />
+                                                </Modal>);
+                                            }
+                                            }>identificar</button>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                sendCredentials(selected.id)
+                                            }}>credentialsSent</button>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                trackEvent(selected.id, 'testTransactionPerformed', false)
+                                            }}>testTransactionPerformed</button>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                trackEvent(selected.id, 'testTransactionReviewed', false)
+                                            }}>testTransactionReviewed</button>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                trackEvent(selected.id, 'withdrawalRequested', false)
+                                            }}>withdrawalRequested</button>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => {
+                                                trackEvent(selected.id, 'withdrawalRecieved', false)
+                                            }}>withdrawalRecieved</button>
+                                        </div>
 
 
+                                    </div>
                                 </div>
                             </div>
+                        }
+
+                    </div>
+
+
+                    <div className="acciones">
+                        <button onClick={() => syncUsers()}>Sincronizar Clientes</button>
+                        <div>
+                            <a href="/cargar?type=smartpesa">Cargar Smartpesa</a>
                         </div>
-                    }
+                        <div>
+                            <a href="/cargar?type=cyclos">Cargar Cyclos</a>
+                        </div>
+                        <div>
+                            <a href="/cargar?type=bancolombiawithdrawal">Cargar Pago Bancolombia</a>
+                        </div>
+                        <div>
+                            <a href="/cargar?type=bbvawithdrawal">Cargar Pago BBVA</a>
+                        </div>
 
+                    </div>
                 </div>
             </div>
 
@@ -126,6 +146,11 @@ function Clientes(props) {
                 {
                     `
                 .detail{
+                    text-align:left;
+                    margin-bottom:2rem;
+                }
+
+                .acciones{
                     text-align:left;
                 }
                 `

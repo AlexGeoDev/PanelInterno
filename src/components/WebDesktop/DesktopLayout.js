@@ -34,8 +34,8 @@ class Layout extends React.Component {
                       <React.Fragment>
                         <a href="/cargar?type=smartpesa">Cargar Smartpesa</a>
                         <a href="/cargar?type=cyclos">Cargar Cyclos</a>
-                        <a href="/cargar?type=pagobancolombia">Cargar Pago Bancolombia</a>
-                        <a href="/cargar?type=pagobbva">Cargar Pago BBVA</a>
+                        <a href="/cargar?type=bancolombiawithdrawal">Cargar Pago Bancolombia</a>
+                        <a href="/cargar?type=bbvawithdrawal">Cargar Pago BBVA</a>
                       </React.Fragment>
 
 

@@ -7,7 +7,8 @@ import { Router, View } from 'react-navi'
 import { createBrowserHistory } from 'history';
 import { Clientes } from './view/clientes/Clientes';
 import { Cargar } from './view/clientes/Cargar';
-import { listUsersSegment } from './business/transactionBusiness';
+import { listUsersSegment, listRegistros } from './business/transactionBusiness';
+import { Registros } from './view/clientes/Registros';
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -20,6 +21,11 @@ const routes =
       title: 'Clientes',
       getData: ()=> listUsersSegment(),
       view: <Clientes />,
+    }),
+    '/registros': route({
+      title: 'Registros',
+      getData: ()=> listRegistros(),
+      view: <Registros />,
     }),
     '/cargar': route(async req => {
       let { type } = req.params;

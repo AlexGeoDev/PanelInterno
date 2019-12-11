@@ -51,6 +51,12 @@ class Layout extends React.Component {
                   <div className="menulist-item">
                     <a href="/clientes" className="menulist-link">Clientes</a>
                   </div>
+                  <div className="menulist-item">
+                    <a href="/cargar?type=tvc" className="menulist-link">Transacciones TVC</a>
+                  </div>
+                  <div className="menulist-item">
+                    <a href="/registros" className="menulist-link">Registros</a>
+                  </div>
                 </div>
 
               </div>
@@ -69,7 +75,7 @@ class Layout extends React.Component {
         <style jsx>{`
         .logo-container{
           display:flex;
-          color:white;          
+          color:white;
         }
         .header{
           height:3rem;
@@ -80,7 +86,7 @@ class Layout extends React.Component {
         .nuevo{
           background-color:#007fd2;
           border:0;
-          border-radius:3px;          
+          border-radius:3px;
           color:white;
           width:100%;
         }
@@ -88,7 +94,7 @@ class Layout extends React.Component {
           background-color: #0c2a4b;
           padding-bottom:1rem;
           padding-left:1rem;
-          padding-right:1rem;          
+          padding-right:1rem;
         }
         .menulist{
           color:white;

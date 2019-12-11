@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table } from '../../components/table/Table';
 import { FileUpload } from '../../components/modal/FileUpload';
-import { uploadFile, ID, processFile } from '../../business/transactionBusiness';
+import { uploadFile, ID, processFile, sendTransactionData } from '../../business/transactionBusiness';
 
 function Cargar(props) {
     console.log(props);
@@ -74,6 +74,9 @@ function Cargar(props) {
                                             event = 'withdrawalRequested';
                                         }else if (props.type === 'bbvawithdrawal') {
                                             event = 'withdrawalRequested';
+                                        }else if (props.type === 'tvc') {
+                                            sendTransactionData(filesStatus[f.idFile].id)
+                                            return;
                                         }
                                         processFile(filesStatus[f.idFile].id, props.type, event, false)
                                     })

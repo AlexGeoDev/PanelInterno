@@ -1,0 +1,10 @@
+{
+  "realm": "cajero",
+  "auth-server-url": "http://18.218.25.156:8080/auth",
+  "ssl-required": "none",
+  "resource": "cajero-intranet",
+  "credentials": {
+    "secret": "7d84b0fe-fb13-4103-8e42-766245db151f"
+  },
+  "confidential-port": 0
+}

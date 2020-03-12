@@ -9,6 +9,7 @@ import { Clientes } from './view/clientes/Clientes';
 import { Cargar } from './view/clientes/Cargar';
 import { listUsersSegment, listRegistros } from './business/transactionBusiness';
 import { Registros } from './view/clientes/Registros';
+import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -19,12 +20,12 @@ const routes =
     }),
     '/clientes': route({
       title: 'Clientes',
-      getData: ()=> listUsersSegment(),
+      getData: () => listUsersSegment(),
       view: <Clientes />,
     }),
     '/registros': route({
       title: 'Registros',
-      getData: ()=> listRegistros(),
+      getData: () => listRegistros(),
       view: <Registros />,
     }),
     '/cargar': route(async req => {
@@ -33,8 +34,14 @@ const routes =
         title: 'Cargar archivo',
         view: <Cargar type={type} />,
       };
-    }
-    )
+    }),
+    '/reporte-retenciones': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Reporte Retenciones',
+        view: <ReporteRetenciones />,
+      };
+    })
     ,
   })
 

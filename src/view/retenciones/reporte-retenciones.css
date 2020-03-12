@@ -1,0 +1,45 @@
+.form-retenciones {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+}
+
+.retenciones-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-retenciones input {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(232, 232, 232);
+  padding: 10px;
+}
+
+.form-retenciones button {
+  color: #FFFFFF;
+  padding: 10px;
+  background-color: #5916bc;
+  border: 1px solid #5916bc;
+  border-radius: 5px;
+}
+
+.form-retenciones button:hover {
+  background-color: #7e5bb0;
+  border: 1px solid #7e5bb0;
+}
+
+.form-retenciones button:disabled,
+button[disabled]{
+  background-color: #7e5bb0;
+  border: 1px solid #7e5bb0;
+}
+
+
+.export-error {
+  font-size: 12px;
+  color: crimson;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}

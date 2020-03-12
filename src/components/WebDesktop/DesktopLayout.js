@@ -57,6 +57,9 @@ class Layout extends React.Component {
                   <div className="menulist-item">
                     <a href="/registros" className="menulist-link">Registros</a>
                   </div>
+                  <div className="menulist-item">
+                    <a href="/reporte-retenciones" className="menulist-link">Reporte Retenciones</a>
+                  </div>
                 </div>
 
               </div>

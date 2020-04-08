@@ -1,5 +1,4 @@
 import React, { Component, useImperativeHandle } from 'react';
-import Input from '../../components/input/Input';
 import EmailForm from './EmailForm';
 import UserBusiness from '../../business/UserBusiness';
 import './activacion.css'

@@ -10,6 +10,7 @@ import { Cargar } from './view/clientes/Cargar';
 import { listUsersSegment, listRegistros } from './business/transactionBusiness';
 import { Registros } from './view/clientes/Registros';
 import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
+import Activacion from './view/activacion/Activacion';
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -41,8 +42,14 @@ const routes =
         title: 'Reporte Retenciones',
         view: <ReporteRetenciones />,
       };
-    })
-    ,
+    }),
+    '/activar-cliente': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Activar Cliente',
+        view: <Activacion />
+      };
+    }),
   })
 
 let navi = createBrowserNavigation({

@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Keycloak from 'keycloak-js';
 
-let keycloak = Keycloak('keycloak.json');
+/* let keycloak = Keycloak('keycloak.json');
 
 function refreshToken(kc) {
 
@@ -25,11 +25,12 @@ function refreshToken(kc) {
     refreshToken(kc)
   }, 60000)
 
-}
+} */
+
+ReactDOM.render(<App />, document.getElementById('root'));
 
 
-
-keycloak.init({ onLoad: 'login-required' }).success((auth) => {
+/* keycloak.init({ onLoad: 'login-required' }).success((auth) => {
 
   if (!auth) {
     window.location.reload();
@@ -56,7 +57,7 @@ keycloak.init({ onLoad: 'login-required' }).success((auth) => {
 
   });*/
 
-
+/*
 
   setTimeout(() => {
     keycloak.updateToken(70).success((refreshed) => {
@@ -75,7 +76,7 @@ keycloak.init({ onLoad: 'login-required' }).success((auth) => {
 
 }).error(() => {
   console.error("Authenticated Failed");
-});
+}); */
 
 
 

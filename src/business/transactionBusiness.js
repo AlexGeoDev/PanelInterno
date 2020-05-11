@@ -276,7 +276,7 @@ const sendData = async email => {
       body: JSON.stringify(data), // data can be `string` or {object}!
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${window.KEYCLOAK.token}`
+        // "Authorization": `Bearer ${window.KEYCLOAK.token}`
       }
     });
 

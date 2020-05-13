@@ -1,126 +1,160 @@
-import React from "react";
+import React from 'react';
 import { Modal } from '../modal/Modal';
+import MenuLink from '../MenuLink';
+
 class Layout extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      openModal: false,
+      listMenu: [
+        {
+          url: '/clientes',
+          name: 'Clientes'
+        },
+        {
+          url: '/cargar?type=tvc',
+          name: 'Transacciones TVC'
+        },
+        {
+          url: '/registros',
+          name: 'Registros'
+        },
+        {
+          url: '/listPagoFacil',
+          name: 'Pago Facil'
+        },
+        {
+          url: '/reporte-retenciones',
+          name: 'Reporte Retenciones'
+        },
+        {
+          url: '/activar-cliente',
+          name: 'Activar Cliente'
+        }
+      ]
+    };
+  }
+
+  closeModal = () => {
+    this.setState({ openModal: false })
   }
 
   render() {
+    const { listMenu } = this.state;
     return (
-      <div>
-        {
-          this.state.modal &&
-          <div>
-            {this.state.modal}
-          </div>
+      <div className='app-container'>
+        {this.state.openModal &&
+          <Modal onClose={this.closeModal}>
+            <React.Fragment>
+              <a href='/cargar?type=smartpesa'>Cargar Smartpesa</a>
+              <a href='/cargar?type=cyclos'>Cargar Cyclos</a>
+              <a href='/cargar?type=bancolombiawithdrawal'>Cargar Pago Bancolombia</a>
+              <a href='/cargar?type=bbvawithdrawal'>Cargar Pago BBVA</a>
+            </React.Fragment>
+          </Modal>
         }
-        <div className="row">
-          <nav className="col-md-2">
-            <div className="menu">
-              <div className="logo-container">
-                <div>
+
+        <div className='row mx-0 h-100'>
+          <nav className='col-md-2 px-0 h-100'>
+            <div className='menu h-100'>
+              <div className='logo-container d-flex flex-column'>
+                <div className='my-2'>
                   Logo
-              </div>
-                <div>
-                  Search
-              </div>
-              </div>
-              <div>
-                <button className="nuevo" onClick={() => {
-                  this.setState({
-                    modal: <Modal>
-                      <React.Fragment>
-                        <a href="/cargar?type=smartpesa">Cargar Smartpesa</a>
-                        <a href="/cargar?type=cyclos">Cargar Cyclos</a>
-                        <a href="/cargar?type=bancolombiawithdrawal">Cargar Pago Bancolombia</a>
-                        <a href="/cargar?type=bbvawithdrawal">Cargar Pago BBVA</a>
-                      </React.Fragment>
-
-
-                    </Modal>
-                  })
-                }}> + Nuevo</button>
-              </div>
-              <div className="menulist">
-                <div>
-                  <div>
-
-                  </div>
-                  <div className="menulist-item">
-                    <a href="/clientes" className="menulist-link">Clientes</a>
-                  </div>
-                  <div className="menulist-item">
-                    <a href="/cargar?type=tvc" className="menulist-link">Transacciones TVC</a>
-                  </div>
-                  <div className="menulist-item">
-                    <a href="/registros" className="menulist-link">Registros</a>
-                  </div>
-                  <div className="menulist-item">
-                    <a href="/reporte-retenciones" className="menulist-link">Reporte Retenciones</a>
-                  </div>
-                  <div className="menulist-item">
-                    <a href="/activar-cliente" className="menulist-link">Activar Cliente</a>
-                  </div>
                 </div>
+                <div className='mb-3'>
+                  Search
+                </div>
+              </div>
 
+              <button className='nuevo' onClick={() => {
+                this.setState({
+                  openModal: true
+                })
+              }}>
+                + Nuevo
+              </button>
+
+              <div className='menulist'>
+                {listMenu &&
+                  listMenu.map(menu =>
+                    <MenuLink
+                      key={menu.url}
+                      url={menu.url}
+                      name={menu.name}
+                    />
+                  )
+                }
               </div>
             </div>
           </nav>
-          <div className="col-md-10">
-            <div className="header">
+
+          <div className='col-md-10 px-0 h-100'>
+            <div className='header'>
 
             </div>
-            <div>
+
+            <div className='px-3 py-4 content overflow-y'>
               {this.props.children}
             </div>
-
           </div>
         </div>
-        <style jsx>{`
-        .logo-container{
-          display:flex;
-          color:white;
-        }
-        .header{
-          height:3rem;
-          border-bottom-color: rgb(237, 240, 242);
-          border-bottom-style:solid;
-          border-bottom-width:1px;
-        }
-        .nuevo{
-          background-color:#007fd2;
-          border:0;
-          border-radius:3px;
-          color:white;
-          width:100%;
-        }
-        .menu{
-          background-color: #0c2a4b;
-          padding-bottom:1rem;
-          padding-left:1rem;
-          padding-right:1rem;
-        }
-        .menulist{
-          color:white;
-        }
-        .menulist-item{
-          color:white;
-          text-align: left;
-        }
-        .menulist-link{
-          color:white;
-        }
-        .navbar{
-          justify-content:right
-        }
-        .sidebar-nav {
-          height: calc(100vh - 48px);
-          overflow-x: hidden;
-          overflow-y: auto;
-        }
-      `}</style>
+
+        <style jsx>
+          {
+            `
+              .app-container {
+                height: 100vh;
+              }
+
+              .logo-container{
+                display:flex;
+                color:white;
+              }
+
+              .header{
+                height: 10vh;
+                border-bottom-color: rgb(237, 240, 242);
+                border-bottom-style:solid;
+                border-bottom-width:1px;
+              }
+
+              .content {
+                height: 90vh;
+              }
+
+              .nuevo{
+                background-color:#007fd2;
+                border:0;
+                border-radius:3px;
+                color:white;
+                width:100%;
+              }
+
+              .menu{
+                background-color: #0c2a4b;
+                padding-bottom:1rem;
+                padding-left:1rem;
+                padding-right:1rem;
+              }
+
+              .menulist{
+                color:white;
+              }
+
+              .navbar{
+                justify-content:right
+              }
+
+              .sidebar-nav {
+                height: calc(100vh - 48px);
+                overflow-x: hidden;
+                overflow-y: auto;
+              }
+            `
+          }
+        </style>
       </div >
     );
   }

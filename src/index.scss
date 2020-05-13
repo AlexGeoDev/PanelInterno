@@ -1,0 +1,110 @@
+// Import Bootstrap
+@import '~bootstrap/scss/bootstrap.scss';
+
+html {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  width: 100vw;  
+}
+
+#root {
+  height: 100vh;  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.overflow-y {
+  overflow-y: auto;
+}
+
+.box-radius {
+  border-radius: 8px !important;
+}
+
+.box-shadow {
+  box-shadow: #0000002B 0px 2px 8px;
+}
+
+.box-style {
+  box-shadow: #0000002B 0px 2px 8px;
+  padding: 2rem 1.5rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.status-box {
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 1.2rem 1rem;
+  text-align: center;
+}
+
+.box-created {
+  background-color: #F4F4F4;
+  color: #0D472D;
+}
+
+.box-approve {
+  background-color: #AAFFBE;
+  color: #0D472D;
+}
+
+.box-conciliation {
+  background-color: #FFEFCA;
+  color: #433108;
+}
+
+.box-rejected {
+  background-color: #FFD9D1;
+  color: #360E07;
+}
+
+.modal-title {
+  color: #4E17BA;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-subtitle {
+  color: #4E17BA;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.list-modal {
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.list-modal-row {
+  align-items: center;
+  height: 50px;
+}
+
+.border, .border-top, .border-right, .border-bottom, .border-left {
+  border-color: #DBDBDB !important;
+}
+
+.modal-status-box {
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  display: flex;
+  height: 36px;
+  margin: 0px !important;
+  padding: 0px !important;
+  font-weight: bold;
+}

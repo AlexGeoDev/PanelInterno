@@ -1,16 +1,18 @@
 import React, { Suspense } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import DesktopLayout from './components/WebDesktop/DesktopLayout';
 import { createBrowserNavigation, lazy, mount, route } from 'navi'
 import { Router, View } from 'react-navi'
 import { createBrowserHistory } from 'history';
 import { Clientes } from './view/clientes/Clientes';
 import { Cargar } from './view/clientes/Cargar';
+import { PagoFacil } from './view/pagofacil/PagofacilView';
 import { listUsersSegment, listRegistros } from './business/transactionBusiness';
 import { Registros } from './view/clientes/Registros';
 import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
 import Activacion from './view/activacion/Activacion';
+
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -50,6 +52,13 @@ const routes =
         view: <Activacion />
       };
     }),
+    '/listPagoFacil': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Pago Facil',
+        view: <PagoFacil type={type} />,
+      };
+    })
   })
 
 let navi = createBrowserNavigation({

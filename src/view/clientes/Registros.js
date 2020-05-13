@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import { Table } from "../../components/table/Table";
-import { Link, useCurrentRoute } from "react-navi";
-import { Modal } from "../../components/modal/Modal";
-import {
-  sendCredentials,
-  trackEvent,
-  syncUsers,
-  sendData
-} from "../../business/transactionBusiness";
+import { useCurrentRoute } from "react-navi";
+import { sendData } from "../../business/transactionBusiness";
 import { TableComponent } from "../../components/table/TableComponent";
 
 function Registros(props) {

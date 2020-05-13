@@ -1,6 +1,6 @@
 export class IO {
 
-  static BASE_URL = 'http://10.199.128.20:8282/';
+  static BASE_URL = 'http://localhost:8282/';
   static URL = `${this.BASE_URL}api/v1/`
 
   static post(url, content) {
@@ -44,5 +44,4 @@ export class IO {
 
     return promise;
   }
-
 }

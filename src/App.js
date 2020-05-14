@@ -12,6 +12,7 @@ import { listUsersSegment, listRegistros } from './business/transactionBusiness'
 import { Registros } from './view/clientes/Registros';
 import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
 import Activacion from './view/activacion/Activacion';
+import { VerifyInfo } from './view/verifyRegister/VeritfyRegister';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -57,6 +58,13 @@ const routes =
       return {
         title: 'Pago Facil',
         view: <PagoFacil type={type} />,
+      };
+    }),
+    '/verifyInfo': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Verificar Info',
+        view: <VerifyInfo type={type} />,
       };
     })
   })

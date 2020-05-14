@@ -33,6 +33,7 @@ function fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModa
         resolve(transformData(data.body, setIdOrdenPago, setOpenModal));
       } else {
         alert('Para los filtros ingresados no se encontraron datos')
+        resolve();
       }
     })
   })

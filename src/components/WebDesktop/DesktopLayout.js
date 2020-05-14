@@ -26,6 +26,10 @@ class Layout extends React.Component {
           name: 'Pago Facil'
         },
         {
+          url: '/verifyInfo',
+          name: 'Verificar Registro'
+        },
+        {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
         },

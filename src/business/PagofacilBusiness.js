@@ -1,5 +1,5 @@
-//const BASE_URL = 'https://s.cajero.co/api';
-const BASE_URL = 'http://192.168.10.11:8080/api';
+const BASE_URL = 'https://s.cajero.co/api';
+//const BASE_URL = 'http://192.168.10.11:8080/api';
 
 const fetchPagofacilList = async (merchantcode, sequence, bankCode) => {
   const url = `${BASE_URL}/panelinterno/fetchPays`;

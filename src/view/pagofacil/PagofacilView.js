@@ -5,12 +5,13 @@ import { fetchPagofacilList } from "../../business/PagofacilBusiness";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
 import { TableComponent } from "../../components/table/TableComponent";
 import { DetailPagoFacil } from "./DetailPagofacilView";
+import { Loading } from "../../components/loading/Loading";
 
 function transformData(data, setIdOrdenPago, setOpenModal) {
   data.forEach(info => {
     let fechaTemp = new Date(info.fechaRegistro);
     info.fechaRegistro = moment(fechaTemp).locale('es').format('LLL')
-    info.estado = info.estado == 'CREATED' ? 'Registrado' : info.estado == 'completed' ? 'Pagado' : info.estado;
+    info.estado = info.estado.toUpperCase() == 'CREATED' ? 'Registrado' : info.estado.toUpperCase() == 'COMPLETED' ? 'Pagado' : info.estado;
     info.valor = '$ ' + info.valor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
     info.option = {
       action: 'Detalle',
@@ -25,14 +26,17 @@ function showDetail(infoPagofacil, setIdOrdenPago, setOpenModal) {
   setOpenModal(true);
 }
 
-function fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModal) {
+function fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModal, setLoading) {
+  setLoading(true);
   const promise = new Promise((resolve, reject) => {
     let response = fetchPagofacilList(merchantCode, sequence, bankCode)
     response.then((data) => {
       if (data && data.body) {
+        setLoading(false);
         resolve(transformData(data.body, setIdOrdenPago, setOpenModal));
       } else {
         alert('Para los filtros ingresados no se encontraron datos')
+        setLoading(false);
         resolve();
       }
     })
@@ -47,10 +51,11 @@ function PagoFacil(props) {
   const [bankCode, setBankCode] = useState();
   const [idOrdenPago, setIdOrdenPago] = useState();
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getData() {
-      let data = await fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModal);
+      let data = await fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModal, setLoading);
       if (data) {
         setListPagoFacil(data);
       }
@@ -67,6 +72,10 @@ function PagoFacil(props) {
             setOpenModal(false)
           }}
         />
+      }
+
+      {loading &&
+        <Loading />
       }
 
       <div className='row justify-content-center'>
@@ -99,7 +108,7 @@ function PagoFacil(props) {
         <div className='col-12 mt-4'>
           <button
             onClick={async () => {
-              let data = await fetchData(merchantCode, sequence, bankCode);
+              let data = await fetchData(merchantCode, sequence, bankCode, setIdOrdenPago, setOpenModal, setLoading);
               if (data) {
                 setListPagoFacil(data);
               }

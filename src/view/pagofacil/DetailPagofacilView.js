@@ -144,7 +144,7 @@ function DetailPagoFacil(props) {
                   horizontal={true}
                   readOnly={true}
                   customStyle='my-3'
-                  value={infoDetail.value}
+                  value={infoDetail.value ? '$ ' + infoDetail.value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") : ''}
                 />
 
                 {infoDetail.estado &&

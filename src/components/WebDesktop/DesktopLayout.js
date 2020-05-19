@@ -23,7 +23,7 @@ class Layout extends React.Component {
         },
         {
           url: '/listPagoFacil',
-          name: 'Pago Facil'
+          name: 'PagoFácil'
         },
         {
           url: '/verifyInfo',

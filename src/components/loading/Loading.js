@@ -3,9 +3,9 @@ import React from 'react';
 function Loading(props) {
   return (
     <React.Fragment>
-      <div className="modal-container">
+      <div className='modal-container'>
 
-        <div class="lds-roller">
+        <div className='lds-roller'>
           <div></div>
           <div></div>
           <div></div>

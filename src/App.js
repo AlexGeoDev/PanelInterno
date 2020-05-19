@@ -56,7 +56,7 @@ const routes =
     '/listPagoFacil': route(async req => {
       let { type } = req.params;
       return {
-        title: 'Pago Facil',
+        title: 'PagoFácil',
         view: <PagoFacil type={type} />,
       };
     }),

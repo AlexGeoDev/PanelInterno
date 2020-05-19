@@ -1,13 +1,15 @@
 const BASE_URL = 'https://s.cajero.co/api';
-//const BASE_URL = 'http://192.168.10.11:8080/api';
+// const BASE_URL = 'http://192.168.10.11:8080/api';
 
-const fetchPagofacilList = async (merchantcode, sequence, bankCode) => {
+const fetchPagofacilList = async (merchantcode, sequence, bankCode, startDate, endDate) => {
   const url = `${BASE_URL}/panelinterno/fetchPays`;
   const data = {};
   data.body = {
     merchantCode: merchantcode,
     secuencia: sequence,
-    codigobanco: bankCode
+    codigobanco: bankCode,
+    fechaInicio: startDate,
+    fechaFinal: endDate
   };
   data.header = {};
 
@@ -29,6 +31,32 @@ const fetchPagofacilList = async (merchantcode, sequence, bankCode) => {
   }
 };
 
+const fetchActiveCommerce = async (startDate, endDate) => {
+  const url = `${BASE_URL}/paymentorder/listactivemerchants`;
+  const data = {};
+  data.body = {
+    fechaInicio: startDate,
+    fechaFinal: endDate
+  };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
 
 const fetchTransactionResume = async (idPaymentOrder) => {
   const url = `${BASE_URL}/paymentorder/fetchbyid`;
@@ -163,6 +191,7 @@ const fetchInfoRegister = async (merchantCode) => {
 
 export {
   fetchPagofacilList,
+  fetchActiveCommerce,
   fetchTransactionResume,
   fetchTransactionPaymentResume,
   fetchPaymentResume,

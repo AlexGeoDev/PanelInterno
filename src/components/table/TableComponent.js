@@ -51,7 +51,7 @@ function TableComponent(props) {
             return (
               <tr>
                 <td>
-                  {typeof props.multiple == 'undefined' &&
+                  {typeof props.multiple === 'undefined' &&
                     <input
                       type="checkbox"
                       onChange={x => {

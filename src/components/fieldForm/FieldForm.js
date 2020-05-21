@@ -28,6 +28,47 @@ function FieldForm(props) {
           />
         }
 
+        {!props.readOnly && props.type === 'autocomplete' &&
+          <div className='w-100'>
+            <input
+              className={`field-container ${props.horizontal ? ' w-50' : 'w-100'}`}
+              type='text'
+              list='listOptions'
+              value={props.value}
+              onChange={(field) => {
+                if (props.onChangeValue) {
+                  props.onChangeValue(field.target.value)
+                }
+              }}
+            />
+            <datalist id='listOptions'>
+              {props.listElements && props.listElements.map((element, key) => {
+                return (
+                  <option value={key} value={element[props.field]} />
+                )
+              })}
+            </datalist>
+          </div>
+        }
+
+        {!props.readOnly && props.type === 'textArea' &&
+          <div className='w-100'>
+            <textarea
+              style={{ height: 140 }}
+              className={`field-container ${props.horizontal ? ' w-50' : 'w-100'}`}
+              value={props.value}
+              onChange={(field) => {
+                if (props.onChangeValue) {
+                  props.onChangeValue(field.target.value)
+                }
+              }}
+            />
+            <p>
+              {props.value ? props.value.length : 0} Caracteres
+            </p>
+          </div>
+        }
+
         {!props.readOnly && props.type === 'date' &&
           <input
             className={`field-container ${props.horizontal ? ' w-50' : 'w-100'}`}

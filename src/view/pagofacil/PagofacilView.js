@@ -1,18 +1,18 @@
-import moment from "moment";
+import moment from 'moment';
 import 'moment/locale/es';
-import React, { useEffect, useState } from "react";
-import { fetchPagofacilList, fetchActiveCommerce } from "../../business/PagofacilBusiness";
-import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { TableComponent } from "../../components/table/TableComponent";
-import { DetailPagoFacil } from "./DetailPagofacilView";
-import { Loading } from "../../components/loading/Loading";
+import React, { useEffect, useState } from 'react';
+import { fetchPagofacilList, fetchActiveCommerce } from '../../business/PagofacilBusiness';
+import { FieldForm } from '../../components/fieldForm/FieldForm';
+import { TableComponent } from '../../components/table/TableComponent';
+import { DetailPagoFacil } from './DetailPagofacilView';
+import { Loading } from '../../components/loading/Loading';
 
 function transformData(data, setIdOrdenPago, setOpenModal) {
   data.forEach(info => {
     let fechaTemp = new Date(info.fechaRegistro);
     info.fechaRegistro = moment(fechaTemp).locale('es').format('LLL');
-    info.estado = info.estado.toUpperCase() == 'CREATED' ? 'Registrado' : info.estado.toUpperCase() == 'COMPLETED' ? 'Pagado' : info.estado;
-    info.valor = '$ ' + info.valor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+    info.estado = info.estado.toUpperCase() === 'CREATED' ? 'Registrado' : info.estado.toUpperCase() === 'COMPLETED' ? 'Pagado' : info.estado;
+    info.valor = '$ ' + info.valor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
     info.option = {
       action: 'Detalle',
       event: (item) => showDetail(item, setIdOrdenPago, setOpenModal)
@@ -152,7 +152,7 @@ function PagoFacil(props) {
     getData();
   }, [])
 
-  let txAprobadas = listPagoFacil.filter(registro => registro.estado == 'Pagado');
+  let txAprobadas = listPagoFacil.filter(registro => registro.estado === 'Pagado');
   let amountAprobadas = 0;
   txAprobadas.forEach(registro => {
     amountAprobadas += Number(registro.valor.replace('$', '').split(',').join('').trim());
@@ -286,7 +286,7 @@ function PagoFacil(props) {
             horizontal={true}
             readOnly={true}
             customStyle='my-3'
-            value={'$ ' + amountAprobadas.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}
+            value={'$ ' + amountAprobadas.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}
           />
         </div>
       </div>
@@ -331,16 +331,16 @@ function PagoFacil(props) {
 
       <div className='row mt-4'>
         <TableComponent
-          styleCols="minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr)"
+          styleCols='minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr)'
           data={listPagoFacil}
           multiple={false}
           cols={[
-            { label: "Merchant Code", value: "merchantcode" },
-            { label: "Fecha y Hora", value: "fechaRegistro" },
-            { label: "Referencia", value: "secuenciaOrdenPago" },
-            { label: "Estado", value: "estado" },
-            { label: "Valor", value: "valor" },
-            { label: "", value: "option" }
+            { label: 'Merchant Code', value: 'merchantcode' },
+            { label: 'Fecha y Hora', value: 'fechaRegistro' },
+            { label: 'Referencia', value: 'secuenciaOrdenPago' },
+            { label: 'Estado', value: 'estado' },
+            { label: 'Valor', value: 'valor' },
+            { label: '', value: 'option' }
           ]}
         />
       </div>

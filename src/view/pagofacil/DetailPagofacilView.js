@@ -2,7 +2,7 @@ import 'moment/locale/es';
 import React, { useEffect, useState } from 'react';
 import { fetchPaymentResume, fetchTransactionPaymentResume, fetchTransactionResume } from '../../business/PagofacilBusiness';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
-import moment from "moment";
+import moment from 'moment';
 import 'moment/locale/es'
 
 function fetchTransactionData(idOrdenPago) {
@@ -97,7 +97,7 @@ function DetailPagoFacil(props) {
           histTx.secuencia = paymentData.secuencia;
           histTx.valor = paymentData.valor;
           histTx.codigoBanco = paymentData.codigoBanco;
-          if (paymentData.idComprador && paymentData.idComprador != '') {
+          if (paymentData.idComprador && paymentData.idComprador !== '') {
             let buyer = {
               id: paymentData.idComprador,
               name: paymentData.nombreCLiente,
@@ -144,7 +144,7 @@ function DetailPagoFacil(props) {
                   horizontal={true}
                   readOnly={true}
                   customStyle='my-3'
-                  value={infoDetail.value ? '$ ' + infoDetail.value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") : ''}
+                  value={infoDetail.value ? '$ ' + infoDetail.value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') : ''}
                 />
 
                 {infoDetail.estado &&
@@ -249,7 +249,7 @@ function DetailPagoFacil(props) {
                         </div>
 
                         <div className='col-3'>
-                          <div className={`my-2 modal-status-box ${detail.estado.toUpperCase() === 'CREATED' ? 'box-created' : detail.estado.toUpperCase() === 'COMPLETED' ? 'box-approve' : 'box-rejected'}`} >
+                          <div className={`my-2 modal-status-box ${infoDetail.estado.toUpperCase() === 'CREATED' ? 'box-created' : infoDetail.estado.toUpperCase() === 'COMPLETED' ? 'box-approve' : 'box-rejected'}`} >
                             {detail.estado.toUpperCase() === 'CREATED' ? 'Registrado' : infoDetail.estado.toUpperCase() === 'COMPLETED' ? 'Pagado' : 'Rechazada'}
                           </div>
                         </div>

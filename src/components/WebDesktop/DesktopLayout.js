@@ -26,6 +26,10 @@ class Layout extends React.Component {
           name: 'PagoFácil'
         },
         {
+          url: '/sendPush',
+          name: 'Enviar Notificaciones'
+        },
+        {
           url: '/verifyInfo',
           name: 'Verificar Registro'
         },

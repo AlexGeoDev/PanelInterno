@@ -1,5 +1,5 @@
-const BASE_URL = 'https://s.cajero.co/api';
-// const BASE_URL = 'http://192.168.10.11:8080/api';
+// const BASE_URL = 'https://s.cajero.co/api';
+const BASE_URL = 'http://192.168.10.11:8080/api';
 
 const fetchPagofacilList = async (merchantcode, sequence, bankCode, startDate, endDate) => {
   const url = `${BASE_URL}/panelinterno/fetchPays`;
@@ -189,6 +189,38 @@ const fetchInfoRegister = async (merchantCode) => {
   }
 };
 
+const sendPushNotification = async (message, merchantCode, email) => {
+  const url = `${BASE_URL}/push/sendmassivepush`;
+  const data = {};
+  data.body = {
+    typeMessage: message.typeMessage === 'TEXT' ? null : message.typeMessage,
+    body: message.body,
+    link: message.link,
+    urlImage: message.urlImage,
+    merchantCode,
+    email
+  };
+  data.header = {};
+  console.log('SEND PUSH ------> ', data);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -196,5 +228,6 @@ export {
   fetchTransactionPaymentResume,
   fetchPaymentResume,
   fetchDataInfo,
-  fetchInfoRegister
+  fetchInfoRegister,
+  sendPushNotification
 };

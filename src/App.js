@@ -13,6 +13,7 @@ import { Registros } from './view/clientes/Registros';
 import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
 import Activacion from './view/activacion/Activacion';
 import { VerifyInfo } from './view/verifyRegister/VeritfyRegister';
+import { PushNotification } from './view/pushNotification/PushNotificacionView';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -58,6 +59,13 @@ const routes =
       return {
         title: 'PagoFácil',
         view: <PagoFacil type={type} />,
+      };
+    }),
+    '/sendPush': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Enviar Notificaciones',
+        view: <PushNotification type={type} />,
       };
     }),
     '/verifyInfo': route(async req => {

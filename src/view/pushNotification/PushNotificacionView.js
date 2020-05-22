@@ -195,7 +195,7 @@ function PushNotification(props) {
             />
           </div>
 
-          <div className='col-lg-5 col-md-6 col-sm-12'>
+          <div className='col-lg-5 col-md-6 col-sm-12 d-none'>
             <FieldForm
               label='Email'
               value={email}
@@ -211,7 +211,7 @@ function PushNotification(props) {
             onClick={() => {
               if (notifyData.body === null || notifyData.body === '') {
                 alert('Se debe ingresar el mensaje de la notificación')
-              } else if (!massive && ((merchantCode == null || merchantCode == '') || (email == null || email == ''))) {
+              } else if (!massive && ((merchantCode == null || merchantCode == ''))) {
                 alert('Se debe especificar a que comercio se debe enviar la notificación')
               } else {
                 sendNotify()

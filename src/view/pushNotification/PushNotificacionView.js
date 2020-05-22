@@ -30,7 +30,7 @@ function PushNotification(props) {
   const [email, setEmail] = useState(null);
   const [notifyData, setNotifyData] = useState(notifyInit);
   const [imgAttachment, setImgAttachment] = useState(false);
-  const [massive, setMassive] = useState(true);
+  const [massive, setMassive] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const getData = () => {
@@ -187,7 +187,9 @@ function PushNotification(props) {
               label='MerchantCode'
               type='autocomplete'
               value={merchantCode}
-              onChangeValue={setMerchantCode}
+              onChangeValue={value => {
+                setMerchantCode(value)
+              }}
               listElements={listActiveMerchant}
               field='merchantcode'
             />

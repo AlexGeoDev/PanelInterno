@@ -58,6 +58,33 @@ const fetchActiveCommerce = async (startDate, endDate) => {
   }
 };
 
+const fetchCommerces = async (startDate, endDate) => {
+  const url = `${BASE_URL}/paymentorder/listgralmerchant`;
+  const data = {};
+  data.body = {
+    fechaInicio: startDate,
+    fechaFinal: endDate
+  };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
 const fetchTransactionResume = async (idPaymentOrder) => {
   const url = `${BASE_URL}/paymentorder/fetchbyid`;
   const data = {};
@@ -225,6 +252,7 @@ export {
   fetchPagofacilList,
   fetchActiveCommerce,
   fetchTransactionResume,
+  fetchCommerces,
   fetchTransactionPaymentResume,
   fetchPaymentResume,
   fetchDataInfo,

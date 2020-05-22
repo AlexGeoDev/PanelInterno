@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { fetchActiveCommerce, sendPushNotification } from '../../business/PagofacilBusiness';
+import { fetchCommerces, sendPushNotification } from '../../business/PagofacilBusiness';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 import { Loading } from '../../components/loading/Loading';
 
-function fetchActiveMerchant() {
+function fetchMerchants() {
   const promise = new Promise((resolve, reject) => {
-    let response = fetchActiveCommerce();
+    let response = fetchCommerces();
     response.then((data) => {
       if (data && data.body) {
         resolve(data.body);
@@ -37,7 +37,7 @@ function PushNotification(props) {
     setLoading(true);
 
     const promiseActiveMerchant = new Promise(async (resolve, reject) => {
-      let data = await fetchActiveMerchant();
+      let data = await fetchMerchants();
       if (data) {
         console.log(data);
 

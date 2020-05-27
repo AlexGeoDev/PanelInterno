@@ -157,6 +157,7 @@ function PagoFacil(props) {
   txAprobadas.forEach(registro => {
     amountAprobadas += Number(registro.valor.replace('$', '').split(',').join('').trim());
   });
+  amountAprobadas = amountAprobadas.toFixed(2);
 
   return (
     <React.Fragment>

@@ -121,8 +121,8 @@ function DetailPagoFacil(props) {
   return (
     <React.Fragment>
       <div className='modal-container'>
-        <div className='modal-box col-md-6 col-sm-12'>
-          <div className='modal-header px-0 justify-content-end'>
+        <div className='modal-box col-md-6 col-sm-12 px-0'>
+          <div className='modal-header px-0 justify-content-end px-2'>
             <button onClick={() => {
               if (props.onClose) {
                 props.onClose()
@@ -131,7 +131,7 @@ function DetailPagoFacil(props) {
               Cerrar
             </button>
           </div>
-          <div className='modal-content'>
+          <div className='modal-content px-4'>
             <div className='row mx-0'>
 
               <p className='col-12 px-0 modal-title mb-4'>
@@ -293,6 +293,8 @@ function DetailPagoFacil(props) {
             .modal-content{
               border: none !important;
               text-align:left;
+              max-height: 80vh;
+              overflow-y: auto;
             }
 
             .modal-content-children{

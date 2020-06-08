@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchCommerces, sendPushNotification } from '../../business/PagofacilBusiness';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 import { Loading } from '../../components/loading/Loading';
+import { ModalConfirm } from '../../components/modalConfirm/ModalConfirm';
 
 function fetchMerchants() {
   const promise = new Promise((resolve, reject) => {
@@ -26,12 +27,13 @@ function PushNotification(props) {
   }
 
   const [listActiveMerchant, setListActiveMerchant] = useState([]);
-  const [merchantCode, setMerchantCode] = useState(null);
+  const [merchantCode, setMerchantCode] = useState([]);
   const [email, setEmail] = useState(null);
   const [notifyData, setNotifyData] = useState(notifyInit);
   const [imgAttachment, setImgAttachment] = useState(false);
   const [massive, setMassive] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [confirmUser, setConfirmUser] = useState({ show: false });
 
   const getData = () => {
     setLoading(true);
@@ -39,8 +41,6 @@ function PushNotification(props) {
     const promiseActiveMerchant = new Promise(async (resolve, reject) => {
       let data = await fetchMerchants();
       if (data) {
-        console.log(data);
-
         setListActiveMerchant(data);
         resolve();
       } else {
@@ -59,9 +59,19 @@ function PushNotification(props) {
       if (response) {
         console.log(response);
         if (response.body) {
-          alert('Se ha enviado la notificación correctamente');
+          let confirm = {};
+          confirm.show = true;
+          confirm.title = 'Exito!';
+          confirm.message = 'Se ha enviado la notificación correctamente';
+          confirm.onAccept = closeConfirm;
+          setConfirmUser(confirm);
         } else {
-          alert('Se ha presentado un error al enviar la notificación');
+          let confirm = {};
+          confirm.show = true;
+          confirm.title = 'Error en el envio';
+          confirm.message = 'Se ha presentado un error al enviar la notificación';
+          confirm.onAccept = closeConfirm;
+          setConfirmUser(confirm);
         }
         resolve();
       }
@@ -74,10 +84,22 @@ function PushNotification(props) {
     getData();
   }, [])
 
+  let closeConfirm = () => {
+    setConfirmUser(false);
+  }
+
   return (
     <React.Fragment>
       {loading &&
         <Loading />
+      }
+
+      {confirmUser.show &&
+        <ModalConfirm
+          title={confirmUser.title}
+          message={confirmUser.message}
+          onAccept={confirmUser.onAccept}
+        />
       }
 
       <div className='row justify-content-center'>
@@ -186,21 +208,53 @@ function PushNotification(props) {
             <FieldForm
               label='MerchantCode'
               type='autocomplete'
-              value={merchantCode}
+              value=''
               onChangeValue={value => {
-                setMerchantCode(value)
+                let listPush = [...merchantCode];
+                if (listPush.indexOf(value) != -1) {
+                  listPush = listPush.filter(filter => filter !== value);
+                } else {
+                  listPush.push(value);
+                }
+                setMerchantCode(listPush)
               }}
               listElements={listActiveMerchant}
               field='merchantcode'
             />
           </div>
 
-          <div className='col-lg-5 col-md-6 col-sm-12 d-none'>
-            <FieldForm
-              label='Email'
-              value={email}
-              onChangeValue={setEmail}
-            />
+          <div className='col-10 mt-4'>
+            <div className='row justify-content-center'>
+              <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
+                <span className='font-bold'>
+                  MerchantCode
+                </span>
+              </div>
+              <div className='col-2 height-cell border d-flex justify-content-center align-items-center' />
+            </div>
+            {merchantCode.map((element, index) => {
+              return (
+                <div
+                  key={index}
+                  className='row justify-content-center'
+                >
+                  <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
+                    {element}
+                  </div>
+                  <div className='col-2 height-cell border d-flex justify-content-center align-items-center'>
+                    <button
+                      onClick={() => {
+                        let listPush = [...merchantCode];
+                        listPush = listPush.filter(filter => filter !== element);
+                        setMerchantCode(listPush)
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       }
@@ -210,9 +264,19 @@ function PushNotification(props) {
           <button
             onClick={() => {
               if (notifyData.body === null || notifyData.body === '') {
-                alert('Se debe ingresar el mensaje de la notificación')
-              } else if (!massive && ((merchantCode == null || merchantCode == ''))) {
-                alert('Se debe especificar a que comercio se debe enviar la notificación')
+                let confirm = {};
+                confirm.show = true;
+                confirm.title = 'Error';
+                confirm.message = 'Se debe ingresar el mensaje de la notificación';
+                confirm.onAccept = closeConfirm;
+                setConfirmUser(confirm);
+              } else if (!massive && (merchantCode.length === 0)) {
+                let confirm = {};
+                confirm.show = true;
+                confirm.title = 'Error';
+                confirm.message = 'Se debe especificar a que comercio se debe enviar la notificación';
+                confirm.onAccept = closeConfirm;
+                setConfirmUser(confirm);
               } else {
                 sendNotify()
               }

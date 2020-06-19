@@ -9,7 +9,16 @@ function fetchMerchants() {
     let response = fetchCommerces();
     response.then((data) => {
       if (data && data.body) {
-        resolve(data.body);
+        let listData = [];
+        for (let index in data.body) {
+          let element = data.body[index];
+          let merchantInfo = {
+            value: element.merchantcode,
+            label: element.merchantcode
+          }
+          listData.push(merchantInfo);
+        }
+        resolve(listData);
       } else {
         resolve([]);
       }
@@ -207,7 +216,7 @@ function PushNotification(props) {
           <div className='col-lg-5 col-md-6 col-sm-12'>
             <FieldForm
               label='MerchantCode'
-              type='autocomplete'
+              type='select'
               value=''
               onChangeValue={value => {
                 let listPush = [...merchantCode];
@@ -219,7 +228,6 @@ function PushNotification(props) {
                 setMerchantCode(listPush)
               }}
               listElements={listActiveMerchant}
-              field='merchantcode'
             />
           </div>
 

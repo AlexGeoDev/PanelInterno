@@ -50,7 +50,8 @@ function fetchPaymentData(idOrdenPago) {
 function transformdate(dateTransform) {
   if (dateTransform) {
     let fechaTemp = new Date(dateTransform);
-    return moment(fechaTemp).locale('es').format('DD/MM/yyyy')
+    let aux = moment(fechaTemp).locale('es').format('LLL');
+    return aux;
   } else {
     return null;
   }

@@ -3,6 +3,8 @@ import { fetchCommerces, sendPushNotification } from '../../business/PagofacilBu
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 import { Loading } from '../../components/loading/Loading';
 import { ModalConfirm } from '../../components/modalConfirm/ModalConfirm';
+import { CSVReader } from 'react-papaparse';
+import { ModalConfirmList } from '../../components/modalConfirm/ModalConfirmList';
 
 function fetchMerchants() {
   const promise = new Promise((resolve, reject) => {
@@ -36,6 +38,8 @@ function PushNotification(props) {
   }
 
   const [listActiveMerchant, setListActiveMerchant] = useState([]);
+  const [merchantError, setMerchantError] = useState([]);
+  const [modalError, setModalError] = useState(false);
   const [merchantCode, setMerchantCode] = useState([]);
   const [email, setEmail] = useState(null);
   const [notifyData, setNotifyData] = useState(notifyInit);
@@ -97,6 +101,32 @@ function PushNotification(props) {
     setConfirmUser(false);
   }
 
+  let handleOnDrop = (data) => {
+    let listMerch = [];
+    let listError = [];
+    data.map((element) => {
+      let merchAux = element.data[0];
+      if (merchAux.trim() !== '') {
+        if (listActiveMerchant.findIndex(merchant => merchant.value === merchAux) != -1) {
+          listMerch.push(merchAux);
+        } else {
+          listError.push(merchAux);
+        }
+      }
+    });
+    debugger
+    setMerchantCode(listMerch);
+    setMerchantError(listError);
+    if (listError.length > 0) {
+      setModalError(true)
+    }
+  }
+
+  let handleOnRemoveFile = (data) => {
+    setMerchantCode([]);
+    setMerchantError([]);
+  }
+
   return (
     <React.Fragment>
       {loading &&
@@ -109,6 +139,30 @@ function PushNotification(props) {
           message={confirmUser.message}
           onAccept={confirmUser.onAccept}
         />
+      }
+
+      {modalError &&
+        <ModalConfirmList
+          title='Merchant no Encontrados'
+          onAccept={() => {
+            setModalError(false);
+          }}
+        >
+          {merchantError.map((element, index) => {
+            return (
+              <div
+                key={index}
+                className='row justify-content-center'
+              >
+                <div
+                  className='col-4 height-cell border d-flex justify-content-center align-items-center'
+                >
+                  {element}
+                </div>
+              </div>
+            )
+          })}
+        </ModalConfirmList>
       }
 
       <div className='row justify-content-center'>
@@ -206,65 +260,82 @@ function PushNotification(props) {
       </div>
 
       {!massive &&
-        <div className='row mt-3 justify-content-center'>
-          <div className='col-12'>
-            <h5>
-              Enviar A:
-          </h5>
-          </div>
-
-          <div className='col-lg-5 col-md-6 col-sm-12'>
-            <FieldForm
-              label='MerchantCode'
-              type='select'
-              value=''
-              onChangeValue={value => {
-                let listPush = [...merchantCode];
-                if (listPush.indexOf(value) != -1) {
-                  listPush = listPush.filter(filter => filter !== value);
-                } else {
-                  listPush.push(value);
-                }
-                setMerchantCode(listPush)
-              }}
-              listElements={listActiveMerchant}
-            />
-          </div>
-
-          <div className='col-10 mt-4'>
-            <div className='row justify-content-center'>
-              <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
-                <span className='font-bold'>
-                  MerchantCode
-                </span>
-              </div>
-              <div className='col-2 height-cell border d-flex justify-content-center align-items-center' />
+        <>
+          <div className='row mt-3 justify-content-center'>
+            <div className='col-12'>
+              <h5>
+                Enviar A:
+            </h5>
             </div>
-            {merchantCode.map((element, index) => {
-              return (
-                <div
-                  key={index}
-                  className='row justify-content-center'
-                >
-                  <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
-                    {element}
-                  </div>
-                  <div className='col-2 height-cell border d-flex justify-content-center align-items-center'>
-                    <button
-                      onClick={() => {
-                        let listPush = [...merchantCode];
-                        listPush = listPush.filter(filter => filter !== element);
-                        setMerchantCode(listPush)
-                      }}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
+
+            <div className='col-lg-5 col-md-6 col-sm-12'>
+              <FieldForm
+                label='MerchantCode'
+                type='select'
+                value=''
+                onChangeValue={value => {
+                  let listPush = [...merchantCode];
+                  if (listPush.indexOf(value) != -1) {
+                    listPush = listPush.filter(filter => filter !== value);
+                  } else {
+                    listPush.push(value);
+                  }
+                  setMerchantCode(listPush)
+                }}
+                listElements={listActiveMerchant}
+              />
+            </div>
           </div>
-        </div>
+
+          <div className='row mt-3 justify-content-center'>
+            <div className='col-md-5 col-sm-12 mt-4'>
+              <CSVReader
+                onDrop={handleOnDrop}
+                noClick
+                addRemoveButton
+                onRemoveFile={handleOnRemoveFile}
+              >
+                <span>Suelta un archivo CSV aqui para cargarlo.</span>
+              </CSVReader>
+            </div>
+          </div>
+
+          <div className='row mt-3 justify-content-center'>
+            <div className='col-10 mt-4'>
+              <div className='row justify-content-center'>
+                <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
+                  <span className='font-bold'>
+                    MerchantCode
+                </span>
+                </div>
+                <div className='col-2 height-cell border d-flex justify-content-center align-items-center' />
+              </div>
+              {merchantCode.map((element, index) => {
+                return (
+                  <div
+                    key={index}
+                    className='row justify-content-center'
+                  >
+                    <div className='col-4 height-cell border d-flex justify-content-center align-items-center'>
+                      {element}
+                    </div>
+                    <div className='col-2 height-cell border d-flex justify-content-center align-items-center'>
+                      <button
+                        onClick={() => {
+                          let listPush = [...merchantCode];
+                          listPush = listPush.filter(filter => filter !== element);
+                          setMerchantCode(listPush)
+                        }}
+                      >
+                        Eliminar
+                    </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </>
       }
 
       <div className='row'>
@@ -294,7 +365,7 @@ function PushNotification(props) {
           </button>
         </div>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 

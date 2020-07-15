@@ -119,6 +119,8 @@ function DetailPagoFacil(props) {
     getData();
   }, [])
 
+  console.log("INFO HIST!!!!!!!!!!!!!", infoDetail.hist);
+
   return (
     <React.Fragment>
       <div className='modal-container'>
@@ -250,8 +252,8 @@ function DetailPagoFacil(props) {
                         </div>
 
                         <div className='col-3'>
-                          <div className={`my-2 modal-status-box ${infoDetail.estado.toUpperCase() === 'CREATED' ? 'box-created' : infoDetail.estado.toUpperCase() === 'COMPLETED' ? 'box-approve' : 'box-rejected'}`} >
-                            {detail.estado.toUpperCase() === 'CREATED' ? 'Registrado' : infoDetail.estado.toUpperCase() === 'COMPLETED' ? 'Pagado' : 'Rechazada'}
+                          <div className={`my-2 modal-status-box ${detail.estado.toUpperCase() === 'PAGADO' ? 'box-approve' : 'box-rejected'}`} >
+                            {detail.estado.toUpperCase() === 'PAGADO' ? 'Pagado' : 'Rechazado'}
                           </div>
                         </div>
                       </div>

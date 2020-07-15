@@ -128,7 +128,32 @@ function PagoFacil(props) {
     const promiseData = new Promise(async (resolve, reject) => {
       let data = await fetchData(merchantCode, sequence, bankCode, dateFilters, setIdOrdenPago, setOpenModal);
       if (data) {
-        setListPagoFacil(data);
+        let dataFiltred = [];
+        for (let i in data) {
+          let element = data[i];
+          if (dataFiltred.length === 0) {
+            dataFiltred.push(element);
+          } else {
+            let indexAlmacenado = dataFiltred.findIndex(dat => dat.secuenciaOrdenPago === element.secuenciaOrdenPago);
+            let elementAlmacenado = dataFiltred[indexAlmacenado];
+            if (typeof elementAlmacenado === 'undefined') {
+              dataFiltred.push(element);
+            } else {
+              if (elementAlmacenado.estado !== element.estado) {
+                if (elementAlmacenado.estado !== 'Pagado') {
+                  if (element.estado === 'Pagado') {
+                    dataFiltred[indexAlmacenado] = element;
+                  } else if (element.estado === 'ERROR') {
+                    dataFiltred[indexAlmacenado] = element;
+                  }
+                } else if (elementAlmacenado.estado === 'ERROR' && element.estado === 'Pagado') {
+                  dataFiltred[indexAlmacenado] = element;
+                }
+              }
+            }
+          }
+        }
+        setListPagoFacil(dataFiltred);
         resolve();
       } else {
         resolve();

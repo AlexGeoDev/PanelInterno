@@ -39,5 +39,4 @@ class AccountBusiness {
     return promise;
   }
 }
-
 export default AccountBusiness;

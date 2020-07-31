@@ -35,7 +35,7 @@ keycloak.init({ onLoad: 'login-required' }).success((auth) => {
   console.log('proyecto iniciado');
   ReactDOM.render(<App />, document.getElementById('root'));
 
-  refreshToken();
+  // refreshToken();
 });
 
 serviceWorker.unregister();

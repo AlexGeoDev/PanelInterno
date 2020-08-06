@@ -2,7 +2,7 @@ const BASE_URL = 'https://s.cajero.co/api';
 // const BASE_URL = 'http://192.168.10.18:8080/api';
 
 const validateRegisterUser = (email, merchant) => {
-    const url = `${BASE_URL}/login/validateuserregister`;
+    const url = `${BASE_URL}/login/fetchdataregister`;
     let data = null;
     if (email != null && email != '') {
         data = { body: { email }, header: {} };

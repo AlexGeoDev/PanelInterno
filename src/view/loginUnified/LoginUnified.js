@@ -31,7 +31,8 @@ function LoginUnified(props) {
     let response = validateRegisterUser(infoValidation.email, infoValidation.merchant);
     response.then((value) => {
       value.json().then(data => {
-        if (!data.body) {
+        let error = data.header.codigoError;
+        if (error && error === 'CREDENTIALS_NOT_FOUND') {
           let infoTemp = { ...infoUpdate };
           infoTemp.showUpdate = true;
 
@@ -45,14 +46,39 @@ function LoginUnified(props) {
             infoTemp.isEmail = true;
             fetchDataEmail(infoTemp);
           }
-
+        } else if (error && error !== 'CREDENTIALS_NOT_FOUND') {
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'Error';
+          infoModal.message = 'Se ha presentado un error validando la informacion del usuario';
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+          }
+          setConfirmInfo(infoModal);
         } else {
+          let reset = {
+            showUpdate: false,
+            isEmail: false,
+            email: '',
+            merchant: '',
+            operator: '',
+            pin: '1234',
+            rol: '',
+            pass: ''
+          }
+          setInfoUpdate(reset);
+
+
           let usuario = infoValidation.email ? infoValidation.email : infoValidation.merchant;
+          let merchant = data.body.merchant;
+          let operator = data.body.operator;
 
           let infoModal = { ...confirmInfo };
           infoModal.showModal = true;
           infoModal.title = 'Usuario Registrado';
-          infoModal.message = 'El usuario ' + usuario + ' ya se encuentra registrado con el nuevo login';
+          infoModal.message = 'El usuario ' + usuario + ' ya se encuentra registrado al MerchantCode ' + merchant + ' y OperadorCode: ' + operator;
           infoModal.onAccept = () => {
             let infoCerrar = { ...confirmInfo };
             infoCerrar.showModal = false;
@@ -67,12 +93,33 @@ function LoginUnified(props) {
   }
 
   let fetchDataEmail = (infoTemp) => {
+    let info = infoTemp;
     let response = fetchDataByEmail(infoTemp.email);
     response.then((value) => {
       value.json().then(data => {
-        infoTemp.merchant = data.body.merchantCode;
-        infoTemp.operator = data.body.operatorCode;
-        setInfoUpdate(infoTemp);
+        if (data.body == null) {
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'El usuario no esta registrado';
+          infoModal.message = 'El correo ' + info.email + ' no esta registrado, debe ser registrado a continuacion';
+
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+          }
+          setConfirmInfo(infoModal);
+
+
+          let infoTemp = { ...infoUpdate };
+          infoTemp.email = info.email;
+          infoTemp.showUpdate = true;
+          setInfoUpdate(infoTemp);
+        } else {
+          infoTemp.merchant = data.body.merchantCode;
+          infoTemp.operator = data.body.operatorCode;
+          setInfoUpdate(infoTemp);
+        }
       })
     }).catch((err) => {
       console.log(err);
@@ -184,7 +231,7 @@ function LoginUnified(props) {
           />
         </div>
 
-        <div className='col-5'>
+        <div className='col-5 d-none'>
           <FieldForm
             label='MerchantCode'
             value={infoValidation.merchant}
@@ -224,7 +271,6 @@ function LoginUnified(props) {
             <FieldForm
               label='MerchantCode'
               value={infoUpdate.merchant}
-              readOnlyField={true}
               onChangeValue={(value) => {
                 let infoAux = { ...infoUpdate };
                 infoAux.merchant = value;

@@ -38,6 +38,10 @@ class Layout extends React.Component {
           name: 'Registro Login'
         },
         {
+          url: '/setAdminUser',
+          name: 'Asignar Administrador'
+        },
+        {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
         },

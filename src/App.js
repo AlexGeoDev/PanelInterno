@@ -15,6 +15,7 @@ import Activacion from './view/activacion/Activacion';
 import { VerifyInfo } from './view/verifyRegister/VeritfyRegister';
 import { PushNotification } from './view/pushNotification/PushNotificacionView';
 import { LoginUnified } from './view/loginUnified/LoginUnified';
+import { RegisterAdmin } from './view/loginUnified/registerAdmin';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -81,6 +82,13 @@ const routes =
       return {
         title: 'Login Unificado',
         view: <LoginUnified type={type} />,
+      };
+    }),
+    '/setAdminUser': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Login Unificado',
+        view: <RegisterAdmin type={type} />,
       };
     })
   })

@@ -75,8 +75,33 @@ const updateUserApp = async (email, merchant, operator, pin, rol, pass) => {
     })
 };
 
+const registerAdmonService = async (email) => {
+    const url = `${BASE_URL}/login/registeradmon`;
+    const data = {
+        header: {},
+        body: { email }
+    };
+
+    return new Promise((resolve, reject) => {
+        try {
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response);
+        } catch (e) {
+            console.log('error en peticion', e);
+            reject(e);
+        }
+    })
+};
+
 export {
     validateRegisterUser,
     fetchDataByEmail,
-    updateUserApp
+    updateUserApp,
+    registerAdmonService
 };

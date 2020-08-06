@@ -14,6 +14,7 @@ import ReporteRetenciones from './view/retenciones/ReporteRetenciones';
 import Activacion from './view/activacion/Activacion';
 import { VerifyInfo } from './view/verifyRegister/VeritfyRegister';
 import { PushNotification } from './view/pushNotification/PushNotificacionView';
+import { LoginUnified } from './view/loginUnified/LoginUnified';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -73,6 +74,13 @@ const routes =
       return {
         title: 'Verificar Info',
         view: <VerifyInfo type={type} />,
+      };
+    }),
+    '/unifiedLogin': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Login Unificado',
+        view: <LoginUnified type={type} />,
       };
     })
   })

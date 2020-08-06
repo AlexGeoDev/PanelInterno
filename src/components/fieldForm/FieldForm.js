@@ -19,6 +19,7 @@ function FieldForm(props) {
           <input
             className={`field-container ${props.horizontal ? ' w-50' : 'w-100'}`}
             type='text'
+            readOnly={props.readOnlyField}
             value={props.value}
             onChange={(field) => {
               if (props.onChangeValue) {

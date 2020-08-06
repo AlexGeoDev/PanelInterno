@@ -34,6 +34,10 @@ class Layout extends React.Component {
           name: 'Verificar Registro'
         },
         {
+          url: '/unifiedLogin',
+          name: 'Registro Login'
+        },
+        {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
         },

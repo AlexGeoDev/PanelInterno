@@ -28,7 +28,8 @@ function LoginUnified(props) {
   });
 
   let validateExists = () => {
-    let response = validateRegisterUser(infoValidation.email, infoValidation.merchant);
+    let email = infoValidation.email.trim().toLowerCase();
+    let response = validateRegisterUser(email, infoValidation.merchant);
     response.then((value) => {
       value.json().then(data => {
         let error = data.header.codigoError;
@@ -42,7 +43,7 @@ function LoginUnified(props) {
           }
 
           if (infoValidation.email != null && infoValidation.email != '') {
-            infoTemp.email = infoValidation.email;
+            infoTemp.email = email;
             infoTemp.isEmail = true;
             fetchDataEmail(infoTemp);
           }
@@ -94,7 +95,9 @@ function LoginUnified(props) {
 
   let fetchDataEmail = (infoTemp) => {
     let info = infoTemp;
-    let response = fetchDataByEmail(infoTemp.email);
+    let email = infoTemp.email.trim().toLowerCase();
+
+    let response = fetchDataByEmail(email);
     response.then((value) => {
       value.json().then(data => {
         if (data.body == null) {
@@ -112,7 +115,7 @@ function LoginUnified(props) {
 
 
           let infoTemp = { ...infoUpdate };
-          infoTemp.email = info.email;
+          infoTemp.email = email;
           infoTemp.showUpdate = true;
           setInfoUpdate(infoTemp);
         } else {
@@ -127,7 +130,8 @@ function LoginUnified(props) {
   }
 
   let updateUser = () => {
-    let response = updateUserApp(infoUpdate.email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234');
+    let email = infoUpdate.email.trim().toLowerCase();
+    let response = updateUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234');
     response.then((value) => {
       value.json().then(data => {
         let title = null;

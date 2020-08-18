@@ -1,53 +1,58 @@
-import React, { useState } from "react";
-import { fetchDataInfo, fetchInfoRegister } from "../../business/PagofacilBusiness";
-import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { TableComponent } from "../../components/table/TableComponent";
-
-function fetchData(email, serial) {
-  const promise = new Promise((resolve, reject) => {
-    let response = fetchDataInfo(email, serial)
-    response.then((data) => {
-      if (data && data.body) {
-        let resultData = data.body;
-        let responseRegister = fetchInfoRegister(resultData.merchantCode)
-        responseRegister.then((infoRegister) => {
-          if (infoRegister && infoRegister.body) {
-            resultData.listInfo = infoRegister.body;
-            resolve(resultData);
-          } else {
-            resolve();
-          }
-        })
-      } else {
-        alert('Para los filtros ingresados no se encontraron datos')
-        resolve();
-      }
-    })
-  })
-  return promise;
-}
+import React, { useState } from 'react';
+import { fetchDataInfo, fetchInfoRegister } from '../../business/PagofacilBusiness';
+import { FieldForm } from '../../components/fieldForm/FieldForm';
+import { ModalConfirm } from '../../components/modalConfirm/ModalConfirm';
 
 function VerifyInfo(props) {
-  const [info, setInfo] = useState({});
-  const [email, setEmail] = useState();
-  const [serial, setSerial] = useState();
+  const [merchantCode, setMerchantCode] = useState();
+  const [info, setInfo] = useState([]);
+  const [confirmInfo, setConfirmInfo] = useState({
+    showModal: false,
+    title: '',
+    message: '',
+    onAccept: null
+  });
+
+  let fetchData = (email, serial) => {
+    const promise = new Promise((resolve, reject) => {
+      let response = fetchDataInfo(email, serial)
+      response.then((data) => {
+        if (data && data.body) {
+          resolve(data.body);
+        } else {
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'Error';
+          infoModal.message = 'Para los filtros ingresados no se encontraron datos';
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+          }
+          setConfirmInfo(infoModal);
+          resolve();
+        }
+      })
+    })
+    return promise;
+  }
 
   return (
     <React.Fragment>
+      {confirmInfo.showModal &&
+        <ModalConfirm
+          title={confirmInfo.title}
+          message={confirmInfo.message}
+          onAccept={confirmInfo.onAccept}
+        />
+      }
+
       <div className='row justify-content-center'>
         <div className='col-lg-5 col-md-6 col-sm-12'>
           <FieldForm
-            label='Correo'
-            value={email}
-            onChangeValue={setEmail}
-          />
-        </div>
-
-        <div className='col-lg-5 col-md-6 col-sm-12'>
-          <FieldForm
-            label='Serial'
-            value={serial}
-            onChangeValue={setSerial}
+            label='MerchantCode'
+            value={merchantCode}
+            onChangeValue={setMerchantCode}
           />
         </div>
       </div>
@@ -56,93 +61,81 @@ function VerifyInfo(props) {
         <div className='col-12 mt-4'>
           <button
             onClick={async () => {
-              let data = await fetchData(email, serial);
-              if (data) {
-                setInfo(data);
-              }
+              let data = await fetchData(merchantCode);
+              setInfo(data);
             }}
           >
-            Filtrar
+            Consultar
           </button>
         </div>
       </div>
 
-      {info.merchantCode &&
-        <>
-          <div className='row flex-column align-items-center mt-4'>
-            <div className='col-6'>
-              <FieldForm
-                label='Merchant Code'
-                readOnly={true}
-                horizontal={true}
-                customStyle='my-3'
-                value={info.merchantCode}
-              />
+      {info && info.length > 0 &&
+        <div className='row justify-content-center align-items-center mt-4'>
+          <div className='col-10'>
+            <p className='px-0 modal-subtitle'>
+              Información
+            </p>
+            <div
+              className='d-flex justify-content-center'
+            >
+              <div
+                style={{ display: 'table' }}
+              >
+                <div
+                  className='table-header'
+                >
+                  <div
+                    className='table-cell'
+                  >
+                    Correo
+                </div>
 
-              <FieldForm
-                label='Operator Code'
-                readOnly={true}
-                horizontal={true}
-                customStyle='my-3'
-                value={info.operatorCode}
-              />
+                  <div
+                    className='table-cell'
+                  >
+                    Rol
+                </div>
 
-              <FieldForm
-                label='Categoria'
-                readOnly={true}
-                horizontal={true}
-                customStyle='my-3'
-                value={info.categoria}
-              />
+                  <div
+                    className='table-cell'
+                  >
+                    OperatorCode
+                </div>
+                </div>
 
-              <FieldForm
-                label='Nombre'
-                readOnly={true}
-                horizontal={true}
-                customStyle='my-3'
-                value={info.nombre}
-              />
-            </div>
-          </div>
-
-          <div className='row align-items-start mt-4'>
-            <div className='col-6'>
-              <p className='px-0 modal-subtitle'>
-                Dispositivos
-              </p>
-              {info.listInfo &&
-                info.listInfo.map(device => {
-                  if ((!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(device.dispositivo))) {
+                {
+                  info.map((element, key) => {
                     return (
-                      <div>
-                        {device.dispositivo}
+                      <div
+                        key={key}
+                        style={{ display: 'table-row' }}
+                      >
+                        <div
+                          className='table-cell'
+                        >
+                          {element.email}
+                        </div>
+
+                        <div
+                          className='table-cell'
+                        >
+                          {element.rol}
+                        </div>
+
+                        <div
+                          className='table-cell'
+                        >
+                          {element.operator}
+                        </div>
                       </div>
                     )
-                  }
-
-                })
-              }
-            </div>
-
-            <div className='col-6'>
-              <p className='px-0 modal-subtitle'>
-                Correos
-              </p>
-              {info.listInfo &&
-                info.listInfo.map(device => {
-                  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(device.dispositivo)) {
-                    return (
-                      <div>
-                        {device.dispositivo}
-                      </div>
-                    )
-                  }
-
-                })
-              }
+                  })
+                }
+              </div>
             </div>
           </div>
-        </>
+        </div>
       }
     </React.Fragment>
   )

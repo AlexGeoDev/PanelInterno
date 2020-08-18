@@ -49,13 +49,6 @@ const routes =
         view: <ReporteRetenciones />,
       };
     }),
-    '/activar-cliente': route(async req => {
-      let { type } = req.params;
-      return {
-        title: 'Activar Cliente',
-        view: <Activacion />
-      };
-    }),
     '/listPagoFacil': route(async req => {
       let { type } = req.params;
       return {

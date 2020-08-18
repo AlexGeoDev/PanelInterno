@@ -44,10 +44,6 @@ class Layout extends React.Component {
         {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
-        },
-        {
-          url: '/activar-cliente',
-          name: 'Activar Cliente'
         }
       ]
     };

@@ -104,7 +104,7 @@ function LoginUnified(props) {
           let infoModal = { ...confirmInfo };
           infoModal.showModal = true;
           infoModal.title = 'El usuario no esta registrado';
-          infoModal.message = 'El correo ' + info.email + ' no esta registrado, debe ser registrado a continuacion';
+          infoModal.message = 'El correo ' + info.email + ' no esta registrado, debe ser registrado a continuación';
 
           infoModal.onAccept = () => {
             let infoCerrar = { ...confirmInfo };
@@ -119,6 +119,18 @@ function LoginUnified(props) {
           infoTemp.showUpdate = true;
           setInfoUpdate(infoTemp);
         } else {
+
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'Registro';
+          infoModal.message = 'A continuación se carga la información encontrada en base de datos, por favor complete el registro.';
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+          }
+          setConfirmInfo(infoModal);
+
           infoTemp.merchant = data.body.merchantCode;
           infoTemp.operator = data.body.operatorCode;
           setInfoUpdate(infoTemp);

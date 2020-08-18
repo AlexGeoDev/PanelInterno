@@ -163,12 +163,11 @@ const fetchPaymentResume = async (idPaymentOrder) => {
   }
 };
 
-const fetchDataInfo = async (email, serial) => {
-  const url = `${BASE_URL}/login/fetchdatabydevice`;
+const fetchDataInfo = async (merchant) => {
+  const url = `${BASE_URL}/login/listemailmerchant`;
   const data = {};
   data.body = {
-    correo: email,
-    serialCajero: serial
+    merchant
   };
   data.header = {};
 

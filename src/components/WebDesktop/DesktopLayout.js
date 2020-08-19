@@ -39,7 +39,7 @@ class Layout extends React.Component {
         },
         {
           url: '/setAdminUser',
-          name: 'Asignar Administrador'
+          name: 'Asignar Administrador/Operador'
         },
         {
           url: '/reporte-retenciones',

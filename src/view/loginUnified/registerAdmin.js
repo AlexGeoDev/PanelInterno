@@ -15,15 +15,15 @@ function RegisterAdmin(props) {
     onAccept: null
   });
 
-  let registerAdmon = () => {
-    let response = registerAdmonService(infoAdmin.email);
+  let registerAdmon = (admin) => {
+    let response = registerAdmonService(infoAdmin.email, admin);
     response.then((value) => {
       value.json().then(data => {
         let title = null;
         let message = null;
         if (data.body && data.body === true) {
-          title = 'Usuario ha sigo asignado como Administrador';
-          message = 'El usuario ' + infoAdmin.email + ' se ha registrado exitosamente como administrador';
+          title = 'Usuario ha sigo asignado como ' + (admin ? 'administrador' : 'operador');
+          message = 'El usuario ' + infoAdmin.email + ' se ha registrado exitosamente como ' + (admin ? 'administrador' : 'operador');
         } else {
           title = 'Error en el registro';
 
@@ -85,13 +85,27 @@ function RegisterAdmin(props) {
         </div>
       </div>
 
-      <button
-        onClick={() => {
-          registerAdmon();
-        }}
+      <div
+        className='d-flex justify-content-center'
       >
-        Registrar como Administrador
+        <button
+          className='mx-2'
+          onClick={() => {
+            registerAdmon(true);
+          }}
+        >
+          Asignar como Administrador
       </button>
+
+        <button
+          className='mx-2'
+          onClick={() => {
+            registerAdmon(false);
+          }}
+        >
+          Asignar como Operador
+      </button>
+      </div>
     </div>
   )
 }

@@ -75,11 +75,11 @@ const updateUserApp = async (email, merchant, operator, pin, rol, pass) => {
     })
 };
 
-const registerAdmonService = async (email) => {
+const registerAdmonService = async (email, admin) => {
     const url = `${BASE_URL}/login/registeradmon`;
     const data = {
         header: {},
-        body: { email }
+        body: { email, admin }
     };
 
     return new Promise((resolve, reject) => {

@@ -223,6 +223,8 @@ const sendPushNotification = async (message, merchantCode, email) => {
     body: message.body,
     link: message.link,
     urlImage: message.urlImage,
+    title: message.title,
+    sound: message.sound,
     merchantCode,
     email
   };

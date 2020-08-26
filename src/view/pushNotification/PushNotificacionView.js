@@ -31,6 +31,8 @@ function fetchMerchants() {
 
 function PushNotification(props) {
   let notifyInit = {
+    title: null,
+    sound: false,
     typeMessage: 'TEXT',
     body: null,
     link: null,
@@ -187,7 +189,7 @@ function PushNotification(props) {
         <div className='col-md-5 col-sm-12'>
           {notifyData.typeMessage === 'LINK' &&
             <FieldForm
-              label='Link a Enviar'
+              label='Link a Enviar (Solo Android)'
               customStyle='my-3'
               value={notifyData.link}
               onChangeValue={(link) => {
@@ -197,6 +199,40 @@ function PushNotification(props) {
               }}
             />
           }
+        </div>
+      </div>
+
+      <div className='row justify-content-center'>
+        <div className='col-lg-5 col-md-6 col-sm-12'>
+          <FieldForm
+            label='Titulo notificación (iOS)'
+            customStyle='my-3'
+            value={notifyData.title || ''}
+            onChangeValue={(title) => {
+              let data = { ...notifyData };
+              data.title = title;
+              setNotifyData(data);
+            }}
+          />
+        </div>
+
+        <div className='col-lg-5 col-md-6 col-sm-12 d-flex align-items-center justify-content-center'>
+          <div className=''>
+            <label className='mb-0 mr-2 font-bold'>
+              Notificación con sonido (iOS)
+            </label>
+            <input
+              type='checkbox'
+              checked={notifyData.sound}
+              onChange={(e) => {
+                console.log('ISISIS')
+                let data = { ...notifyData };
+                data.sound = e.target.checked;
+                console.log(data)
+                setNotifyData(data);
+              }}
+            />
+          </div>
         </div>
       </div>
 

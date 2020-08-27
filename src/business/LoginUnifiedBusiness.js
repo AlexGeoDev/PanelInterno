@@ -27,6 +27,66 @@ const validateRegisterUser = (email, merchant) => {
     })
 };
 
+const fetchCredentials = (usuario) => {
+    const url = `${BASE_URL}/login/fetchcredentialsapp`;
+    let data = { body: { usuario }, header: {} };
+    return new Promise((resolve, reject) => {
+        try {
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response);
+        } catch (e) {
+            console.log('error en peticion login', e);
+            reject(e);
+        }
+    })
+};
+
+const validateCyclos = (merchant) => {
+    const url = `${BASE_URL}/login/fetchmerchantstatus`;
+    let data = { body: { merchant }, header: {} };
+    return new Promise((resolve, reject) => {
+        try {
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response);
+        } catch (e) {
+            console.log('error en peticion login', e);
+            reject(e);
+        }
+    })
+};
+
+const validateSp = async (dataFetch) => {
+    const url = `${BASE_URL}/login/loginstatussp`;
+    let data = { body: dataFetch, header: {} };
+    return new Promise((resolve, reject) => {
+        try {
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response);
+        } catch (e) {
+            console.log('error en peticion login', e);
+            reject(e);
+        }
+    })
+};
+
 const fetchDataByEmail = async (correo) => {
     const url = `${BASE_URL}/login/fetchdatabydevice`;
     const data = {
@@ -51,11 +111,11 @@ const fetchDataByEmail = async (correo) => {
     })
 };
 
-const updateUserApp = async (email, merchant, operator, pin, rol, pass) => {
+const updateUserApp = async (email, merchant, operator, pin, rol, pass, admin) => {
     const url = `${BASE_URL}/login/updateuserapp`;
     const data = {
         header: {},
-        body: { email, merchant, operator, pin, rol, pass }
+        body: { email, merchant, operator, pin, rol, pass, admin }
     };
 
     return new Promise((resolve, reject) => {
@@ -103,5 +163,8 @@ export {
     validateRegisterUser,
     fetchDataByEmail,
     updateUserApp,
-    registerAdmonService
+    registerAdmonService,
+    fetchCredentials,
+    validateCyclos,
+    validateSp
 };

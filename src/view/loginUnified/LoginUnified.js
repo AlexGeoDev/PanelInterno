@@ -1,9 +1,35 @@
 import React, { useState } from "react";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { validateRegisterUser, fetchDataByEmail, updateUserApp } from "../../business/LoginUnifiedBusiness";
+import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp } from "../../business/LoginUnifiedBusiness";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
+import TabComponent from "../../components/tabsComponent";
 
 function LoginUnified(props) {
+  const [currentView, setCurrentView] = React.useState(1);
+  const [listElement] = React.useState([
+    {
+      label: 'Validar Registro',
+      active: 1,
+      onAction: () => setCurrentView(1)
+    },
+    {
+      label: 'Validar Credenciales',
+      active: 2,
+      onAction: () => setCurrentView(2)
+    }
+  ]);
+
+  const [infoCredentials, setInfoCredentials] = React.useState(
+    {
+      spCredentials: false,
+      spError: null,
+      cyclosCredentials: false,
+      cyclosError: null,
+      showData: false,
+      isAdmin: false
+    }
+  );
+
   const [confirmInfo, setConfirmInfo] = useState({
     showModal: false,
     title: '',
@@ -24,8 +50,83 @@ function LoginUnified(props) {
     operator: '',
     pin: '1234',
     rol: '',
-    pass: ''
+    pass: '',
+    admin: false
   });
+
+  let validateCredentials = () => {
+    let email = infoValidation.email.trim().toLowerCase();
+    let response = fetchCredentials(email);
+    response.then((value) => {
+      value.json().then(data => {
+        let infoUsr = data.body;
+
+        let validateCyclosProm = new Promise((resolve, reject) => {
+          if (infoUsr.rol && infoUsr.rol === 'admin') {
+            let responseCyclos = validateCyclos(infoUsr.merchantCode);
+            responseCyclos.then((cyclosVal) => {
+              cyclosVal.json().then(dataCyclos => {
+                let intoTemp = {
+                  cyclosCredentials: false,
+                  cyclosError: null,
+                };
+                if (dataCyclos.header.codigoError === null) {
+                  intoTemp.cyclosCredentials = dataCyclos.body === 'active';
+                } else {
+                  intoTemp.spError = dataCyclos.header.codigoError;
+                }
+                resolve(intoTemp);
+              })
+            }).catch((err) => {
+              console.log(err);
+            });
+          } else {
+            resolve();
+          }
+        });
+
+        let validateSPProm = new Promise((resolve, reject) => {
+          let responseSp = validateSp(infoUsr);
+          responseSp.then((spVal) => {
+            spVal.json().then(dataSp => {
+              let intoTemp = {
+                spCredentials: false,
+                spError: null
+              };
+              if (dataSp.header.codigoError === null) {
+                intoTemp.spCredentials = dataSp.body === 'SUCCESS';
+              } else {
+                intoTemp.spError = dataSp.header.codigoError;
+              }
+              resolve(intoTemp);
+            })
+          }).catch((err) => {
+            console.log(err);
+          });
+        });
+
+        Promise.all([validateCyclosProm, validateSPProm]).then(
+          (values) => {
+            console.log('RESULTADOS', values);
+            let intoTemp = { ...infoCredentials };
+            intoTemp.showData = true;
+            intoTemp.isAdmin = infoUsr.rol && infoUsr.rol === 'admin';
+
+            if (intoTemp.isAdmin) {
+              intoTemp.cyclosCredentials = values[0].cyclosCredentials;
+              intoTemp.cyclosError = values[0].cyclosError;
+            }
+
+            intoTemp.spCredentials = values[1].spCredentials;
+            intoTemp.spError = values[1].spError;
+            setInfoCredentials(intoTemp);
+          }
+        );
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 
   let validateExists = () => {
     let email = infoValidation.email.trim().toLowerCase();
@@ -33,7 +134,7 @@ function LoginUnified(props) {
     response.then((value) => {
       value.json().then(data => {
         let error = data.header.codigoError;
-        if (error && error === 'CREDENTIALS_NOT_FOUND') {
+        if (error && (error === 'CREDENTIALS_NOT_FOUND' || error === 'NO_KEYCLOAK_USER_CREATED')) {
           let infoTemp = { ...infoUpdate };
           infoTemp.showUpdate = true;
 
@@ -70,7 +171,6 @@ function LoginUnified(props) {
             pass: ''
           }
           setInfoUpdate(reset);
-
 
           let usuario = infoValidation.email ? infoValidation.email : infoValidation.merchant;
           let merchant = data.body.merchant;
@@ -143,7 +243,7 @@ function LoginUnified(props) {
 
   let updateUser = () => {
     let email = infoUpdate.email.trim().toLowerCase();
-    let response = updateUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234');
+    let response = updateUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234', infoUpdate.admin);
     response.then((value) => {
       value.json().then(data => {
         let title = null;
@@ -234,88 +334,185 @@ function LoginUnified(props) {
         />
       }
 
-      <div className='row justify-content-center mb-3'>
-        <div className='col-5'>
-          <FieldForm
-            label='Email'
-            value={infoValidation.email}
-            onChangeValue={(value) => {
-              let infoAux = { ...infoValidation };
-              infoAux.email = value;
-              setInfoValidation(infoAux);
-            }}
-          />
-        </div>
+      <TabComponent active={currentView} listElement={listElement} />
 
-        <div className='col-5 d-none'>
-          <FieldForm
-            label='MerchantCode'
-            value={infoValidation.merchant}
-            onChangeValue={(value) => {
-              let infoAux = { ...infoValidation };
-              infoAux.merchant = value;
-              setInfoValidation(infoAux);
-            }}
-          />
-        </div>
-      </div>
+      {currentView === 1 &&
+        <div className='mt-4'>
+          <div className='row justify-content-center mb-3'>
+            <div className='col-5'>
+              <FieldForm
+                label='Email'
+                value={infoValidation.email}
+                onChangeValue={(value) => {
+                  let infoAux = { ...infoValidation };
+                  infoAux.email = value;
+                  setInfoValidation(infoAux);
+                }}
+              />
+            </div>
 
-      <button
-        onClick={() => {
-          validateExists();
-        }}
-      >
-        Validar
-      </button>
-
-      {infoUpdate.showUpdate &&
-        <div className='row flex-column align-content-center mb-3'>
-          <div className='col-5 my-2'>
-            <FieldForm
-              label='Email'
-              readOnlyField={infoUpdate.isEmail}
-              value={infoUpdate.email}
-              onChangeValue={(value) => {
-                let infoAux = { ...infoUpdate };
-                infoAux.email = value;
-                setInfoUpdate(infoAux);
-              }}
-            />
-          </div>
-
-          <div className='col-5 my-2'>
-            <FieldForm
-              label='MerchantCode'
-              value={infoUpdate.merchant}
-              onChangeValue={(value) => {
-                let infoAux = { ...infoUpdate };
-                infoAux.merchant = value;
-                setInfoUpdate(infoAux);
-              }}
-            />
-          </div>
-
-          <div className='col-5 my-2'>
-            <FieldForm
-              label='OperatorCode'
-              value={infoUpdate.operator}
-              readOnlyField={infoUpdate.isEmail}
-              onChangeValue={(value) => {
-                let infoAux = { ...infoUpdate };
-                infoAux.operator = value;
-                setInfoUpdate(infoAux);
-              }}
-            />
+            <div className='col-5 d-none'>
+              <FieldForm
+                label='MerchantCode'
+                value={infoValidation.merchant}
+                onChangeValue={(value) => {
+                  let infoAux = { ...infoValidation };
+                  infoAux.merchant = value;
+                  setInfoValidation(infoAux);
+                }}
+              />
+            </div>
           </div>
 
           <button
-            className='col-3 mt-3 mx-auto'
             onClick={() => {
-              updateUser();
+              validateExists();
             }}
           >
-            Registrar Nuevo Login
+            Validar
           </button>
+
+          {infoUpdate.showUpdate &&
+            <div className='row flex-column align-content-center mb-3'>
+              <div className='col-5 my-2'>
+                <FieldForm
+                  label='Email'
+                  readOnlyField={infoUpdate.isEmail}
+                  value={infoUpdate.email}
+                  onChangeValue={(value) => {
+                    let infoAux = { ...infoUpdate };
+                    infoAux.email = value;
+                    setInfoUpdate(infoAux);
+                  }}
+                />
+              </div>
+
+              <div className='col-5 my-2'>
+                <FieldForm
+                  label='MerchantCode'
+                  value={infoUpdate.merchant}
+                  onChangeValue={(value) => {
+                    let infoAux = { ...infoUpdate };
+                    infoAux.merchant = value;
+                    setInfoUpdate(infoAux);
+                  }}
+                />
+              </div>
+
+              <div className='col-5 my-2'>
+                <FieldForm
+                  label='OperatorCode'
+                  value={infoUpdate.operator}
+                  readOnlyField={infoUpdate.isEmail}
+                  onChangeValue={(value) => {
+                    let infoAux = { ...infoUpdate };
+                    infoAux.operator = value;
+                    setInfoUpdate(infoAux);
+                  }}
+                />
+              </div>
+
+              <div className='col-5 my-2'>
+                <div className='d-flex align-items-center justify-content-center'>
+                  <label className='mb-0 mr-2 font-bold'>
+                    Es administrador?
+                </label>
+                  <input
+                    type="checkbox"
+                    checked={infoUpdate.admin}
+                    onChange={element => {
+                      let infoAux = { ...infoUpdate };
+                      infoAux.admin = element.target.checked;
+                      setInfoUpdate(infoAux);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <button
+                className='col-3 mt-3 mx-auto'
+                onClick={() => {
+                  updateUser();
+                }}
+              >
+                Registrar Nuevo Login
+            </button>
+            </div>
+          }
+        </div>
+      }
+
+      {currentView === 2 &&
+        <div className='mt-4'>
+          <div className='row justify-content-center mb-3'>
+            <div className='col-5'>
+              <FieldForm
+                label='Email'
+                value={infoValidation.email}
+                onChangeValue={(value) => {
+                  let infoAux = { ...infoValidation };
+                  infoAux.email = value;
+                  setInfoValidation(infoAux);
+                }}
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              validateCredentials();
+            }}
+          >
+            Validar
+          </button>
+
+          {infoCredentials.showData &&
+            <div
+              className='w-50 d-flex flex-column mx-auto align-items-center my-3'
+            >
+              <div
+                className='d-flex mb-3'
+              >
+                <FieldForm
+                  label='Administrador:'
+                  readOnly={true}
+                />
+                <span>
+                  {infoCredentials.isAdmin ? 'SI' : 'NO'}
+                </span>
+              </div>
+
+              {infoCredentials.isAdmin &&
+                <div
+                  className='d-flex mb-3'
+                >
+                  <FieldForm
+                    label='Status Cyclos'
+                    readOnly={true}
+                  />
+                  <span
+                    className={`font-status ${infoCredentials.cyclosCredentials ? 'active' : 'error'}`}
+                  >
+                    {infoCredentials.cyclosCredentials ? 'Correcto' : 'Fallando'}
+                  </span>
+                </div>
+              }
+
+              <div
+                className='d-flex'
+              >
+                <FieldForm
+                  label='Status Smartpesa'
+                  readOnly={true}
+                />
+                <span
+                  className={`font-status ${infoCredentials.spCredentials ? 'active' : 'error'}`}
+                >
+                  {infoCredentials.spCredentials ? 'Correcto' : 'Fallando'}
+                </span>
+              </div>
+            </div>
+          }
         </div>
       }
     </div>

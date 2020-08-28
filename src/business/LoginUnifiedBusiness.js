@@ -111,6 +111,30 @@ const fetchDataByEmail = async (correo) => {
     })
 };
 
+const createUserApp = async (email, merchant, operator, pin, rol, pass, admin) => {
+    const url = `${BASE_URL}/login/registeruserapp`;
+    const data = {
+        header: {},
+        body: { email, merchant, operator, pin, rol, pass, admin }
+    };
+
+    return new Promise((resolve, reject) => {
+        try {
+            const response = fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response);
+        } catch (e) {
+            console.log('error en peticion de creacion', e);
+            reject(e);
+        }
+    })
+};
+
 const updateUserApp = async (email, merchant, operator, pin, rol, pass, admin) => {
     const url = `${BASE_URL}/login/updateuserapp`;
     const data = {
@@ -163,6 +187,7 @@ export {
     validateRegisterUser,
     fetchDataByEmail,
     updateUserApp,
+    createUserApp,
     registerAdmonService,
     fetchCredentials,
     validateCyclos,

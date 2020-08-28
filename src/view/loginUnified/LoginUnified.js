@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp } from "../../business/LoginUnifiedBusiness";
+import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp, createUserApp } from "../../business/LoginUnifiedBusiness";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
 import TabComponent from "../../components/tabsComponent";
+import { Loading } from "../../components/loading/Loading";
 
 function LoginUnified(props) {
+  const [loading, setLoading] = useState(false);
   const [currentView, setCurrentView] = React.useState(1);
   const [listElement] = React.useState([
     {
@@ -56,6 +58,7 @@ function LoginUnified(props) {
 
   let validateCredentials = () => {
     let email = infoValidation.email.trim().toLowerCase();
+    setLoading(true);
     let response = fetchCredentials(email);
     response.then((value) => {
       value.json().then(data => {
@@ -107,6 +110,8 @@ function LoginUnified(props) {
 
         Promise.all([validateCyclosProm, validateSPProm]).then(
           (values) => {
+            setLoading(false);
+
             console.log('RESULTADOS', values);
             let intoTemp = { ...infoCredentials };
             intoTemp.showData = true;
@@ -131,6 +136,7 @@ function LoginUnified(props) {
   let validateExists = () => {
     let email = infoValidation.email.trim().toLowerCase();
     let response = validateRegisterUser(email, infoValidation.merchant);
+    setLoading(true);
     response.then((value) => {
       value.json().then(data => {
         let error = data.header.codigoError;
@@ -147,6 +153,8 @@ function LoginUnified(props) {
             infoTemp.email = email;
             infoTemp.isEmail = true;
             fetchDataEmail(infoTemp);
+          } else {
+            setLoading(false);
           }
         } else if (error && error !== 'CREDENTIALS_NOT_FOUND') {
           let infoModal = { ...confirmInfo };
@@ -159,6 +167,7 @@ function LoginUnified(props) {
             setConfirmInfo(infoCerrar);
           }
           setConfirmInfo(infoModal);
+          setLoading(false);
         } else {
           let reset = {
             showUpdate: false,
@@ -186,6 +195,7 @@ function LoginUnified(props) {
             setConfirmInfo(infoCerrar);
           }
           setConfirmInfo(infoModal);
+          setLoading(false);
         }
       })
     }).catch((err) => {
@@ -200,6 +210,7 @@ function LoginUnified(props) {
     let response = fetchDataByEmail(email);
     response.then((value) => {
       value.json().then(data => {
+        setLoading(false);
         if (data.body == null) {
           let infoModal = { ...confirmInfo };
           infoModal.showModal = true;
@@ -238,14 +249,17 @@ function LoginUnified(props) {
       })
     }).catch((err) => {
       console.log(err);
+      setLoading(false);
     });
   }
 
-  let updateUser = () => {
+  let createUser = () => {
     let email = infoUpdate.email.trim().toLowerCase();
-    let response = updateUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234', infoUpdate.admin);
+    setLoading(true);
+    let response = createUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234', infoUpdate.admin);
     response.then((value) => {
       value.json().then(data => {
+        setLoading(false);
         let title = null;
         let message = null;
         if (data.body) {
@@ -264,11 +278,114 @@ function LoginUnified(props) {
           } else if (error === 'FAIL_SEARCH_USER_OP') {
             message = 'No se pudo encontrar el usuario con el correo ingresado';
           } else if (error === 'FAIL_SEARCH_USEROP_LIST') {
-            message = 'El merchantCode no esta registrado';
+            message = 'Fallo al buscar la lista de operadores del merchantCode';
           } else if (error === 'REGISTER_TO_ANOTHER_COMMERCE') {
             message = 'El correo esta registrado en otro comercio';
           } else if (error === 'CLIENT_NOT_REGISTER') {
-            message = 'El merchantCode no esta registrado';
+            message = 'Se ha presentado un error el registrar el nuero merchantCode';
+          } else if (error === 'USER_NOT_REGISTER') {
+            message = 'El correo no esta registrado';
+          } else if (error === 'CYCLOS_CRED_NOT_REGISTER') {
+            message = 'Se ha generado un error al registrar las credenciales de cyclos en la plataforma';
+          } else if (error === 'USER_OPERATOR_NOT_REGISTER') {
+            message = 'Se ha generado un error al registrar el correo asociado al operador';
+          } else if (error === 'PIN_USER_OPERATOR_NOT_REGISTER') {
+            message = 'Se ha generado un error al registrar el PIN del usuario';
+          } else if (error === 'KEYCLOAK_CREATE_USER_ERROR') {
+            message = 'Se ha generado un error al crear el usuario en la plataforma';
+          } else if (error === 'CYCLOS_UPDATE_PASSWORD_FAIL') {
+            message = 'Se ha generado un error al actualizar las credenciales en cyclos';
+          } else if (error === 'REGISTER_BACK_EXCEPTION') {
+            message = 'Se ha generado un error al realizar el registro en la aplicacion';
+          } else if (error === 'EMAIL_REQUIRED') {
+            message = 'El correo es requerido';
+          } else if (error === 'MERCHANT_REQUIRED') {
+            message = 'El merchantCode es requerido';
+          } else if (error === 'OPERATOR_REQUIRED') {
+            message = 'El operatorCode es requerido';
+          } else if (error === 'PIN_REQUIRED') {
+            message = 'El PIN es requerido';
+          } else if (error === 'ROL_REQUIRED') {
+            message = 'El rol es requerido';
+          } else if (error === 'PASS_REQUIRED') {
+            message = 'El password es requerido';
+          } else if (error === 'EMAIL_ALREADY_REGISTER') {
+            message = 'El correo ingresado ya se encuentra registrado en la plataforma';
+          } else if (error === 'EMAIL_REGISTER_ANOTHER_COMMERCE') {
+            message = 'El correo esta registrado en otro comercio';
+          } else if (error === 'EMAIL_NO_ASSOCIATE_COMMERCE') {
+            message = 'El correo ingresado no esta asociado al merchant';
+          } else if (error === 'OPERATOR_NOT_REGISTER') {
+            message = 'No se encuentra el operador asociado al merchant ingresado';
+          } else if (error === 'EMAIL_REGISTER_MULTIPLE_USERS') {
+            message = 'El correo ingreado esta registrado en multiples merchant';
+          }
+        }
+
+        let infoModal = { ...confirmInfo };
+        infoModal.showModal = true;
+        infoModal.title = title;
+        infoModal.message = message;
+        infoModal.onAccept = () => {
+          let infoCerrar = { ...confirmInfo };
+          infoCerrar.showModal = false;
+          setConfirmInfo(infoCerrar);
+        }
+        setConfirmInfo(infoModal);
+      })
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  let updateUser = () => {
+    let email = infoUpdate.email.trim().toLowerCase();
+    setLoading(true);
+    let response = updateUserApp(email, infoUpdate.merchant, infoUpdate.operator, '1234', infoUpdate.operator === '100' ? 'admin' : 'operador', '1234', infoUpdate.admin);
+    response.then((value) => {
+      value.json().then(data => {
+        setLoading(false);
+
+        let title = null;
+        let message = null;
+        if (data.body) {
+          title = 'Usuario Registrado';
+          message = 'El usuario ' + infoUpdate.email + ' se ha registrado exitosamente';
+        } else {
+          title = 'Error en el registro';
+
+          let error = data.header.codigoError;
+          if (error === 'FAIL_SEARCH_CLIENT') {
+            message = 'No se pudo encontrar el cliente con el merchant ingresado';
+          } else if (error === 'FAIL_SEARCH_OPERATOR') {
+            message = 'No se pudo encontrar el operador con el operador ingresado';
+          } else if (error === 'FAIL_SEARCH_USER') {
+            message = 'No se pudo encontrar el usuario con el correo ingresado';
+          } else if (error === 'FAIL_SEARCH_USER_OP') {
+            message = 'No se pudo encontrar el usuario con el correo ingresado';
+          } else if (error === 'FAIL_SEARCH_USEROP_LIST') {
+            message = 'Fallo al buscar la lista de operadores del merchantCode';
+          } else if (error === 'REGISTER_TO_ANOTHER_COMMERCE') {
+            message = 'El correo esta registrado en otro comercio';
+          } else if (error === 'CLIENT_NOT_REGISTER') {
+            let infoModal = { ...confirmInfo };
+            infoModal.showModal = true;
+            infoModal.title = 'Registro';
+            infoModal.message = 'El merchantCode ingresado no esta creado en el sistema\n¿Desea crearlo?';
+            infoModal.onAccept = () => {
+              let infoCerrar = { ...confirmInfo };
+              infoCerrar.showModal = false;
+              setConfirmInfo(infoCerrar);
+
+              // Creacion del merchantCode
+              createUser();
+            }
+
+            infoModal.onCancel = () => {
+              window.location.reload();
+            }
+            setConfirmInfo(infoModal);
+            return;
           } else if (error === 'USER_NOT_REGISTER') {
             message = 'El correo no esta registrado';
           } else if (error === 'CYCLOS_CRED_NOT_REGISTER') {
@@ -326,11 +443,16 @@ function LoginUnified(props) {
 
   return (
     <div>
+      {loading &&
+        <Loading />
+      }
+
       {confirmInfo.showModal &&
         <ModalConfirm
           title={confirmInfo.title}
           message={confirmInfo.message}
           onAccept={confirmInfo.onAccept}
+          onCancel={confirmInfo.onCancel}
         />
       }
 

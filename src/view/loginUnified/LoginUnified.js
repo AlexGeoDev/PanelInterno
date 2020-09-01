@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp, createUserApp } from "../../business/LoginUnifiedBusiness";
+import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp, createUserApp, updateCyclosPass } from "../../business/LoginUnifiedBusiness";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
 import TabComponent from "../../components/tabsComponent";
 import { Loading } from "../../components/loading/Loading";
@@ -44,6 +44,8 @@ function LoginUnified(props) {
     merchant: ''
   });
 
+  const [merchantRestore, setMerchantRestore] = useState();
+
   const [infoUpdate, setInfoUpdate] = useState({
     showUpdate: false,
     isEmail: false,
@@ -63,6 +65,9 @@ function LoginUnified(props) {
     response.then((value) => {
       value.json().then(data => {
         let infoUsr = data.body;
+
+        // almacena el merchant
+        setMerchantRestore(infoUsr.merchantCode);
 
         let validateCyclosProm = new Promise((resolve, reject) => {
           if (infoUsr.rol && infoUsr.rol === 'admin') {
@@ -128,6 +133,59 @@ function LoginUnified(props) {
           }
         );
       });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  let updateCredentials = () => {
+    let response = updateCyclosPass(merchantRestore);
+    setLoading(true);
+    response.then((value) => {
+      value.json().then(data => {
+        setLoading(false);
+        let error = data.header.codigoError;
+        if (error) {
+          let mensajeModal = null;
+
+          if (error === 'NO_MERCHANTCODE_TO_VALIDATE') {
+            mensajeModal = 'No se ha enviado el merchant para realizar la restauracion';
+          } else if (error === 'SEARCH_CLIENT_FAIL') {
+            mensajeModal = 'Se ha presentado un error al buscar el cliente asociado al merchant';
+          } else if (error === 'CLIENT_NOT_REGISTER') {
+            mensajeModal = 'No se ha encontrado un cliente asociado al merchant';
+          } else if (error === 'CYCLOS_CRED_BD_ERROR') {
+            mensajeModal = 'No se ha podido actualizar la informacion de las credenciales en base de datos';
+          } else if (error === 'CYCLOS_CRED_SERVER_ERROR') {
+            mensajeModal = 'No se ha podido actualizar la informacion de las credenciales en cyclos';
+          } else if (error === 'CHANGE_PASS_EXCEPTION') {
+            mensajeModal = 'Se ha generado una excepcion al realizar la restauracion de las credenciales';
+          }
+
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'Error';
+          infoModal.message = mensajeModal;
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+          }
+          setConfirmInfo(infoModal);
+        } else {
+          let infoModal = { ...confirmInfo };
+          infoModal.showModal = true;
+          infoModal.title = 'Exito';
+          infoModal.message = 'Se han resuaturado las credenciales de Cyclos Exitosamente.';
+          infoModal.onAccept = () => {
+            let infoCerrar = { ...confirmInfo };
+            infoCerrar.showModal = false;
+            setConfirmInfo(infoCerrar);
+            validateCredentials();
+          }
+          setConfirmInfo(infoModal);
+        }
+      })
     }).catch((err) => {
       console.log(err);
     });
@@ -606,7 +664,7 @@ function LoginUnified(props) {
 
               {infoCredentials.isAdmin &&
                 <div
-                  className='d-flex mb-3'
+                  className='d-flex align-items-center mb-3'
                 >
                   <FieldForm
                     label='Status Cyclos'
@@ -617,6 +675,17 @@ function LoginUnified(props) {
                   >
                     {infoCredentials.cyclosCredentials ? 'Correcto' : 'Fallando'}
                   </span>
+
+                  {!infoCredentials.cyclosCredentials &&
+                    <button
+                      className='ml-3'
+                      onClick={() => {
+                        updateCredentials();
+                      }}
+                    >
+                      Restaurar Credenciales
+                    </button>
+                  }
                 </div>
               }
 

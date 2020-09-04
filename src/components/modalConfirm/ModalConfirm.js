@@ -28,6 +28,21 @@ function ModalConfirm(props) {
                 Aceptar
               </button>
             </div>
+
+            {props.onCancel &&
+              <div className='btn-container'>
+                <button
+                  className='btn-style'
+                  onClick={() => {
+                    if (props.onCancel) {
+                      props.onCancel()
+                    }
+                  }}
+                >
+                  Cancelar
+              </button>
+              </div>
+            }
           </div>
         </div>
       </div>

@@ -189,6 +189,31 @@ const fetchDataInfo = async (merchant) => {
   }
 };
 
+const fetchValidateRegister = async (merchant) => {
+  const url = `${BASE_URL}/login/validateuserregister`;
+  const data = {};
+  data.body = {
+    merchant
+  };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
 const fetchInfoRegister = async (merchantCode) => {
   const url = `${BASE_URL}/panelinterno/fetchemailsanddevices`;
   const data = {};
@@ -258,5 +283,6 @@ export {
   fetchPaymentResume,
   fetchDataInfo,
   fetchInfoRegister,
-  sendPushNotification
+  sendPushNotification,
+  fetchValidateRegister
 };

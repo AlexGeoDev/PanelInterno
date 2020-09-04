@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchDataInfo, fetchInfoRegister } from '../../business/PagofacilBusiness';
+import { fetchDataInfo, fetchValidateRegister } from '../../business/PagofacilBusiness';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 import { ModalConfirm } from '../../components/modalConfirm/ModalConfirm';
 
@@ -13,17 +13,34 @@ function VerifyInfo(props) {
     onAccept: null
   });
 
-  let fetchData = (email, serial) => {
+  let fetchData = () => {
     const promise = new Promise((resolve, reject) => {
-      let response = fetchDataInfo(email, serial)
-      response.then((data) => {
-        if (data && data.body) {
-          resolve(data.body);
+      let valRegister = fetchValidateRegister(merchantCode);
+      valRegister.then((infoReg) => {
+        if (infoReg.body) {
+          let response = fetchDataInfo(merchantCode)
+          response.then((data) => {
+            if (data && data.body) {
+              resolve(data.body);
+            } else {
+              let infoModal = { ...confirmInfo };
+              infoModal.showModal = true;
+              infoModal.title = 'Error';
+              infoModal.message = 'Para los filtros ingresados no se encontraron datos';
+              infoModal.onAccept = () => {
+                let infoCerrar = { ...confirmInfo };
+                infoCerrar.showModal = false;
+                setConfirmInfo(infoCerrar);
+              }
+              setConfirmInfo(infoModal);
+              resolve();
+            }
+          })
         } else {
           let infoModal = { ...confirmInfo };
           infoModal.showModal = true;
           infoModal.title = 'Error';
-          infoModal.message = 'Para los filtros ingresados no se encontraron datos';
+          infoModal.message = 'El merchant consultado no ha realizado la migracion a nuevo login';
           infoModal.onAccept = () => {
             let infoCerrar = { ...confirmInfo };
             infoCerrar.showModal = false;
@@ -32,8 +49,8 @@ function VerifyInfo(props) {
           setConfirmInfo(infoModal);
           resolve();
         }
-      })
-    })
+      });
+    });
     return promise;
   }
 
@@ -61,7 +78,7 @@ function VerifyInfo(props) {
         <div className='col-12 mt-4'>
           <button
             onClick={async () => {
-              let data = await fetchData(merchantCode);
+              let data = await fetchData();
               setInfo(data);
             }}
           >

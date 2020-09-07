@@ -314,6 +314,19 @@ code {
   }
 }
 
+.cod-text {
+  color: #0064aa;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.copy-cod {
+  color: #0064aa; 
+  background-color: #FFFFFF;
+  border: none;
+  font-size: 2.4rem;
+}
+
 @keyframes lds-roller {
   0% {
     transform: rotate(0deg);

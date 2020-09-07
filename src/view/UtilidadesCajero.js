@@ -114,7 +114,7 @@ function UtilidadesCajero(props) {
               className='copy-cod mx-3'
               title='Copiar Codigo'
               onClick={() => {
-                navigator.clipboard.writeText(codMaestro);
+                window.navigator.clipboard.writeText(codMaestro);
 
                 let infoModal = { ...confirmInfo };
                 infoModal.showModal = true;
@@ -178,9 +178,9 @@ function UtilidadesCajero(props) {
 
               <button
                 className='copy-cod mx-3'
-                title='Copiar Codigo'
+                title='Copiar Link'
                 onClick={() => {
-                  navigator.clipboard.writeText(linkRecover.link);
+                  window.navigator.clipboard.writeText(linkRecover.link);
 
                   let infoModal = { ...confirmInfo };
                   infoModal.showModal = true;

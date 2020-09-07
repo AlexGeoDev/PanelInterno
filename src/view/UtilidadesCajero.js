@@ -111,7 +111,7 @@ function UtilidadesCajero(props) {
             </span>
 
             <button
-              className='copy-cod mx-3'
+              className='copy-cod mx-3 d-none'
               title='Copiar Codigo'
               onClick={() => {
                 window.navigator.clipboard.writeText(codMaestro);
@@ -177,7 +177,7 @@ function UtilidadesCajero(props) {
               </span>
 
               <button
-                className='copy-cod mx-3'
+                className='copy-cod mx-3 d-none'
                 title='Copiar Link'
                 onClick={() => {
                   window.navigator.clipboard.writeText(linkRecover.link);

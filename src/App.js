@@ -16,6 +16,7 @@ import { VerifyInfo } from './view/verifyRegister/VeritfyRegister';
 import { PushNotification } from './view/pushNotification/PushNotificacionView';
 import { LoginUnified } from './view/loginUnified/LoginUnified';
 import { RegisterAdmin } from './view/loginUnified/registerAdmin';
+import { UtilidadesCajero } from './view/UtilidadesCajero';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -82,6 +83,13 @@ const routes =
       return {
         title: 'Login Unificado',
         view: <RegisterAdmin type={type} />,
+      };
+    }),
+    '/utils': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Utilidades Cajero',
+        view: <UtilidadesCajero type={type} />,
       };
     })
   })

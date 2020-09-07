@@ -274,6 +274,27 @@ const sendPushNotification = async (message, merchantCode, email) => {
   }
 };
 
+const fetchTokenRecover = async (userEmail) => {
+  const url = 'https://api.site.cajero.co/api/v1/password/generateresettoken';
+  const data = { userEmail };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -284,5 +305,6 @@ export {
   fetchDataInfo,
   fetchInfoRegister,
   sendPushNotification,
-  fetchValidateRegister
+  fetchValidateRegister,
+  fetchTokenRecover
 };

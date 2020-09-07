@@ -39,7 +39,7 @@ class Layout extends React.Component {
         },
         {
           url: '/utils',
-          name: 'Utiliades Cajero'
+          name: 'Utilidades Cajero'
         },
         {
           url: '/setAdminUser',

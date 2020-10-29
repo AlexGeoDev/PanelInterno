@@ -207,6 +207,30 @@ const updateCyclosPass = async (merchant) => {
   })
 };
 
+const fetchTransactionTrace = async (sequence) => {
+  const url = `${BASE_URL}/logs/fetchsequencetrace`;
+  const data = {
+    header: {},
+    body: { sequence }
+  };
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      resolve(response);
+    } catch (e) {
+      console.log('error en peticion login', e);
+      reject(e);
+    }
+  })
+};
+
 export {
   validateRegisterUser,
   fetchDataByEmail,
@@ -216,5 +240,6 @@ export {
   fetchCredentials,
   validateCyclos,
   validateSp,
-  updateCyclosPass
+  updateCyclosPass,
+  fetchTransactionTrace
 };

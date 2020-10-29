@@ -46,6 +46,10 @@ class Layout extends React.Component {
           name: 'Asignar Administrador/Operador'
         },
         {
+          url: '/logsApps',
+          name: 'Logs Transacciones'
+        },
+        {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
         }

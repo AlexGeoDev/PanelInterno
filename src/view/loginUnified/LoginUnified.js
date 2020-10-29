@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { createUserApp, fetchCredentials, fetchDataByEmail, updateCyclosPass, updateUserApp, validateCyclos, validateRegisterUser, validateSp } from "../../business/LoginUnifiedBusiness";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
-import { validateRegisterUser, fetchDataByEmail, updateUserApp, fetchCredentials, validateCyclos, validateSp, createUserApp, updateCyclosPass } from "../../business/LoginUnifiedBusiness";
+import { Loading } from "../../components/loading/Loading";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
 import TabComponent from "../../components/tabsComponent";
-import { Loading } from "../../components/loading/Loading";
 
 function LoginUnified(props) {
   const [loading, setLoading] = useState(false);

@@ -154,17 +154,6 @@ function PaymentInfo(props) {
           <span
             className='col px-2 text-left font-weight-bold'
           >
-            Ciudad
-          </span>
-
-          <span
-            className='col px-2 text-left font-weight-bold'
-          >
-            Celular
-          </span>
-          <span
-            className='col px-2 text-left font-weight-bold'
-          >
             Valor
           </span>
           <span
@@ -207,17 +196,6 @@ function PaymentInfo(props) {
                 className='col px-2 text-left'
               >
                 {element.clientEmail}
-              </span>
-              <span
-                className='col px-2 text-left'
-              >
-                {element.clientCity}
-              </span>
-
-              <span
-                className='col px-2 text-left'
-              >
-                {element.clientPhone}
               </span>
               <span
                 className='col px-2 text-left'

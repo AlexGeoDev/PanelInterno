@@ -18,6 +18,7 @@ import { LoginUnified } from './view/loginUnified/LoginUnified';
 import { RegisterAdmin } from './view/loginUnified/registerAdmin';
 import { UtilidadesCajero } from './view/UtilidadesCajero';
 import { LosgAppsView } from './view/logsApps/LogsAppsView';
+import { PaymentInfo } from './view/paymentClient/PaymentInfo';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -91,6 +92,13 @@ const routes =
       return {
         title: 'Login Unificado',
         view: <LosgAppsView type={type} />,
+      };
+    }),
+    '/paymentInfo': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Login Unificado',
+        view: <PaymentInfo type={type} />,
       };
     }),
     '/utils': route(async req => {

@@ -50,6 +50,10 @@ class Layout extends React.Component {
           name: 'Logs Transacciones'
         },
         {
+          url: '/paymentInfo',
+          name: 'Informacion Pago Datafonos'
+        },
+        {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
         }

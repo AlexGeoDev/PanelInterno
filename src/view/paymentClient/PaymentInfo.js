@@ -29,7 +29,6 @@ function PaymentInfo(props) {
     }
 
     if (filterInfo.date !== null) {
-      debugger
       payload.date = filterInfo.date !== null ? moment(filterInfo.date).format('yyyy-MM-DD') : null;
     }
 

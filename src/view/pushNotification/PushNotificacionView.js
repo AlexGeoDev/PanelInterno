@@ -116,7 +116,6 @@ function PushNotification(props) {
         }
       }
     });
-    debugger
     setMerchantCode(listMerch);
     setMerchantError(listError);
     if (listError.length > 0) {

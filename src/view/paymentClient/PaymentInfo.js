@@ -12,7 +12,7 @@ function PaymentInfo(props) {
   const [filterInfo, setFilterInfo] = useState(
     {
       email: null,
-      date: null,
+      date: new Date(),
       status: null
     }
   );
@@ -184,40 +184,46 @@ function PaymentInfo(props) {
             >
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
-                {element.clientType === 'natural' ? element.clientName + ' ' + element.clientLastNames : element.clientName}
+                {element.clientType === 'natural' ? element.clientName + ' ' + (element.clientLastNames ? element.clientLastNames : '') : element.clientName}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {element.clientIdNumber}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {element.clientEmail}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {formatCurrency(element.amount)}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {element.paymentMethod}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {formatStatus(element.paymentStatus)}
               </span>
               <span
                 className='col px-2 text-left'
+                style={{ wordWrap: 'break-word' }}
               >
                 {element.dateCreate}
               </span>
-
               <button
                 className='col px-2 btn-detail'
                 onClick={() => {

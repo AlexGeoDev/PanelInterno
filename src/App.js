@@ -19,6 +19,8 @@ import { RegisterAdmin } from './view/loginUnified/registerAdmin';
 import { UtilidadesCajero } from './view/UtilidadesCajero';
 import { LosgAppsView } from './view/logsApps/LogsAppsView';
 import { PaymentInfo } from './view/paymentClient/PaymentInfo';
+import CommerceRegistrationView from './view/commerceRegistration/CommerceRegistrationView';
+import CommerceDetailView from './view/commerceRegistration/CommerceDetailView';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -99,6 +101,19 @@ const routes =
       return {
         title: 'Login Unificado',
         view: <PaymentInfo type={type} />,
+      };
+    }),
+    '/comercios': route(async req => {
+      return {
+        title: 'Login Unificado',
+        view: <CommerceRegistrationView />,
+      };
+    }),
+    '/comercios/:id': route(async req => {
+      let { id } = req.params;
+      return {
+        title: 'Login Unificado',
+        view: <CommerceDetailView idCommerce={id} />,
       };
     }),
     '/utils': route(async req => {

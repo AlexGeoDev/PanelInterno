@@ -1,0 +1,203 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from 'react-navi'
+import CommerceBusiness from '../../business/CommerceBusiness';
+import { Loading } from '../../components/loading/Loading';
+
+const CommerceDetailView = (props) => {
+  const [isLoading, setLoadingStatus] = useState(false);
+  const [commerceData, setCommerceData] = useState();
+
+  const navigation = useNavigation();
+  let isNaturalPerson = true;
+
+  useEffect(() => {
+    fetchCommerce(props.idCommerce);
+  }, []);
+
+  const fetchCommerce = async (idCommerce) => {
+    setLoadingStatus(true);
+    const response = await CommerceBusiness.fetchCommerceData(idCommerce);
+    setLoadingStatus(false);
+
+    if (response && response.data) {
+      console.log('RESPONSE', response)
+
+      const commerceData = response.data;
+
+      if (commerceData.titular) {
+        let personType = commerceData.titular.personType;
+
+        if (personType) {
+          isNaturalPerson = personType == 'naturalPerson';
+        }
+      }
+
+      setCommerceData(response.data);
+    } else {
+      alert('Ha ocurrido un error al cargar el detalle');
+      navigation.goBack();
+    }
+  }
+
+  const downloadDocument = async (idDocument) => {
+    setLoadingStatus(true);
+    const response = await CommerceBusiness.downloadDocument(idDocument);
+    setLoadingStatus(false);
+
+    if (!response) {
+      alert('Ha ocurrido un error al dercargar el archivo :(');
+    }
+  }
+
+  return (
+    <div>
+      {
+        isLoading &&
+        <Loading />
+      }
+      <div className='text-left d-flex align-items-center'>
+        <span
+          className='pointer mr-2'
+          role='button'
+          title='Regresar'
+          tabIndex={0}
+          onClick={() => navigation.goBack()}
+        >
+          <i className='fas fa-arrow-left fa-2x' />
+        </span>
+        Regresar
+      </div>
+
+      {
+        commerceData &&
+        <div className='container text-left mt-2'>
+          <h5>
+            Datos del comercio
+        </h5>
+          <hr />
+          <p>
+            <Detail
+              name='Nombre del comercio'
+              value={commerceData.commerceName}
+            />
+            <Detail
+              name='Teléfono'
+              value={commerceData.phone}
+            />
+            <Detail
+              name='Correo'
+              value={commerceData.email}
+            />
+            <Detail
+              name='Actividad comercial'
+              value={commerceData.commercialActivity}
+            />
+            <Detail
+              name='Dirección'
+              value={commerceData.address}
+            />
+            <Detail
+              name='Departamento'
+              value={commerceData.department}
+            />
+            <Detail
+              name='Ciudad'
+              value={commerceData.city}
+            />
+
+            {
+              commerceData.socialMedia &&
+              <Detail
+                name='Redes sociales'
+                value={commerceData.socialMedia}
+              />
+            }
+          </p>
+
+
+          {
+            commerceData.titular &&
+            <>
+              <h5>
+                Datos del titular
+              </h5>
+              <hr />
+              <Detail
+                name='Tipo de persona'
+                value={isNaturalPerson ? 'Persona Natural' : 'Persona Jirídica'}
+              />
+              <Detail
+                name='Nombre'
+                value={commerceData.titular.name}
+              />
+              <Detail
+                name='Tipo de documento'
+                value={commerceData.titular.documentType}
+              />
+              <Detail
+                name='Número de documento'
+                value={commerceData.titular.documentNumber}
+              />
+              {!isNaturalPerson &&
+                <Detail
+                  name='Número matrícula mercantil'
+                  value={commerceData.titular.merchantRegisterNumber}
+                />
+              }
+            </>
+          }
+
+          {
+            commerceData.documents &&
+            <div className='mt-3'>
+
+              <h5>
+                Documentos
+              </h5>
+              <hr />
+              {commerceData.documents.map((document) =>
+                <div key={document.idDocument}>
+                  <span className='mr-2'>
+                    {document.fileName}
+                  </span>
+
+                  <span
+                    className='pointer'
+                    title='Descargar archivo'
+                    role='button'
+                    tabIndex={0}
+                    onClick={() => downloadDocument(document.idDocument)}
+                  >
+                    <i className='fas fa-download' />
+                  </span>
+                </div>
+              )}
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+  )
+}
+
+const Detail = ({ name, value }) => {
+
+  return (
+    <div>
+      <strong>
+        {name}:
+      </strong>
+      <span className='ml-2'>
+        {
+          (value && value != null) ?
+            value :
+            '--'
+        }
+      </span>
+      <br />
+    </div>
+  );
+}
+
+export default CommerceDetailView;

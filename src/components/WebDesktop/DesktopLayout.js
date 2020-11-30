@@ -17,13 +17,13 @@ class Layout extends React.Component {
           url: '/cargar?type=tvc',
           name: 'Transacciones TVC'
         },
-        /*{
+        {
           url: '/registros',
           name: 'Registros'
-        }, */
+        },
         {
           url: '/comercios',
-          name: 'Registros'
+          name: 'Registros Comercios'
         },
         {
           url: '/listPagoFacil',

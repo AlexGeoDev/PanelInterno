@@ -6,9 +6,9 @@ import { Loading } from '../../components/loading/Loading';
 const CommerceDetailView = (props) => {
   const [isLoading, setLoadingStatus] = useState(false);
   const [commerceData, setCommerceData] = useState();
+  const [isNaturalPerson, setNaturalPerson] = useState(true);
 
   const navigation = useNavigation();
-  let isNaturalPerson = true;
 
   useEffect(() => {
     fetchCommerce(props.idCommerce);
@@ -28,7 +28,7 @@ const CommerceDetailView = (props) => {
         let personType = commerceData.titular.personType;
 
         if (personType) {
-          isNaturalPerson = personType == 'naturalPerson';
+          setNaturalPerson(personType === 'naturalPerson');
         }
       }
 
@@ -184,7 +184,7 @@ const CommerceDetailView = (props) => {
 const Detail = ({ name, value }) => {
 
   return (
-    <div>
+    <>
       <strong>
         {name}:
       </strong>
@@ -196,7 +196,7 @@ const Detail = ({ name, value }) => {
         }
       </span>
       <br />
-    </div>
+    </>
   );
 }
 

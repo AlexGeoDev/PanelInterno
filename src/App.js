@@ -21,6 +21,7 @@ import { LosgAppsView } from './view/logsApps/LogsAppsView';
 import { PaymentInfo } from './view/paymentClient/PaymentInfo';
 import CommerceRegistrationView from './view/commerceRegistration/CommerceRegistrationView';
 import CommerceDetailView from './view/commerceRegistration/CommerceDetailView';
+import LogsListasNegrasView from './view/logsListasNegras/LogsListasNegrasView';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -121,6 +122,13 @@ const routes =
       return {
         title: 'Utilidades Cajero',
         view: <UtilidadesCajero type={type} />,
+      };
+    }),
+    '/logs-listasnegras': route(async req => {
+      let { type } = req.params;
+      return {
+        title: 'Utilidades Cajero',
+        view: <LogsListasNegrasView />,
       };
     })
   })

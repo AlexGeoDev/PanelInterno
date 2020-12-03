@@ -295,6 +295,34 @@ const fetchTokenRecover = async (userEmail) => {
   }
 };
 
+const fetchBlackListLog = async (date) => {
+  const url = `${BASE_URL}/logs/readCardLog`;
+  const data = {};
+  data.body = {
+    fecha: date,
+  };
+  data.header = {};
+
+  console.log('DATA', data)
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+}
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -306,5 +334,6 @@ export {
   fetchInfoRegister,
   sendPushNotification,
   fetchValidateRegister,
-  fetchTokenRecover
+  fetchTokenRecover,
+  fetchBlackListLog,
 };

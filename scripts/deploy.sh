@@ -1,2 +1,2 @@
 # rsync ./package.json ubuntu@archiva.mi.com.co:~/apps/frontpanelinterno
-rsync -r ./pages ./public ./src ./package.json ubuntu@archiva.mi.com.co:~/apps/frontpanelinterno
+rsync -rave "ssh -i ${CAJERO_KEYS}/panelinterno/panelinterno.txt" ./build/* ubuntu@34.224.162.30:/home/ubuntu/apps/frontpanelinterno/build

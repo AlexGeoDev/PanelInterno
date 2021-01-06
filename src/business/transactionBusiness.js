@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.199.128.20:8282/";
+const BASE_URL = "/services/";
 
 class transactionBusiness {
   static async fetchUserBySerial(serial) {
@@ -7,7 +7,7 @@ class transactionBusiness {
   }
 
   static async getSegmetBySerial(serial) {
-    const url = "http://10.199.128.20:8282/api/v1/fetchuserbyserial";
+    const url = "/services/api/v1/fetchuserbyserial";
     const data = {
       serial: serial
     };

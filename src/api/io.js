@@ -1,6 +1,6 @@
 export class IO {
 
-  static BASE_URL = 'http://10.199.128.20:8282/';
+  static BASE_URL = '/services/';
   static URL = `${this.BASE_URL}api/v1/`
 
   static SITE_BASE_URL = 'https://api.site.cajero.co/';

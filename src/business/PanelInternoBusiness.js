@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.199.128.20:8282/";
+const BASE_URL = "/services/";
 
 const fetchPaymentList = async (body) => {
   const url = `${BASE_URL}api/v1/fetchpaymentlist`;

@@ -64,6 +64,10 @@ class Layout extends React.Component {
         {
           url: '/reporte-retenciones',
           name: 'Reporte Retenciones'
+        },
+        {
+          url: '/facturacion',
+          name:'Facturación'
         }
       ]
     };
@@ -90,7 +94,7 @@ class Layout extends React.Component {
 
         <div className='row mx-0 h-100'>
           <nav className='col-md-2 px-0 h-100'>
-            <div className='menu h-100'>
+            <div className='menu'>
               <div className='logo-container d-flex flex-column'>
                 <div className='my-4'>
                   <img

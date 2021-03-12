@@ -22,6 +22,7 @@ import { PaymentInfo } from './view/paymentClient/PaymentInfo';
 import CommerceRegistrationView from './view/commerceRegistration/CommerceRegistrationView';
 import CommerceDetailView from './view/commerceRegistration/CommerceDetailView';
 import LogsListasNegrasView from './view/logsListasNegras/LogsListasNegrasView';
+import FacturacionView from "./view/facturacion/FacturacionView";
 
 const history = createBrowserHistory();
 // Define your routes
@@ -129,6 +130,12 @@ const routes =
       return {
         title: 'Utilidades Cajero',
         view: <LogsListasNegrasView />,
+      };
+    }),
+    '/facturacion': route(async req =>{
+      return{
+        title: 'Facturación',
+        view: <FacturacionView/>,
       };
     })
   })

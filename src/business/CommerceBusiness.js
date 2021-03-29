@@ -63,6 +63,22 @@ class CommerceBusiness {
     return false;
   }
 
+  static async updateCommerceRegistrationStatus(idCommerce, completed) {
+    try {
+      const response = await IO.post('commerce/updatestatus', {
+        idCommerce,
+        completed
+      });
+
+      if (response && response.data) {
+        return response;
+      }
+    } catch (error) {
+      console.log('ERROR UPDATE COMMERCE', error);
+    }
+    return null;
+  }
+
   static base64ToArrayBuffer(base64) {
     const binaryString = window.atob(base64);
     const binaryLen = binaryString.length;

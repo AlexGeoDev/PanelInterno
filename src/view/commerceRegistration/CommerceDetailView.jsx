@@ -3,15 +3,16 @@ import { useNavigation } from 'react-navi'
 import CommerceBusiness from '../../business/CommerceBusiness';
 import { Loading } from '../../components/loading/Loading';
 
-const CommerceDetailView = (props) => {
+const CommerceDetailView = ({ idCommerce }) => {
   const [isLoading, setLoadingStatus] = useState(false);
   const [commerceData, setCommerceData] = useState();
   const [isNaturalPerson, setNaturalPerson] = useState(true);
 
   const navigation = useNavigation();
+  const completed = commerceData ? commerceData.registrationCompleted : false;
 
   useEffect(() => {
-    fetchCommerce(props.idCommerce);
+    fetchCommerce(idCommerce);
   }, []);
 
   const fetchCommerce = async (idCommerce) => {
@@ -20,7 +21,6 @@ const CommerceDetailView = (props) => {
     setLoadingStatus(false);
 
     if (response && response.data) {
-      console.log('RESPONSE', response)
 
       const commerceData = response.data;
 
@@ -49,6 +49,19 @@ const CommerceDetailView = (props) => {
     }
   }
 
+  const updateFormStatus = async () => {
+    setLoadingStatus(true);
+    const updateResponse = await CommerceBusiness.updateCommerceRegistrationStatus(idCommerce, !completed);
+
+    setLoadingStatus(false);
+
+    if (updateResponse) {
+      navigation.goBack();
+    } else {
+      alert('Ha ocurrido un error al actualizar el estado del formulario');
+    }
+  }
+
   return (
     <div>
       {
@@ -66,6 +79,18 @@ const CommerceDetailView = (props) => {
           <i className='fas fa-arrow-left fa-2x' />
         </span>
         Regresar
+      </div>
+
+      <div className='mt-3'>
+        <button
+          onClick={updateFormStatus}
+          className={`btn btn-outline-${completed ? 'danger' : 'primary'}`}
+        >
+          {completed ?
+            'Marcar formulario como no completado' :
+            'Marcar formulario como completado'
+          }
+        </button>
       </div>
 
       {

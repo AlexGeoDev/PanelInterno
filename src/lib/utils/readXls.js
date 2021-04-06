@@ -36,17 +36,12 @@ const readXls = async (data) => {
     }, {})
 
     var ConsolidateData = Object.values(reducer);
-    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
-    //In order to use .getMonth()
-    var todayDate = new Date(Date.now())
 
     //adding "lote" to consolidated data
     var NewConsolidateData = ConsolidateData.map(object =>{
-        object.lote  = `${Date.now()}` + `-${monthNames[todayDate.getMonth()-1]}` + `-Sin_Facturar`
-        object.estado = "Sin facturar";
-        object.nota = "";
+        object.lote  = ''
+        object.comvar = object['com var']
+        delete object['com var']
         return object;
     })
 

@@ -13,11 +13,13 @@ class ReporteRetenciones extends Component {
     e.preventDefault();
 
     const merchantCode = this.merchantInput.value;
+    const year = this.yearRef.value;
+
     this.setState({
       isLoading: true,
     });
 
-    const success = await AccountBusiness.descargarReporteComisiones(merchantCode);
+    const success = await AccountBusiness.descargarReporteComisiones(merchantCode, year);
 
     this.setState({
       isLoading: false,
@@ -51,6 +53,14 @@ class ReporteRetenciones extends Component {
           className='form-retenciones'
           onSubmit={this.onSubmit}
         >
+          <div>
+            <label>Año</label>
+            <select ref={ref => this.yearRef = ref}>
+              <option value='2020'>2020</option>
+              <option value='2019'>2019</option>
+              <option value='2018'>2018</option>
+            </select>
+          </div>
           <label htmlFor='username'>
             Ingrese el merchant code
           </label>

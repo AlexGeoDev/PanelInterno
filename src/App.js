@@ -23,6 +23,8 @@ import CommerceRegistrationView from './view/commerceRegistration/CommerceRegist
 import CommerceDetailView from './view/commerceRegistration/CommerceDetailView';
 import LogsListasNegrasView from './view/logsListasNegras/LogsListasNegrasView';
 import FacturacionView from "./view/facturacion/FacturacionView";
+import InteresesLlevateloView from './view/interesesLlevatelo/InteresesLlevateloView';
+import LoadingComponent from './lib/ui/loading/LoadingComponent';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -132,10 +134,16 @@ const routes =
         view: <LogsListasNegrasView />,
       };
     }),
-    '/facturacion': route(async req =>{
-      return{
+    '/facturacion': route(async req => {
+      return {
         title: 'Facturación',
-        view: <FacturacionView/>,
+        view: <FacturacionView />,
+      };
+    }),
+    '/intereses-llevatelo': route(async req => {
+      return {
+        title: 'Facturación',
+        view: <InteresesLlevateloView />,
       };
     })
   })
@@ -148,6 +156,7 @@ let navi = createBrowserNavigation({
 function App() {
   return (
     <div className="App">
+      <LoadingComponent />
       <DesktopLayout titulo="Asignar merchantcode">
         <Router history={history} navigation={navi}>
           <Suspense fallback={null}>

@@ -1,6 +1,6 @@
 class AccountBusiness {
 
-  static async descargarReporteComisiones(merchantCode, year = '2020') {
+  static async descargarReporteComisiones({ userName, startDate, endDate, reportType }) {
     const promise = new Promise((resolve, reject) => {
 
       fetch('https://api.cajero.co/api/v1/account/export/commissions', {
@@ -8,11 +8,7 @@ class AccountBusiness {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          year,
-          userName: merchantCode,
-          token: 'R2R;pF#<FC{K9e@2E5,[7AGn9/Q8}t96tS^Zb@~_Zg:Ayx#fwQ',
-        }),
+        body: JSON.stringify({ userName, startDate, endDate, reportType }),
       })
         .then(async (data) => {
           if (data.status === 200) {
@@ -20,7 +16,7 @@ class AccountBusiness {
             const urlblob = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = urlblob;
-            a.download = merchantCode + '.pdf';
+            a.download = `${userName}-${reportType}.pdf`;
             document.body.appendChild(a);
             a.click();
             a.remove();

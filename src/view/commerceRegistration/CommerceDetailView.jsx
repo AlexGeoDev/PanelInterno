@@ -45,7 +45,7 @@ const CommerceDetailView = ({ idCommerce }) => {
     setLoadingStatus(false);
 
     if (!response) {
-      alert('Ha ocurrido un error al dercargar el archivo :(');
+      alert('Ha ocurrido un error al descargar el archivo :(');
     }
   }
 
@@ -98,7 +98,7 @@ const CommerceDetailView = ({ idCommerce }) => {
         <div className='container text-left mt-2'>
           <h5>
             Datos del comercio
-        </h5>
+          </h5>
           <hr />
           <p>
             <Detail
@@ -139,10 +139,32 @@ const CommerceDetailView = ({ idCommerce }) => {
             }
           </p>
 
+          {
+            commerceData.bankName &&
+            <>
+              <h5>
+                Datos bancarios
+              </h5>
+              <hr />
+              <Detail
+                name='Banco'
+                value={commerceData.bankName}
+              />
+              <Detail
+                name='Tipo de cuenta'
+                value={commerceData.bankAccountType}
+              />
+              <Detail
+                name='Número de cuenta'
+                value={commerceData.bankAccountNumber}
+              />
+            </>
+          }
+
 
           {
             commerceData.titular &&
-            <>
+            <div className='mt-3'>
               <h5>
                 Datos del titular
               </h5>
@@ -169,7 +191,7 @@ const CommerceDetailView = ({ idCommerce }) => {
                   value={commerceData.titular.merchantRegisterNumber}
                 />
               }
-            </>
+            </div>
           }
 
           {

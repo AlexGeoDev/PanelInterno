@@ -24,6 +24,7 @@ import CommerceDetailView from './view/commerceRegistration/CommerceDetailView';
 import LogsListasNegrasView from './view/logsListasNegras/LogsListasNegrasView';
 import FacturacionView from "./view/facturacion/FacturacionView";
 import InteresesLlevateloView from './view/interesesLlevatelo/InteresesLlevateloView';
+import TransaccionesLlevateloView from './view/transaccionesLlevatelo/TransaccionesLlevateloView';
 import LoadingComponent from './lib/ui/loading/LoadingComponent';
 
 const history = createBrowserHistory();
@@ -144,6 +145,12 @@ const routes =
       return {
         title: 'Facturación',
         view: <InteresesLlevateloView />,
+      };
+    }),
+    '/transacciones-cupocajero': route(async req => {
+      return {
+        title: 'Transacciones Cupo Cajero',
+        view: <TransaccionesLlevateloView />,
       };
     })
   })

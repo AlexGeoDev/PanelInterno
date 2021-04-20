@@ -67,7 +67,63 @@ const registerInterest = async (interestPercent) => {
   return false;
 };
 
+const fetchPurchaseList = async (startDate, endDate, sequence = null) => {
+  try {
+    const response = await fetch(`${BASE_URL}/llevatelo/fetchpurchasescupocajero`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        header: {},
+        body: {
+          fechaInicio: startDate,
+          fechaFinal: endDate,
+          sequence,
+        },
+      }),
+    });
+
+    const { header, body } = await response.json();
+
+    if (header && header.codigoError === null) {
+      return body;
+    }
+  } catch (error) {
+    console.log('ERROR FETCH PURCHASES', error);
+  }
+
+  return null;
+}
+
+const revertPurchase = async (idPurchase) => {
+  try {
+    const response = await fetch(`${BASE_URL}/llevatelo/revertpurchase`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        header: {},
+        body: idPurchase,
+      }),
+    });
+
+    const { header } = await response.json();
+
+    if (header && header.codigoError === null) {
+      return true;
+    }
+  } catch (error) {
+    console.log('ERROR REVERT PURCHASE', error);
+  }
+
+  return false;
+}
+
 export default {
   fetchInterest,
   registerInterest,
+  fetchPurchaseList,
+  revertPurchase,
 };

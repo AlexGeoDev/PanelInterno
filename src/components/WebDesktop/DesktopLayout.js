@@ -72,6 +72,10 @@ class Layout extends React.Component {
         {
           url: '/intereses-llevatelo',
           name: 'Intereses llévatelo'
+        },
+        {
+          url: '/transacciones-cupocajero',
+          name: 'Transacciones Cupo Cajero'
         }
       ]
     };

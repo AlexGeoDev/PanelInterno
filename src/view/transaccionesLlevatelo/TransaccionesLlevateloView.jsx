@@ -4,13 +4,16 @@ import TransactionFilter from './TransactionFilter';
 import TransactionList from './TransactionList';
 import llevateloBusiness from '../../business/LlevateloBusiness';
 import loading from '../../lib/ui/loading/';
+import { subDays, endOfDay, format } from 'date-fns';
 
 const TransaccionesLlevateloView = () => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    const filterDate = moment(new Date()).format('yyyy-MM-DD');
-    fetchPurchaseList(filterDate, filterDate);
+    const startDate = format(subDays(new Date(), 8), 'yyyy-MM-dd');
+    const endDate = format(endOfDay(new Date()), 'yyyy-MM-dd');
+
+    fetchPurchaseList(startDate, endDate);
   }, []);
 
   const fetchPurchaseList = async (startDate, endDate, sequence) => {
@@ -32,6 +35,7 @@ const TransaccionesLlevateloView = () => {
 
     if (response) {
       window.alert('Compra anulada correctamente');
+      window.location.reload();
     } else {
       window.alert('Ha ocurrido un error al anular la compra');
     }

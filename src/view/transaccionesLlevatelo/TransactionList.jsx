@@ -1,4 +1,5 @@
 import React from 'react';
+import { getFormatedPrice } from '../../lib/utils/currencyUtils';
 import { getFormattedDate } from '../../lib/utils/dateUtils';
 
 const getStatus = (status) => {
@@ -15,11 +16,10 @@ const getStatus = (status) => {
 };
 
 const isTransactionCanceled = (status) => {
-  console.log(status)
   if (status === 'PENDING_PAYMENT' || status === 'PAID' || status === 'IN_PAYMENT_PROCESS') {
     return false;
   }
-console.log('SISISIIS')
+
   return true;
 }
 
@@ -86,28 +86,31 @@ const Transaction = (props) => {
     <tr>
       <td className='text-left'>{phone}</td>
       <td>{sequence}</td>
-      <td className='text-right'>{valor}</td>
-      <td className='text-right'>{intereses ? intereses : 0}</td>
+      <td className='text-right'>{getFormatedPrice(valor)}</td>
+      <td className='text-right'>{intereses ? getFormatedPrice(intereses) : 0}</td>
       <td>{getFormattedDate(fechaCompra)}</td>
       <td>{merchantCode}</td>
       <td
         className={isCanceled ?
           'text-danger' :
-          'text-info'}
+          'text-black'}
       >
         <strong>
           {getStatus(status)}
         </strong>
       </td>
       <td>
-        <button
-          className='btn btn-sm btn-outline-danger'
-          onClick={cancelPurchase}
-          disabled={isCancelDisabled}
-          title={isCancelDisabled ? 'No es posible anular esta compra' : 'Anular compra'}
-        >
-          Anular
+        {
+          !isCancelDisabled &&
+          < button
+            className='btn btn-sm btn-outline-danger'
+            onClick={cancelPurchase}
+            disabled={isCancelDisabled}
+            title={isCancelDisabled ? 'No es posible anular esta compra' : 'Anular compra'}
+          >
+            Anular
         </button>
+        }
       </td>
     </tr >
   );

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import DatePicker from '../../components/datePicker/DatePicker';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 
 const TransactionFilter = (props) => {
-  const [reference, setReference] = useState(null);
+  const [reference, setReference] = useState('');
   const [date, setDate] = useState('');
 
   const handleSubmit = (e) => {
@@ -11,29 +12,32 @@ const TransactionFilter = (props) => {
     props.onFilter(date, date, reference);
   }
 
+  const handleFilter = (startDate, endDate) => {
+    props.onFilter(startDate, endDate, null);
+  };
+
   const resetFilter = () => {
-    setReference(null);
+    setReference('');
     setDate('');
     props.onFilter();
   }
 
   return (
     <form className='mt-4' onSubmit={handleSubmit}>
-      <div className='row justify-content-center mb-3'>
-        <div className='col-6 mb-3'>
+      <div className='row mb-3'>
+        <div className='col-6'>
           <FieldForm
             value={reference}
             label='Secuencia'
             onChangeValue={(value) => setReference(value)}
           />
         </div>
-
-        <div className='col-6 mb-3'>
-          <FieldForm
-            type='date'
-            label='Fecha'
-            value={date}
-            onChangeValue={(value) => setDate(value)}
+      </div>
+      <div className='row mb-3'>
+        <div className='col-6'>
+          <DatePicker
+            onFilterPeriod={handleFilter}
+            onFilterRange={handleFilter}
           />
         </div>
       </div>

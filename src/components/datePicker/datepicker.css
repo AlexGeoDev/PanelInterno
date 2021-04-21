@@ -1,0 +1,48 @@
+.rdrDateDisplayWrapper{
+  display: none;
+  background-color: transparent;
+}
+
+.rdrInRange {
+  color: #eae4f7 !important;
+}
+
+.rdrStartEdge{
+  color: #4e18ba !important;
+}
+
+.rdrEndEdge{
+  color: #4e18ba !important;
+}
+
+.rdrStartEdge ~ .rdrDayNumber span{
+  color: white !important;
+}
+
+.rdrEndEdge ~ .rdrDayNumber span{
+  color: white !important;
+}
+
+.rdrDayNumber span{
+  color: black !important; 
+}
+
+.rdrDateDisplayItemActive {
+  border-color: #4e18ba !important;
+}
+
+.rdrDayStartPreview{
+  border-color:  #4e18ba !important;
+}
+
+.rdrDayInPreview{
+  border-color:  #4e18ba !important;
+}
+
+.rdrDayEndPreview{
+  border-color:  #4e18ba !important;
+}
+
+.rdrDayToday .rdrDayNumber span:after{
+  background-color: #4e18ba;
+}

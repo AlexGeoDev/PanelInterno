@@ -27,8 +27,6 @@ const TransaccionesLlevateloView = () => {
   };
 
   const handleCancelPurchase = async (idPurchase) => {
-    console.log('CANCELAR!!', idPurchase);
-
     loading.showLoadingScreen();
     const response = await llevateloBusiness.revertPurchase(idPurchase);
     loading.hideLoadingScreen();
@@ -43,6 +41,7 @@ const TransaccionesLlevateloView = () => {
 
   return (
     <div className='container'>
+      <h3>Transacciones de Cupo Cajero</h3>
       <TransactionFilter
         onFilter={fetchPurchaseList}
       />

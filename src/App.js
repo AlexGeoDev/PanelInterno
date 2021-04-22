@@ -26,6 +26,7 @@ import FacturacionView from "./view/facturacion/FacturacionView";
 import InteresesLlevateloView from './view/interesesLlevatelo/InteresesLlevateloView';
 import TransaccionesLlevateloView from './view/transaccionesLlevatelo/TransaccionesLlevateloView';
 import LoadingComponent from './lib/ui/loading/LoadingComponent';
+import DiscountCouponsView from './view/discountCoupons/DiscountCouponsView';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -151,6 +152,12 @@ const routes =
       return {
         title: 'Transacciones Cupo Cajero',
         view: <TransaccionesLlevateloView />,
+      };
+    }),
+    '/codigos-datafono': route(async req => {
+      return {
+        title: 'Códigos compra datáfono',
+        view: <DiscountCouponsView />,
       };
     })
   })

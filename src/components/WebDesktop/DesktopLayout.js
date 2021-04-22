@@ -67,7 +67,7 @@ class Layout extends React.Component {
         },
         {
           url: '/facturacion',
-          name:'Facturación'
+          name: 'Facturación'
         },
         {
           url: '/intereses-llevatelo',
@@ -76,7 +76,11 @@ class Layout extends React.Component {
         {
           url: '/transacciones-cupocajero',
           name: 'Transacciones Cupo Cajero'
-        }
+        },
+        {
+          url: '/codigos-datafono',
+          name: 'Códigos compra datáfono',
+        },
       ]
     };
   }

@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import DatePicker from '../../components/datePicker/DatePicker';
 import { FieldForm } from '../../components/fieldForm/FieldForm';
 
-const TransactionFilter = (props) => {
+const TransactionFilter = ({ onFilter, onDownloadCSV }) => {
   const [reference, setReference] = useState('');
   const [date, setDate] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    props.onFilter(date, date, reference);
+    onFilter(date, date, reference);
   }
 
   const handleFilter = (startDate, endDate) => {
-    props.onFilter(startDate, endDate, null);
+    onFilter(startDate, endDate, null);
   };
 
   const resetFilter = () => {
     setReference('');
     setDate('');
-    props.onFilter();
+    onFilter();
   }
 
   return (
@@ -49,10 +49,17 @@ const TransactionFilter = (props) => {
         Limpiar Filtro
       </button>
       <button
-        className='btn btn-primary'
+        className='btn btn-primary mr-2'
         type='submit'
       >
         Consultar
+      </button>
+      <button
+        className='btn btn-outline-success'
+        type='button'
+        onClick={onDownloadCSV}
+      >
+        Exportar CSV
       </button>
     </form>
   );

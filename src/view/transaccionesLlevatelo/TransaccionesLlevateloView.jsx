@@ -5,6 +5,8 @@ import TransactionList from './TransactionList';
 import llevateloBusiness from '../../business/LlevateloBusiness';
 import loading from '../../lib/ui/loading/';
 import { subDays, endOfDay, format } from 'date-fns';
+import { exportCSV } from '../../lib/utils/csv';
+import { getFormattedDate } from '../../lib/utils/dateUtils';
 
 const TransaccionesLlevateloView = () => {
   const [transactions, setTransactions] = useState([]);
@@ -39,11 +41,42 @@ const TransaccionesLlevateloView = () => {
     }
   }
 
+  const handleDownloadCSV = () => {
+    if (transactions.length === 0) {
+      window.alert('No hay datos para exportar');
+      return;
+    }
+
+    const csvData = transactions.map((transaction) => {
+      delete transaction.id;
+      delete transaction.idClientLlevatelo;
+      delete transaction.idUsuario;
+      delete transaction.idClient;
+      delete transaction.stateFilter;
+      delete transaction.listCompras;
+      delete transaction.fechaInicio;
+      delete transaction.fechaFinal;
+      delete transaction.notInList;
+      delete transaction.operatorCode;
+      delete transaction.idTransaction;
+      delete transaction.cupoMaximo;
+
+      transaction.fechaCompra = getFormattedDate(transaction.fechaCompra);
+      transaction.cantidadDias = transaction.cantidadDias || 0;
+      transaction.intereses = transaction.intereses || 0;
+
+      return transaction;
+    });
+
+    exportCSV(csvData, `cupo-cajero-${new Date().getTime()}`);
+  }
+
   return (
     <div className='container'>
       <h3>Transacciones de Cupo Cajero</h3>
       <TransactionFilter
         onFilter={fetchPurchaseList}
+        onDownloadCSV={handleDownloadCSV}
       />
       <TransactionList
         transactions={transactions}

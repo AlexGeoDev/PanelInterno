@@ -25,6 +25,8 @@ const TransaccionesLlevateloView = () => {
 
     if (response) {
       setTransactions(response);
+    } else {
+      setTransactions([]);
     }
   };
 

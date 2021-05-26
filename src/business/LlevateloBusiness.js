@@ -121,9 +121,70 @@ const revertPurchase = async (idPurchase) => {
   return false;
 }
 
+/**
+ * Consulta si el merchant tiene habilitado el uso de Cupo Cajero
+ * @param {*} merchant String
+ */
+const fetchMerchantUseCupoCajeroStatus = async (merchant) => {
+
+  try {
+    const response = await fetch(`${BASE_URL}/llevatelo/fetchcommerceusecc`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        header: {},
+        body: merchant,
+      }),
+    });
+
+    const { header, body } = await response.json();
+
+    if (header && header.codigoError === null) {
+      return body;
+    }
+  } catch (error) {
+    console.log('ERROR FETCH MERCHANT USE', error);
+  }
+
+  return false;
+}
+
+const setCommerceUseCupoCajero = async (merchant, status) => {
+
+  try {
+    const response = await fetch(`${BASE_URL}/llevatelo/setcommerceusecc`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        header: {},
+        body: {
+          merchantCode: merchant,
+          enable: status,
+        },
+      }),
+    });
+
+    const { header, body } = await response.json();
+
+    if (header && header.codigoError === null) {
+      return body;
+    }
+  } catch (error) {
+    console.log('ERROR SET MERCHANT USE CUPO CAJERO', error);
+  }
+
+  return false;
+}
+
 export default {
   fetchInterest,
   registerInterest,
   fetchPurchaseList,
   revertPurchase,
+  fetchMerchantUseCupoCajeroStatus,
+  setCommerceUseCupoCajero,
 };

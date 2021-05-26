@@ -27,6 +27,7 @@ import InteresesLlevateloView from './view/interesesLlevatelo/InteresesLlevatelo
 import TransaccionesLlevateloView from './view/transaccionesLlevatelo/TransaccionesLlevateloView';
 import LoadingComponent from './lib/ui/loading/LoadingComponent';
 import DiscountCouponsView from './view/discountCoupons/DiscountCouponsView';
+import ActivarCupoCajero from './view/activarCupoCajero';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -159,7 +160,13 @@ const routes =
         title: 'Códigos compra datáfono',
         view: <DiscountCouponsView />,
       };
-    })
+    }),
+    '/activar-cupocajero': route(async req => {
+      return {
+        title: 'Activar Cupo Cajero',
+        view: <ActivarCupoCajero />,
+      };
+    }),
   })
 
 let navi = createBrowserNavigation({

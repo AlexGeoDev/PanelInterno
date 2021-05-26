@@ -81,6 +81,10 @@ class Layout extends React.Component {
           url: '/codigos-datafono',
           name: 'Códigos compra datáfono',
         },
+        {
+          url: '/activar-cupocajero',
+          name: 'Activar Cupo Cajero',
+        },
       ]
     };
   }

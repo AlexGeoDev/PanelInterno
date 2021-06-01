@@ -85,6 +85,10 @@ class Layout extends React.Component {
           url: '/activar-cupocajero',
           name: 'Activar Cupo Cajero',
         },
+        {
+          url: '/aumento-cupocomercio',
+          name: 'Aumento Cupo Comercio',
+        },
       ]
     };
   }

@@ -28,6 +28,7 @@ import TransaccionesLlevateloView from './view/transaccionesLlevatelo/Transaccio
 import LoadingComponent from './lib/ui/loading/LoadingComponent';
 import DiscountCouponsView from './view/discountCoupons/DiscountCouponsView';
 import ActivarCupoCajero from './view/activarCupoCajero';
+import AumentoCupoComercioView from './view/aumentoCupoComercio/AumentoCupoComercioView';
 
 const history = createBrowserHistory();
 // Define your routes
@@ -165,6 +166,12 @@ const routes =
       return {
         title: 'Activar Cupo Cajero',
         view: <ActivarCupoCajero />,
+      };
+    }),
+    '/aumento-cupocomercio': route(async req => {
+      return {
+        title: 'Aumento Cupo Comercio',
+        view: <AumentoCupoComercioView />,
       };
     }),
   })

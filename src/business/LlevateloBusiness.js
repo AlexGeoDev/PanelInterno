@@ -151,6 +151,39 @@ const fetchMerchantUseCupoCajeroStatus = async (merchant) => {
   return false;
 }
 
+/**
+ * Incrementa el cupo de comercio de un merchant
+ * @param {*} data String
+ */
+const CommerceIncrease = async (data) => {
+
+  const nom = data.body;
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+  try {
+
+    let fetchUpdate = await fetch(`${BASE_URL}/llevatelo/updatecommercecredit`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        header: {},
+        body: nom,
+        body: data,
+      }),
+    })
+    const { header, body } = await fetchUpdate.json();
+
+    if (header && header.codigoError === null) {
+      return body;
+    }
+  } catch (error) {
+    console.log('ERROR FETCH MERCHANT USE', error);
+  }
+
+  return false;
+}
+
 const setCommerceUseCupoCajero = async (merchant, status) => {
 
   try {
@@ -186,5 +219,6 @@ export default {
   fetchPurchaseList,
   revertPurchase,
   fetchMerchantUseCupoCajeroStatus,
+  CommerceIncrease,
   setCommerceUseCupoCajero,
 };

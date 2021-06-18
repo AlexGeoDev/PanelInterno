@@ -183,7 +183,6 @@ const CommerceIncrease = async (data) => {
 
   return false;
 }
-
 const setCommerceUseCupoCajero = async (merchant, status) => {
 
   try {

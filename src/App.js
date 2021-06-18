@@ -29,7 +29,7 @@ import LoadingComponent from './lib/ui/loading/LoadingComponent';
 import DiscountCouponsView from './view/discountCoupons/DiscountCouponsView';
 import ActivarCupoCajero from './view/activarCupoCajero';
 import AumentoCupoComercioView from './view/aumentoCupoComercio/AumentoCupoComercioView';
-
+import GenerarExtractoView from './view/generarExtracto/GenerarExtractoView';
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -172,6 +172,12 @@ const routes =
       return {
         title: 'Aumento Cupo Comercio',
         view: <AumentoCupoComercioView />,
+      };
+    }),
+    '/generar-extracto': route(async req => {
+      return {
+        title: 'Generar Extracto',
+        view: <GenerarExtractoView />,
       };
     }),
   })

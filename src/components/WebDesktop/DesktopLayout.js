@@ -89,6 +89,10 @@ class Layout extends React.Component {
           url: '/aumento-cupocomercio',
           name: 'Aumento Cupo Comercio',
         },
+        {
+          url: '/generar-extracto',
+          name: 'Generar Extracto',
+        },
       ]
     };
   }

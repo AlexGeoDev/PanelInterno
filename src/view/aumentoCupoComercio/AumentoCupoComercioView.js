@@ -79,7 +79,6 @@ function AumentoCupoComercioView() {
       const success = await LlevateloBusiness.CommerceIncrease(element);
       element.success = success ? "Cupo aumentado exitosamente" : "Cupo NO aumentado";
       console.log(element, success);
-
     }
     loading.hideLoadingScreen();
     console.log(datatmp)
@@ -115,7 +114,7 @@ function AumentoCupoComercioView() {
         onClick={() => ProcessCommerceIncrease()}
       >
         Procesar
-          </button>
+      </button>
     </div>
 
   );

@@ -10,23 +10,24 @@ const getPeriodDate = (period, year) => {
   switch (period) {
     case '1':
       periodStartDate = '01-01';
-      periodEndDate = `02-${moment([year]).isLeapYear() ? '29' : '28'}`;
+      //periodEndDate = `02-${moment([year]).isLeapYear() ? '29' : '28'}`;
+      periodEndDate = '03-01';
       break;
     case '2':
       periodStartDate = '03-01';
-      periodEndDate = '04-30';
+      periodEndDate = '05-01';
       break;
     case '3':
       periodStartDate = '05-01';
-      periodEndDate = '06-30';
+      periodEndDate = '07-01';
       break;
     case '4':
       periodStartDate = '07-01';
-      periodEndDate = '08-31';
+      periodEndDate = '09-01';
       break;
     case '5':
       periodStartDate = '09-01';
-      periodEndDate = '10-31';
+      periodEndDate = '11-01';
       break;
     default:
       periodStartDate = '11-01';

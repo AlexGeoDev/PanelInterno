@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import loading from '../../lib/ui/loading';
 import ExtractBusiness from '../../business/ExtractBusiness';
-
+import 'react-datepicker/dist/react-datepicker.css'
 
 const ExtractForm = () => {
 
@@ -56,7 +56,7 @@ const ExtractForm = () => {
                         required
                         placeholder="startDate"
                         className='form-control'
-                        type="text"
+                        type="date"
                         name="startDate"
                         onChange={handleInputChance}
                     ></input>
@@ -66,7 +66,7 @@ const ExtractForm = () => {
                         required
                         placeholder="endDate"
                         className='form-control'
-                        type="text"
+                        type="date"
                         name="endDate"
                         onChange={handleInputChance}
                     ></input>
@@ -88,8 +88,8 @@ const ExtractForm = () => {
                 </div>
             </form>
         </Fragment>
-
     );
+
 }
 
 export default ExtractForm;

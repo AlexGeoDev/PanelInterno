@@ -240,18 +240,16 @@ const fetchInfoRegister = async (merchantCode) => {
   }
 };
 
-const sendPushNotification = async (message, merchantCode, email) => {
+const sendPushNotification = async (message, merchantCode) => {
   const url = `${BASE_URL}/push/sendmassivepush`;
-  const data = {};
-  data.body = {
+  const data = {
     typeMessage: message.typeMessage === 'TEXT' ? null : message.typeMessage,
     body: message.body,
     link: message.link,
     urlImage: message.urlImage,
     title: message.title,
     sound: message.sound,
-    merchantCode,
-    email
+    merchantCode
   };
   data.header = {};
   console.log('SEND PUSH ------> ', data);
@@ -323,6 +321,81 @@ const fetchBlackListLog = async (date) => {
   }
 }
 
+const sendMassivePush = async (body) => {
+  const url = `${BASE_URL}/push/sendmassivepushnotification`;
+  const data = {
+    header: {},
+    body
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
+const sendDirectPush = async (body) => {
+  const url = `${BASE_URL}/push/senddirectpushnotification`;
+  const data = {
+    header: {},
+    body
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
+const sendUnregisterPush = async (body) => {
+  const url = `${BASE_URL}/push/sendunregisterpushnotification`;
+  const data = {
+    header: {},
+    body
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log('error en peticion login' + e);
+    return null;
+  }
+};
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -336,4 +409,7 @@ export {
   fetchValidateRegister,
   fetchTokenRecover,
   fetchBlackListLog,
+  sendMassivePush,
+  sendDirectPush,
+  sendUnregisterPush
 };

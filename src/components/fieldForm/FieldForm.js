@@ -103,19 +103,6 @@ function FieldForm(props) {
           </select>
         }
       </div>
-
-      <style jsx>
-        {
-          `
-            .field-container {
-              border-radius: 4px;
-              border: 1px solid rgba(26, 26, 26, .5);
-              height: 40px;
-              padding-left: 0.7rem;
-            }
-          `
-        }
-      </style>
     </React.Fragment >
   );
 }

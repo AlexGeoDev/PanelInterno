@@ -1,6 +1,12 @@
 // Import Bootstrap
 @import '~bootstrap/scss/bootstrap.scss';
 
+// Import Push Styles
+@import './assets/scss/push.scss';
+
+// Import Search Panel Styles
+@import './assets/scss/searchPanel.scss';
+
 html {
   height: 100vh;
 }
@@ -134,6 +140,9 @@ code {
   background-color: #FFFFFF !important;
   border: none;
   cursor: pointer;
+  &:focus { 
+    outline: none;
+  }
 }
 
 .btn-close:hover {
@@ -353,4 +362,11 @@ code {
 
 .pointer {
   cursor: pointer;
+}
+
+.field-container {
+  border-radius: 4px;
+  border: 1px solid rgba(26, 26, 26, .5);
+  height: 40px;
+  padding-left: 0.7rem;
 }

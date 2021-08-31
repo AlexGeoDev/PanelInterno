@@ -1,5 +1,7 @@
+import { faSync } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { createUserApp, fetchCredentials, fetchDataByEmail, updateCyclosPass, updateUserApp, validateCyclos, validateRegisterUser, validateSp } from "../../business/LoginUnifiedBusiness";
+import { createUserApp, fetchCredentials, fetchDataByEmail, syncPinSP, updateCyclosPass, updateUserApp, validateCyclos, validateRegisterUser, validateSp } from "../../business/LoginUnifiedBusiness";
 import { FieldForm } from "../../components/fieldForm/FieldForm";
 import { Loading } from "../../components/loading/Loading";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
@@ -499,6 +501,30 @@ function LoginUnified(props) {
     });
   }
 
+  const resetPinSmartpesa = () => {
+    let email = infoValidation.email.trim().toLowerCase();
+    setLoading(true);
+    let response = syncPinSP(email);
+    response.then((value) => {
+      value.json().then(data => {
+        setLoading(false);
+
+        let infoModal = { ...confirmInfo };
+        infoModal.showModal = true;
+        infoModal.title = 'PIN Actualizado Exitosamente';
+        infoModal.message = `Se ha sincronizado el PIN correctamente para ${email}`;
+        infoModal.onAccept = () => {
+          let infoCerrar = { ...confirmInfo };
+          infoCerrar.showModal = false;
+          setConfirmInfo(infoCerrar);
+        }
+        setConfirmInfo(infoModal);
+      })
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
   return (
     <div>
       {loading &&
@@ -545,6 +571,7 @@ function LoginUnified(props) {
           </div>
 
           <button
+            className='btn btn-primary'
             onClick={() => {
               validateExists();
             }}
@@ -596,7 +623,7 @@ function LoginUnified(props) {
                 <div className='d-flex align-items-center justify-content-center'>
                   <label className='mb-0 mr-2 font-bold'>
                     Es administrador?
-                </label>
+                  </label>
                   <input
                     type="checkbox"
                     checked={infoUpdate.admin}
@@ -616,7 +643,7 @@ function LoginUnified(props) {
                 }}
               >
                 Registrar Nuevo Login
-            </button>
+              </button>
             </div>
           }
         </div>
@@ -639,6 +666,7 @@ function LoginUnified(props) {
           </div>
 
           <button
+            className='btn btn-primary'
             onClick={() => {
               validateCredentials();
             }}
@@ -701,6 +729,18 @@ function LoginUnified(props) {
                 >
                   {infoCredentials.spCredentials ? 'Correcto' : 'Fallando'}
                 </span>
+              </div>
+
+              <div className='d-flex mt-2'>
+                <button
+                  onClick={() => resetPinSmartpesa()}
+                  className='btn btn-primary'
+                >
+                  <FontAwesomeIcon icon={faSync} />
+                  <span className='ml-2'>
+                    Sincronizar PIN Smartpesa
+                  </span>
+                </button>
               </div>
             </div>
           }

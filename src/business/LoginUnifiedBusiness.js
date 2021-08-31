@@ -159,6 +159,30 @@ const updateUserApp = async (email, merchant, operator, pin, rol, pass, admin) =
   })
 };
 
+const syncPinSP = async (email) => {
+  const url = `${BASE_URL}/login/resetpinsp`;
+  const data = {
+    header: {},
+    body: email
+  };
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      resolve(response);
+    } catch (e) {
+      console.log('error en peticion login', e);
+      reject(e);
+    }
+  })
+};
+
 const registerAdmonService = async (email, admin) => {
   const url = `${BASE_URL}/login/registeradmon`;
   const data = {
@@ -241,5 +265,6 @@ export {
   validateCyclos,
   validateSp,
   updateCyclosPass,
-  fetchTransactionTrace
+  fetchTransactionTrace,
+  syncPinSP
 };

@@ -18,6 +18,10 @@ class Layout extends React.Component {
           name: 'Transacciones TVC'
         },
         {
+          url: '/transactionInfo',
+          name: 'Info de Transacciones'
+        },
+        {
           url: '/registros',
           name: 'Registros'
         },

@@ -30,7 +30,7 @@ import DiscountCouponsView from './view/discountCoupons/DiscountCouponsView';
 import ActivarCupoCajero from './view/activarCupoCajero';
 import AumentoCupoComercioView from './view/aumentoCupoComercio/AumentoCupoComercioView';
 import GenerarExtractoView from './view/generarExtracto/GenerarExtractoView';
-import { TransactionInfo } from './view/infoDeTransacciones/transactionInfo';
+import { TransactionInfo } from './view/transactionInfo/transactionInfo';
 const history = createBrowserHistory();
 // Define your routes
 const routes =
@@ -48,7 +48,7 @@ const routes =
       let { type } = req.params;
       return {
         title: 'Info de transacciones',
-        view: <TransactionInfo />,
+        view: <TransactionInfo type={type} />,
       };
     }),    
     '/registros': route({

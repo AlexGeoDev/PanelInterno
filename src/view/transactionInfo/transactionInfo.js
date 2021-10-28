@@ -4,6 +4,7 @@ import {
   fetchTransactionInfo,
   fetchTransactionTrace,
 } from "../../business/PagofacilBusiness";
+import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
 
 function TransactionInfo() {
   const [secuencia, setSecuencia] = useState();
@@ -15,41 +16,59 @@ function TransactionInfo() {
     return date ? moment(date).format("yyyy-MM-DD") : "";
   };
 
+  const [confirmInfo, setConfirmInfo] = useState({
+    showModal: false,
+    title: "",
+    message: "",
+    onAccept: null,
+  });
+
   const transactionInfo = async () => {
     const fetchInfo = await fetchTransactionInfo(secuencia);
-    setInfoBD(fetchInfo.body);
-    setInfoCyclos(fetchInfo.extraData);
+    if (fetchInfo.body) {
+      debugger;
+      setInfoBD(fetchInfo.body);
+      setInfoCyclos(fetchInfo.extraData);
+    }
 
     const fetchTrace = await fetchTransactionTrace(secuencia);
     setInfoTrace(fetchTrace.body);
-
-    debugger;
   };
 
   return (
     <React.Fragment>
+      {confirmInfo.showModal && (
+        <ModalConfirm
+          title={confirmInfo.title}
+          message={confirmInfo.message}
+          onAccept={confirmInfo.onAccept}
+        />
+      )}
       <div>
         <label>
           <span>Secuencia: </span>
           <input
+            className="form-control"
             type="text"
             value={secuencia}
             onChange={(event) => {
-              console.log(event.target.value);
               setSecuencia(event.target.value);
             }}
           />
         </label>
-        <button onClick={() => transactionInfo()}>Consultar</button>
+        <button
+          className="btn btn-primary ml-1"
+          onClick={() => transactionInfo()}
+        >
+          Consultar
+        </button>
       </div>
-
-      <div></div>
 
       <div align="center">
         <table FRAME="void" RULES="cols" className="mt-5">
           <tr>
             <td>
-              <table width="300px">
+              <table className="mr-5">
                 <tr>
                   <td align="center">
                     <b>Información BD</b>

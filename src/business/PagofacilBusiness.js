@@ -451,6 +451,31 @@ const sendUnregisterPush = async (body) => {
   }
 };
 
+const registerPaymentCupoCajero = async (secuencia) => {
+  const url = `${BASE_URL}/llevatelo/paymentpurchasedirect`;
+  const data = {};
+  data.body = secuencia;
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${localStorage.getItem("react-token")}`,
+      },
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log("error en peticion login" + e);
+    return null;
+  }
+};
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -469,4 +494,5 @@ export {
   sendUnregisterPush,
   fetchTransactionInfo,
   fetchTransactionTrace,
+  registerPaymentCupoCajero,
 };

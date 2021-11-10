@@ -35,6 +35,7 @@ import AumentoCupoComercioView from "./view/aumentoCupoComercio/AumentoCupoComer
 import GenerarExtractoView from "./view/generarExtracto/GenerarExtractoView";
 import { TransactionInfo } from "./view/transactionInfo/transactionInfo";
 import { RegisterPaymentCupoCajero } from "./view/registerPaymentCupoCajero/registerPaymentCupoCajero";
+import { TradeTransactions } from "./view/tradeTransactions/tradeTransactions";
 
 const history = createBrowserHistory();
 // Define your routes
@@ -184,6 +185,12 @@ const routes = mount({
     return {
       title: "Registrar Pago Cupo Cajero",
       view: <RegisterPaymentCupoCajero />,
+    };
+  }),
+  "/trade-transactions": route(async (req) => {
+    return {
+      title: "Transacciones de Comercio",
+      view: <TradeTransactions />,
     };
   }),
   "/aumento-cupocomercio": route(async (req) => {

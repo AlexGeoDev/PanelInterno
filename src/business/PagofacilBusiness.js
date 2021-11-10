@@ -476,6 +476,110 @@ const registerPaymentCupoCajero = async (secuencia) => {
   }
 };
 
+const fetchTradeTransactions = async (email, merchant, startDate, endDate) => {
+  const url = `${BASE_URL}/transaccion/fetchmerchanttx`;
+  const data = {};
+  data.body = {
+    email,
+    merchant,
+    startDate,
+    endDate,
+  };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${localStorage.getItem("react-token")}`,
+      },
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log("error en peticion login" + e);
+    return null;
+  }
+};
+
+const fetchDetailLVO = async (sequence) => {
+  const url = `${BASE_URL}/llevatelo/fetchpurchasedetail`;
+  const data = {};
+  data.body = {
+    sequence: sequence.replace("Venta", "").replace("Anulacion", "").trim(),
+  };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log("error en peticion login" + e);
+    return null;
+  }
+};
+
+const fetchInfoDetailTx = async (idPurchase) => {
+  const url = `${BASE_URL}/paymentorder/fetchtransactiondetail`;
+  const data = {};
+  data.body = { id: idPurchase };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log("error en peticion login" + e);
+    return null;
+  }
+};
+
+const fetchPaymentTry = async (idPurchase) => {
+  const url = `${BASE_URL}/paymentorder/fetchtransactionpago`;
+  const data = {};
+  data.body = { id: idPurchase };
+  data.header = {};
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const json = await response.json();
+    console.log("JSON", json);
+    return json;
+  } catch (e) {
+    console.log("error en peticion login" + e);
+    return null;
+  }
+};
+
 export {
   fetchPagofacilList,
   fetchActiveCommerce,
@@ -495,4 +599,8 @@ export {
   fetchTransactionInfo,
   fetchTransactionTrace,
   registerPaymentCupoCajero,
+  fetchTradeTransactions,
+  fetchDetailLVO,
+  fetchInfoDetailTx,
+  fetchPaymentTry,
 };

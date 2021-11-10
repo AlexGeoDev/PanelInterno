@@ -93,6 +93,10 @@ class Layout extends React.Component {
           name: "Registrar Pago Cupo Cajero",
         },
         {
+          url: "/trade-transactions",
+          name: "Transacciones de Comercio",
+        },
+        {
           url: "/aumento-cupocomercio",
           name: "Aumento Cupo Comercio",
         },

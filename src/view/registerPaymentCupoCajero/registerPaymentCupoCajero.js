@@ -1,11 +1,9 @@
-import { resolve } from "navi";
 import React, { useState } from "react";
 import { registerPaymentCupoCajero } from "../../business/PagofacilBusiness";
 import { ModalConfirm } from "../../components/modalConfirm/ModalConfirm";
 
 function RegisterPaymentCupoCajero() {
   const [secuencia, setSecuencia] = useState();
-  const [infoRP, setInfoRP] = useState();
 
   const [confirmInfo, setConfirmInfo] = useState({
     showModal: false,
@@ -16,7 +14,6 @@ function RegisterPaymentCupoCajero() {
 
   const transactionRegisterPayment = async () => {
     if (secuencia.startsWith("LVO")) {
-      debugger;
       const fetchRegisterPayment = await registerPaymentCupoCajero(secuencia);
       if (fetchRegisterPayment.body) {
         let infoModal = { ...confirmInfo };

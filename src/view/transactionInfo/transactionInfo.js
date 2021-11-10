@@ -26,7 +26,6 @@ function TransactionInfo() {
   const transactionInfo = async () => {
     const fetchInfo = await fetchTransactionInfo(secuencia);
     if (fetchInfo.body) {
-      debugger;
       setInfoBD(fetchInfo.body);
       setInfoCyclos(fetchInfo.extraData);
     }
